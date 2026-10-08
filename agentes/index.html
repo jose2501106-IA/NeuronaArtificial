@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cómo actúa un agente de IA · Neurona Artificial</title>
 <meta name="description" content="Lección 2: video interactivo sobre cómo actúa un agente de IA (modelo, herramientas, ciclo, contexto y límites) y un depurador para manejarlo paso a paso.">
-<meta name="theme-color" content="#111316">
+<meta name="theme-color" content="#f4f1ea">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:site_name" content="Neurona Artificial">
@@ -16,285 +17,179 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Diagrama del ciclo de un agente de IA: contexto, modelo, arnés y herramientas">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23143c66'/%3E%3Ccircle cx='32' cy='32' r='17' fill='none' stroke='%23eaf3ff' stroke-width='5' stroke-dasharray='80 27'/%3E%3Cpath d='M44 13 L50 22 L39 23 Z' fill='%23eaf3ff'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffd36e'/%3E%3C/svg%3E">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Cómo actúa un agente de IA</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<link rel="icon" href="../recursos/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('neurona-artificial:tema');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preload" href="../recursos/fuentes/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../recursos/fuentes/archivo-expanded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../recursos/fuentes/fragment-mono.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../recursos/na.css">
+<link rel="stylesheet" href="../recursos/leccion.css">
 <style>
-/* Layout: lección 2 del mini curso. Una columna — navegación del curso, encabezado, reproductor, capítulos y transcripción;
-   luego el depurador (ajustes a la izquierda; pantalla, decisión, código y contexto a la derecha) y el glosario.
-   Escenario: claro = hoja de ingeniería (tinta sobre papel verde cuadriculado); oscuro = plano en cianotipo. */
+/* Lección 2 · El agente · línea S. El marco usa el sistema (leccion.css); aquí va el mundo del escenario:
+   claro = hoja de ingeniería (tinta sobre papel verde cuadriculado); oscuro = plano en cianotipo.
+   Los colores --c-* nombran las piezas del ciclo dentro del escenario y del diagrama del depurador. */
 :root{
-  --bg:#eef1f4; --surface:#ffffff; --fg:#121922; --muted:#55606c; --line:#d2d9e1;
-  --accent:#5b8cff; --accent-ink:#0a1430; --focus:#a63c12;
+  --acento:var(--linea-s);
   --c-model:#2c3aa8; --c-action:#a63c12; --c-obs:#12705a; --c-warn:#8a5800; --c-danger:#b0122d;
   --scr-bg:#e4ebd8; --scr-bg2:#d3dcc3; --scr-surround:#162014; --scr-ink:#1a2617; --scr-muted:#55654b;
   --scr-grid:rgba(46,86,38,.20); --scr-grid2:rgba(46,86,38,.08);
   --scr-fill:rgba(251,253,247,.88); --scr-solid:#f6f9f0; --scr-panel-line:rgba(26,38,23,.30);
   --scr-pill-ink:#ffffff; --scr-sig:#fffdf5; --scr-sig-ring:#1a2617; --scr-glow:0;
-  --player:#111316; --player-2:#1b1e23; --player-fg:#f1ede4; --player-muted:#a6a39b; --player-line:#2b2f36;
-  --font-display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --r-lg:18px; --r-md:12px; --r-sm:8px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0b0f14; --surface:#141a21; --fg:#e6ecf2; --muted:#97a3b0; --line:#26303b;
-    --accent:#7aa2ff; --accent-ink:#081126; --focus:#ffb38a;
     --c-model:#ffd36e; --c-action:#ff9a6b; --c-obs:#7fe3c6; --c-warn:#ffcf5a; --c-danger:#ff6f86;
     --scr-bg:#143c66; --scr-bg2:#0b2848; --scr-surround:#050e1a; --scr-ink:#eaf3ff; --scr-muted:#a8c0dc;
     --scr-grid:rgba(214,232,255,.16); --scr-grid2:rgba(214,232,255,.06);
     --scr-fill:rgba(8,28,52,.84); --scr-solid:#0d2b4e; --scr-panel-line:rgba(234,243,255,.28);
     --scr-pill-ink:#08203d; --scr-sig:#fff6c9; --scr-sig-ring:#fff6c9; --scr-glow:1;
-    --player:#0f1215; --player-2:#181c21; --player-line:#262b31;
-    color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0b0f14; --surface:#141a21; --fg:#e6ecf2; --muted:#97a3b0; --line:#26303b;
-  --accent:#7aa2ff; --accent-ink:#081126; --focus:#ffb38a;
   --c-model:#ffd36e; --c-action:#ff9a6b; --c-obs:#7fe3c6; --c-warn:#ffcf5a; --c-danger:#ff6f86;
   --scr-bg:#143c66; --scr-bg2:#0b2848; --scr-surround:#050e1a; --scr-ink:#eaf3ff; --scr-muted:#a8c0dc;
   --scr-grid:rgba(214,232,255,.16); --scr-grid2:rgba(214,232,255,.06);
   --scr-fill:rgba(8,28,52,.84); --scr-solid:#0d2b4e; --scr-panel-line:rgba(234,243,255,.28);
   --scr-pill-ink:#08203d; --scr-sig:#fff6c9; --scr-sig-ring:#fff6c9; --scr-glow:1;
-  --player:#0f1215; --player-2:#181c21; --player-line:#262b31;
-  color-scheme:dark;
 }
-*,*::before,*::after{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-inline:16px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1100px;margin:0 auto;padding-block:20px 72px;display:grid;gap:28px}
-h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.08;letter-spacing:-.01em}
-p{margin:0}
-.eyebrow{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-header.intro{display:grid;gap:12px;max-width:780px}
-header.intro h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800}
-header.intro p.lede{color:var(--muted);font-size:1.06rem;max-width:64ch}
-kbd{font-family:var(--font-mono);font-size:.8em;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 .35em;background:var(--surface)}
-code{font-family:var(--font-mono);font-size:.9em}
-
-/* ---------- Navegación del curso ---------- */
-.course{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:.88rem}
-.course .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.course ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
-.course a{display:inline-flex;align-items:center;gap:.45em;padding:.32em .8em;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:500}
-.course a:hover{border-color:var(--muted)}
-.course a .n{font-family:var(--font-mono);font-size:.8em;color:var(--muted)}
-.course a[aria-current="page"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.course a[aria-current="page"] .n{color:inherit;opacity:.7}
-.course a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-
-/* ---------- Reproductor ---------- */
-.player{background:var(--player);color:var(--player-fg);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--player-line);box-shadow:0 18px 50px -24px rgba(0,0,0,.45);outline:none}
-.player:focus-visible{box-shadow:0 0 0 3px var(--focus)}
-.stage-wrap{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--scr-surround)}
-.stage-wrap > #stage{position:absolute;inset:0;width:100%;height:100%;display:block}
-#stage text,#lab-svg text{font-family:var(--font-body)}
-#stage .mono,#lab-svg .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
-#stage .disp,#lab-svg .disp{font-family:var(--font-display)}
-.poster,.endcard{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 50%,rgba(6,14,26,.64),rgba(6,14,26,.84))}
-.poster-inner,.endcard-inner{display:grid;justify-items:center;gap:14px;text-align:center}
-.poster h2{font-size:clamp(1.3rem,3.6vw,2.4rem);font-weight:800;color:#f4f8ff;text-shadow:0 2px 18px rgba(0,0,0,.6)}
-.poster p,.endcard p{color:#dfe9f7;font-family:var(--font-mono);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.poster-actions,.endcard-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.btn{appearance:none;border:0;border-radius:999px;padding:.72em 1.25em;font:600 .98rem/1 var(--font-body);cursor:pointer;display:inline-flex;align-items:center;gap:.55em;text-decoration:none}
-.btn svg{width:1.1em;height:1.1em}
-.btn-primary{background:var(--accent);color:var(--accent-ink)}
-.btn-primary:hover{filter:brightness(1.06)}
-.btn-ghost{background:rgba(244,248,255,.14);color:#f4f8ff;box-shadow:inset 0 0 0 1px rgba(244,248,255,.35);backdrop-filter:blur(4px)}
-.btn-ghost:hover{background:rgba(244,248,255,.22)}
-.btn:focus-visible,.ctl:focus-visible,.chap:focus-visible,.seg-btn:focus-visible,.timeline:focus-visible,.tool-btn:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.big-play{width:76px;height:76px;border-radius:50%;padding:0;justify-content:center;font-size:0}
-.big-play svg{width:30px;height:30px;margin-left:4px}
-
-.caption{min-height:4.4em;padding:12px 20px 10px;display:grid;place-items:center;text-align:center;font-size:clamp(.98rem,1.7vw,1.14rem);line-height:1.45;background:var(--player-2);border-top:1px solid var(--player-line)}
-.caption .cue{max-width:66ch;text-wrap:pretty}
-.caption.off{display:none}
-
-.controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:10px 14px 12px;border-top:1px solid var(--player-line)}
-.ctl{appearance:none;background:transparent;border:0;color:var(--player-fg);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none}
-.ctl:hover{background:rgba(255,255,255,.08)}
-.ctl svg{width:22px;height:22px}
-.ctl[aria-pressed="true"]{background:rgba(122,162,255,.2);color:#9dbbff}
-.ctl[disabled]{opacity:.35;cursor:not-allowed}
-.time{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.86rem;color:var(--player-muted);white-space:nowrap;min-width:92px;text-align:center}
-.speed{appearance:none;background:var(--player-2);color:var(--player-fg);border:1px solid var(--player-line);border-radius:9px;font:500 .85rem var(--font-mono);padding:.45em .6em;cursor:pointer}
-.timeline{position:relative;flex:1 1 220px;height:34px;cursor:pointer;touch-action:none;min-width:0}
-.tl-segs{position:absolute;left:0;right:0;top:50%;height:6px;transform:translateY(-50%);display:flex;gap:3px}
-.tl-seg{position:relative;height:100%;background:rgba(255,255,255,.16);border-radius:3px;overflow:hidden}
-.tl-seg i{position:absolute;inset:0;width:0;background:#7aa2ff;border-radius:3px}
-.timeline:hover .tl-segs{height:9px}
-.tl-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#f4f8ff;transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(122,162,255,.5);pointer-events:none}
-.tl-tip{position:absolute;bottom:34px;transform:translateX(-50%);background:#000;color:#fff;font:500 .78rem var(--font-body);padding:.35em .6em;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s}
-.timeline:hover .tl-tip{opacity:1}
-.ctl-group{display:flex;align-items:center;gap:4px}
-.rotate-hint{display:none;font-size:.85rem;color:var(--muted);text-align:center;margin-top:-16px}
-@media (max-width:640px){
-  .controls{padding:8px 8px 10px}
-  .timeline{order:-1;flex-basis:100%}
-  .time{min-width:0;font-size:.8rem}
-  .ctl{width:36px;height:36px}
-  .caption{min-height:6.2em;padding:10px 14px}
-}
-@media (max-width:640px) and (orientation:portrait){ .rotate-hint{display:block} }
-.player:fullscreen{display:flex;flex-direction:column;border-radius:0;width:100vw;height:100vh}
-.player:fullscreen .stage-wrap{flex:1;aspect-ratio:auto}
-
-/* ---------- Capítulos y transcripción ---------- */
-.below{display:grid;gap:14px}
-.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
-.section-head h2{font-size:1.5rem;font-weight:800}
-.chapters{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:10px}
-.chap{appearance:none;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;color:var(--fg);cursor:pointer;display:grid;gap:4px;font:inherit;min-width:0}
-.chap:hover{border-color:var(--muted)}
-.chap .n{font-family:var(--font-mono);font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
-.chap .t{font-weight:600;line-height:1.25}
-.chap .bar{height:3px;border-radius:2px;background:var(--line);overflow:hidden;margin-top:6px}
-.chap .bar i{display:block;height:100%;width:0;background:var(--accent)}
-.chap[aria-current="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-details.transcript{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 16px}
-details.transcript summary{cursor:pointer;padding:12px 0;font-weight:600}
-.tr-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:2px;max-height:420px;overflow:auto}
-.tr-list li button{appearance:none;background:none;border:0;text-align:left;width:100%;display:grid;grid-template-columns:52px 1fr;gap:10px;padding:7px 8px;border-radius:8px;color:var(--fg);font:inherit;cursor:pointer}
-.tr-list li button:hover{background:var(--bg)}
-.tr-list li button.now{background:color-mix(in srgb,var(--accent) 20%,transparent)}
-.tr-list .ts{font-family:var(--font-mono);font-size:.8rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
-.tr-list h4{grid-column:1/-1;margin:12px 8px 2px;font:600 .78rem var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.keys{font-size:.86rem;color:var(--muted)}
 
 /* ---------- Depurador ---------- */
-.lab{display:grid;gap:18px;padding-top:8px;border-top:1px solid var(--line)}
-.lab-intro{display:grid;gap:8px;max-width:780px;padding-top:20px}
-.lab-intro h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800}
-.lab-intro p{color:var(--muted);max-width:66ch}
-.lab-grid{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:18px;align-items:start}
+.lab-grid{grid-template-columns:minmax(0,300px) minmax(0,1fr)}
 @media (max-width:900px){ .lab-grid{grid-template-columns:minmax(0,1fr)} .lab-main{order:-1} }
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:grid;gap:12px;min-width:0;align-content:start}
-.panel h3{font-size:1.02rem;font-weight:800;font-family:var(--font-display)}
-.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:6px}
-.ctl-block{display:grid;gap:10px}
-.ctl-block+.ctl-block{padding-top:12px;border-top:1px solid var(--line)}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg-btn{appearance:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:.42em .85em;font:500 .86rem var(--font-body);cursor:pointer}
-.seg-btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.seg-btn:disabled{opacity:.45;cursor:not-allowed}
-.slider{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
-.slider label{font-size:.92rem;font-weight:500}
-.slider output{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.92rem;font-weight:600;min-width:3ch;text-align:right}
-.slider input{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:0;height:26px}
-.hint{font-size:.84rem;color:var(--muted)}
-.lab-main{display:grid;gap:14px;min-width:0}
-.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.tool-btn{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:.62em 1.1em;font:600 .92rem/1 var(--font-body);cursor:pointer;display:inline-flex;align-items:center;gap:.5em}
-.tool-btn svg{width:1em;height:1em}
-.tool-btn.primary{background:var(--accent);color:var(--accent-ink);border-color:transparent}
-.tool-btn:disabled{opacity:.45;cursor:not-allowed}
-.status{font-size:.92rem;color:var(--fg);flex:1 1 220px;min-width:0}
-.lab-screen{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:var(--scr-bg)}
-.lab-screen svg{display:block;width:100%;height:auto}
+.lab-main{display:grid;gap:var(--esp-4);min-width:0}
+.panel-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--esp-1) var(--esp-3)}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--esp-2)}
+.tool-btn{display:inline-flex;align-items:center;gap:var(--esp-2);min-height:var(--altura-control);padding:0 var(--esp-4);border:var(--trazo-control) solid var(--tinta-2);border-radius:var(--radio-control);background:transparent;color:var(--tinta);font:500 15px/20px var(--font-texto);cursor:pointer;transition:background-color var(--dur-rapida) var(--curva-anden)}
+.tool-btn:hover{background:var(--hundido)}
+.tool-btn svg{width:18px;height:18px;flex:none}
+.tool-btn.primary{background:var(--primario);border-color:var(--primario);color:var(--en-primario)}
+.tool-btn:disabled{border-style:dashed;background:transparent;color:var(--tinta-2);cursor:not-allowed}
+.tool-btn.primary:disabled{border-color:var(--tinta-2)}
+.status{flex:1 1 220px;min-width:0;font:400 15px/22px var(--font-texto)}
 @media (max-width:560px){ .lab-screen{overflow-x:auto} .lab-screen svg{min-width:680px} }
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--esp-2)}
 @media (max-width:520px){ .stats{grid-template-columns:repeat(2,minmax(0,1fr))} }
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;display:grid;gap:2px;min-width:0}
-.stat span{font-size:.78rem;color:var(--muted)}
-.stat b{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:1.15rem;font-weight:600}
-.lab-row{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-items:start}
-.thought{font-style:italic;border-left:3px solid var(--c-model);padding:2px 0 2px 12px;color:var(--fg)}
+.stat{display:grid;gap:2px;min-width:0;padding:var(--esp-3) var(--esp-4);background:var(--panel)}
+.stat span{font:400 12px/16px var(--font-mono);color:var(--tinta-2)}
+.stat b{font:400 22px/28px var(--font-mono);letter-spacing:-0.01em;font-variant-numeric:tabular-nums}
+.lab-row{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--esp-4);align-items:start}
+
+/* decisión del modelo */
+.thought{margin:0;font:italic 400 15px/23px var(--font-texto)}
+.thought::before{content:"Razonamiento";display:block;margin-bottom:var(--esp-1);font:normal 400 12px/16px var(--font-mono);color:var(--tinta-2)}
 .thought:empty{display:none}
-.cands{display:grid;gap:8px}
-.cand{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;align-items:center}
-.cand .cl{font-family:var(--font-mono);font-size:.8rem;overflow-wrap:anywhere}
-.cand .pct{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.86rem;font-weight:600}
-.cand .track{grid-column:1/-1;height:8px;border-radius:4px;background:var(--bg);overflow:hidden;border:1px solid var(--line)}
-.cand .track i{display:block;height:100%;background:var(--c-model);opacity:.55;border-radius:4px}
-.cand.chosen .track i{opacity:1}
-.cand.chosen .cl::after{content:"  ← elegida";color:var(--muted);font-family:var(--font-body)}
-.json{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.55;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;overflow-x:auto;white-space:pre}
-.json:empty{display:none}
-.json .k{color:var(--muted)} .json .s{color:var(--c-obs)} .json .n{color:var(--c-model)} .json .tn{color:var(--c-action);font-weight:600}
-.json mark.inj{background:color-mix(in srgb,var(--c-danger) 16%,transparent);color:var(--c-danger);border-radius:3px;padding:0 2px}
-.json-label{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cands{display:grid;gap:var(--esp-2)}
+.cand{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px var(--esp-3);align-items:baseline}
+.cand .cl{font:400 13px/20px var(--font-mono);font-variant-ligatures:none;overflow-wrap:anywhere}
+.cand .pct{font:400 13px/20px var(--font-mono);font-variant-numeric:tabular-nums}
+.cand .track{grid-column:1/-1;height:var(--trazo-ruta);background:var(--filete)}
+.cand .track i{display:block;height:100%;background:var(--tinta-2)}
+.cand.chosen .track i{background:var(--acento)}
+.cand.chosen .cl::after{content:"  ← elegida";color:var(--tinta-2);font-family:var(--font-texto)}
+.json-label{font:400 12px/16px var(--font-mono);color:var(--tinta-2)}
 .json-label:empty{display:none}
-.final{border:2px solid var(--c-model);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:4px}
-.final b{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
-.final.limit{border-color:var(--c-danger)}
-.approve{border:2px solid var(--c-warn);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:10px;background:color-mix(in srgb,var(--c-warn) 9%,var(--surface))}
-.approve .q{font-weight:600}
-.approve .acts{display:flex;flex-wrap:wrap;gap:8px}
-.approve .acts button{appearance:none;border-radius:999px;padding:.55em 1.1em;font:600 .9rem/1 var(--font-body);cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
-.approve .acts .ok{background:var(--c-obs);color:var(--scr-pill-ink);border-color:transparent}
-.approve .acts button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-pre.code{margin:0;font-family:var(--font-mono);font-size:.8rem;line-height:1.7;background:var(--bg);border:1px solid var(--line);border-radius:var(--r-md);padding:8px 0;overflow-x:auto}
-pre.code .ln{display:block;padding:0 12px 0 0;white-space:pre;border-left:3px solid transparent}
-pre.code .ln::before{content:attr(data-n);display:inline-block;width:2.4em;text-align:right;margin-right:12px;color:var(--muted);opacity:.7}
-pre.code .ln.cur{background:color-mix(in srgb,var(--accent) 24%,transparent);border-left-color:var(--accent)}
-pre.code .cm{color:var(--muted)} pre.code .kw{color:var(--c-model);font-weight:600} pre.code .fn{color:var(--c-action)} pre.code .st{color:var(--c-obs)}
-.ctx-list{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:440px;overflow:auto}
-.ctx-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:4px 10px;align-items:start;border:1px solid var(--line);border-left:4px solid var(--muted);border-radius:var(--r-sm);padding:7px 10px;background:var(--bg)}
-.ctx-item .tag{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px;white-space:nowrap}
-.ctx-item .txt{font-size:.88rem;overflow-wrap:anywhere}
-.ctx-item .tok{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.78rem;color:var(--muted);white-space:nowrap;padding-top:2px}
-.ctx-item.k-tools{border-left-color:var(--c-action)} .ctx-item.k-user{border-left-color:var(--c-warn)}
-.ctx-item.k-model{border-left-color:var(--c-model)} .ctx-item.k-result{border-left-color:var(--c-obs)}
-.ctx-item.k-final{border-left-color:var(--c-model);border-left-width:6px} .ctx-item.k-sum{border-left-style:dashed}
-.ctx-item.new{animation:pop .5s ease-out}
-@keyframes pop{from{background:color-mix(in srgb,var(--accent) 30%,var(--bg))}to{background:var(--bg)}}
-.badge{display:inline-block;margin-left:6px;font:600 .68rem var(--font-mono);letter-spacing:.04em;padding:.1em .5em;border-radius:999px;vertical-align:1px;border:1px solid currentColor}
-.badge.danger{color:var(--c-danger)} .badge.warn{color:var(--c-warn)} .badge.ok{color:var(--c-obs)}
-.meter{display:grid;gap:6px}
-.meter .bar{height:10px;border-radius:5px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
-.meter .bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .35s ease}
-.meter .row{display:flex;justify-content:space-between;gap:10px;font-size:.8rem;color:var(--muted);flex-wrap:wrap}
-.meter .row b{font-family:var(--font-mono);color:var(--fg);font-weight:600}
+.json{margin:0;padding:var(--esp-3) var(--esp-4);overflow-x:auto;background:var(--hundido);color:var(--tinta);font:400 13px/21px var(--font-mono);font-variant-ligatures:none;white-space:pre}
+.json:empty{display:none}
+.json .k{color:var(--tinta)} .json .s{color:var(--cod-cadena)} .json .n{color:var(--cod-numero)} .json .tn{color:var(--cod-literal)}
+.json mark.inj{padding:0 2px;background:var(--resalte);color:var(--alto);text-decoration:underline;text-decoration-color:var(--alto);text-underline-offset:3px}
+.final{display:grid;gap:var(--esp-1);padding:var(--esp-4);background:var(--hundido)}
+.final b{font:400 12px/16px var(--font-mono);color:var(--tinta-2)}
+.final p{font:500 15px/23px var(--font-texto)}
+.final.limit b{color:var(--alto)}
+.approve{display:grid;gap:var(--esp-3);padding:var(--esp-4);background:var(--resalte)}
+.approve .eyebrow{color:var(--tinta)}
+.approve .q{font:600 15px/22px var(--font-texto)}
+.approve .acts{display:flex;flex-wrap:wrap;gap:var(--esp-2)}
+.approve .acts button{min-height:var(--altura-control-compacto);padding:0 var(--esp-4);border:var(--trazo-control) solid var(--tinta);border-radius:var(--radio-control);background:transparent;color:var(--tinta);font:500 15px/20px var(--font-texto);cursor:pointer}
+.approve .acts .ok{background:var(--primario);border-color:var(--primario);color:var(--en-primario)}
+
+/* el ciclo en código */
+pre.code{margin:0;padding:var(--esp-3) 0;overflow-x:auto;background:var(--hundido);color:var(--tinta);font:400 13px/21px var(--font-mono);font-variant-ligatures:none;counter-reset:none}
+pre.code .ln{position:relative;display:block;min-width:max-content;padding:0 var(--esp-4) 0 52px;white-space:pre}
+pre.code .ln::before{content:attr(data-n);position:absolute;left:0;width:28px;text-align:right;color:var(--tinta-2)}
+pre.code .ln.cur{background:var(--resalte)}
+pre.code .ln.cur::after{content:"";position:absolute;left:36px;top:6px;border-style:solid;border-width:4.5px 0 4.5px 7px;border-color:transparent transparent transparent var(--tinta)}
+pre.code .cm{color:var(--tinta-2)} pre.code .kw{color:var(--cod-literal)} pre.code .fn{color:var(--tinta);font-weight:600} pre.code .st{color:var(--cod-cadena)}
+
+/* contexto */
+.meter{display:grid;gap:var(--esp-2)}
+.meter .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--esp-1) var(--esp-3);font:400 13px/19px var(--font-texto);color:var(--tinta-2)}
+.meter .row b{font:400 12px/19px var(--font-mono);color:var(--tinta);font-variant-numeric:tabular-nums}
+.meter .bar{position:relative;height:12px;margin-right:8px;background:var(--filete)}
+.meter .bar::after{content:"";position:absolute;right:-8px;top:-4px;bottom:-4px;width:var(--trazo-ruta);background:var(--regla)}
+.meter .bar i{display:block;height:100%;width:0;background:var(--acento);transition:width var(--dur-lenta) var(--curva-tren)}
+.ctx-list{display:grid;max-height:440px;margin:0;padding:0;overflow:auto;list-style:none;border-bottom:var(--trazo-filete) solid var(--filete)}
+.ctx-item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--esp-1) var(--esp-3);align-items:baseline;padding:var(--esp-2) var(--esp-1);border-top:var(--trazo-filete) solid var(--filete)}
+.ctx-item .tag{font:400 12px/20px var(--font-mono);color:var(--tinta-2);white-space:nowrap}
+.ctx-item .txt{font:400 14px/20px var(--font-texto);overflow-wrap:anywhere}
+.ctx-item .tok{font:400 12px/20px var(--font-mono);color:var(--tinta-2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ctx-item.k-model .tag,.ctx-item.k-final .tag{color:var(--tinta)}
+.ctx-item.k-final .txt{font-weight:600}
+.ctx-item.k-sum{background:repeating-linear-gradient(90deg,var(--tinta-2) 0 3px,transparent 3px 7px) top / 100% 1px no-repeat;border-top-color:transparent}
+.ctx-item.new{animation:pop var(--dur-lenta) var(--curva-anden)}
+@keyframes pop{from{background-color:var(--resalte)}to{background-color:transparent}}
+.badge{display:inline-block;margin-left:var(--esp-1);padding:0 var(--esp-1);border-radius:var(--radio-control);box-shadow:inset 0 0 0 1px currentColor;font:400 12px/18px var(--font-mono);vertical-align:1px}
+.badge.danger{color:var(--alto)} .badge.warn{color:var(--tinta);background:var(--resalte);box-shadow:none} .badge.ok{color:var(--tinta)}
 
 /* ---------- Glosario ---------- */
-.gloss{display:grid;gap:18px;padding-top:8px;border-top:1px solid var(--line)}
-.gloss-intro{display:grid;gap:8px;max-width:780px;padding-top:20px}
-.gloss-intro h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800}
-.gloss-intro p{color:var(--muted);max-width:66ch}
-.gloss-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px;margin:0}
-.gl{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;display:grid;gap:6px;align-content:start}
-.gl dt{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
-.gl dt b{font-family:var(--font-display);font-size:1.08rem;font-weight:800}
-.gl dt code{font-size:.78rem;color:var(--muted)}
-.gl dd{margin:0;font-size:.94rem;color:var(--fg)}
-.gl dd .ch{font-family:var(--font-mono);font-size:.78rem;color:var(--muted)}
-footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
-@media (prefers-reduced-motion: reduce){ .tl-tip{transition:none} .ctx-item.new{animation:none} .meter .bar i{transition:none} }
+.gloss{display:grid;gap:var(--esp-6)}
+.gloss .na-seccion{margin-bottom:0}
+.gloss-grid{container-type:inline-size;display:grid;margin:0;border-bottom:var(--trazo-filete) solid var(--filete)}
+.gl{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);gap:var(--esp-2) var(--esp-6);padding:var(--esp-4) 0;border-top:var(--trazo-filete) solid var(--filete)}
+.gl dt{display:flex;flex-wrap:wrap;align-items:baseline;gap:var(--esp-1) var(--esp-3)}
+.gl dt b{font:600 17px/24px var(--font-texto)}
+.gl dt code{width:100%;font:400 12px/16px var(--font-mono);color:var(--tinta-2)}
+.gl dd{max-width:var(--ancho-texto);margin:0;font:400 15px/23px var(--font-texto)}
+.gl dd .ch{margin-left:var(--esp-1);font:400 12px/16px var(--font-mono);color:var(--tinta-2);white-space:nowrap}
+@container (max-width:560px){ .gl{grid-template-columns:minmax(0,1fr)} }
+@media (prefers-reduced-motion: reduce){ .ctx-item.new{animation:none} .meter .bar i{transition:none} }
 </style>
 </head>
 <body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></symbol>
-  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4.2" height="15" rx="1.2" fill="currentColor"/><rect x="13.8" y="4.5" width="4.2" height="15" rx="1.2" fill="currentColor"/></symbol>
-  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M19 5.5v13L9 12z" fill="currentColor"/></symbol>
-  <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M5 5.5v13L15 12z" fill="currentColor"/></symbol>
-  <symbol id="i-cc" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 10.2a2.4 2.4 0 1 0 0 3.6M17 10.2a2.4 2.4 0 1 0 0 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-voice" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
-  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.1-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4.5 3.5v4.6h4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-step" viewBox="0 0 24 24"><path d="M5 5.5v13L15 12z" fill="currentColor"/><path d="M18 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/></symbol>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M7.5 4L21 12L7.5 20Z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></g></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><path fill="currentColor" d="M20 4.5L9 12L20 19.5Z"/><rect fill="currentColor" x="4" y="4.5" width="3.5" height="15"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5L15 12L4 19.5Z"/><rect fill="currentColor" x="16.5" y="4.5" width="3.5" height="15"/></symbol>
+  <symbol id="i-cc" viewBox="0 0 24 24"><rect fill="none" stroke="currentColor" stroke-width="2" x="2.5" y="5.5" width="19" height="13"/><path fill="none" stroke="currentColor" stroke-width="2" d="M6 13.5H11M13.5 13.5H18"/></symbol>
+  <symbol id="i-voice" viewBox="0 0 24 24"><path fill="currentColor" d="M2.5 9H6.5L12.5 4V20L6.5 15H2.5Z"/><path fill="none" stroke="currentColor" stroke-width="2" d="M15.5 8.5A5 5 0 0 1 15.5 15.5M18.5 5.5A9 9 0 0 1 18.5 18.5"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M3.5 9V3.5H9M15 3.5H20.5V9M20.5 15V20.5H15M9 20.5H3.5V15"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M13 5A7.5 7.5 0 1 1 5.5 12.5"/><path fill="currentColor" d="M1.5 12.5H9.5L5.5 8.5Z"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><g transform="rotate(90 12 12)"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 12H19M13 5.5L19.5 12L13 18.5"/></g></symbol>
+  <symbol id="i-step" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4.5L15 12L4 19.5Z"/><rect fill="currentColor" x="16.5" y="4.5" width="3.5" height="15"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 12H19M13 5.5L19.5 12L13 18.5"/></symbol>
 </svg>
 
-<main class="wrap">
-  <nav class="course" aria-label="Lecciones del curso">
-    <span class="lbl">Lecciones</span>
-    <ol>
-      <li><a href="../"><span class="n">⌂</span>Inicio</a></li>
-      <li><a href="../neurona/"><span class="n">1</span>La neurona</a></li>
-      <li><a href="./" aria-current="page"><span class="n">2</span>El agente</a></li>
-    </ol>
+<a class="na-saltar" href="#player">Saltar al video</a>
+<header class="na-barra">
+  <a class="na-barra__marca" href="../">
+    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke-width="4.5"><path class="na-marca-m" d="M2 9H8L22 23"/><path class="na-marca-d" d="M2 24H25"/><path class="na-marca-s" d="M2 39H8L22 25"/><path class="na-marca-p" d="M27 24H46"/></g><circle class="na-marca-nucleo" cx="26" cy="24" r="7" stroke-width="3.5"/></svg>
+    <span class="na-barra__nombre">Neurona Artificial</span>
+  </a>
+  <nav class="na-barra__nav" aria-label="Lecciones del curso">
+    <ul class="na-barra__enlaces">
+      <li><a href="../neurona/"><span class="na-placa" data-linea="m"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M2 4.5H5L10 9.5M2 11.5H10M2 18.5H5L10 13.5M17 11.5H22"/><circle fill="currentColor" cx="13.5" cy="11.5" r="5"/></svg></span><span class="nav-largo">La neurona</span><span class="nav-corto">Neurona</span></a></li>
+      <li><a href="./" aria-current="page"><span class="na-placa" data-linea="s"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M13 5A7.5 7.5 0 1 1 5.5 12.5"/><path fill="currentColor" d="M1.5 12.5H9.5L5.5 8.5Z"/><rect fill="currentColor" x="10.5" y="10" width="5" height="5"/></svg></span><span class="nav-largo">El agente</span><span class="nav-corto">Agente</span></a></li>
+      <li class="solo-ancho"><a href="#depurador">Depurador</a></li>
+      <li><a href="#glosario">Glosario</a></li>
+    </ul>
   </nav>
+  <button type="button" class="na-tema" data-tema aria-label="Usar tema oscuro" title="Tema oscuro"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5A8.5 8.5 0 0 1 12 20.5Z" fill="currentColor"/></svg></button>
+</header>
 
-  <header class="intro">
-    <span class="eyebrow" id="eyebrow">Video interactivo · 9 capítulos</span>
-    <h1>Cómo actúa un agente de IA</h1>
-    <p class="lede">La IA agéntica no solo predice: decide y actúa. Aquí ves el mecanismo completo con un encargo concreto, <em>organizar los tacos del viernes</em>: el modelo, las herramientas, el ciclo, el contexto y los límites, desde la idea hasta el código.</p>
+<main class="wrap" id="contenido">
+  <header class="na-letrero" data-linea="s">
+    <div class="na-letrero__marco">
+      <div class="na-letrero__texto">
+        <p class="na-letrero__num"><span class="na-placa" data-linea="s"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" d="M13 5A7.5 7.5 0 1 1 5.5 12.5"/><path fill="currentColor" d="M1.5 12.5H9.5L5.5 8.5Z"/><rect fill="currentColor" x="10.5" y="10" width="5" height="5"/></svg></span>Estación 02 · Línea S · Sistemas ·<span id="eyebrow">Video interactivo · 9 capítulos</span></p>
+        <h1 class="na-letrero__nombre">El agente</h1>
+        <p class="na-letrero__entrada"><strong>Cómo actúa un agente de IA.</strong> La IA agéntica no solo predice: decide y actúa. Aquí ves el mecanismo completo con un encargo concreto, <em>organizar los tacos del viernes</em>: el modelo, las herramientas, el ciclo, el contexto y los límites, desde la idea hasta el código.</p>
+      </div>
+      <a class="na-letrero__siguiente" href="../#ruta">
+        <span><span>Siguiente estación · en obra</span><strong>El Transformer</strong></span>
+        <span class="na-flecha" aria-hidden="true"></span>
+      </a>
+    </div>
   </header>
 
   <section class="player" id="player" tabindex="0" aria-label="Reproductor del video interactivo">
@@ -305,10 +200,8 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
           <p id="poster-meta">9 capítulos</p>
           <h2>¿Cómo pasa una IA de predecir a actuar?</h2>
           <div class="poster-actions">
-            <button class="btn btn-primary big-play" id="poster-play" aria-label="Reproducir"><svg><use href="#i-play"/></svg></button>
-          </div>
-          <div class="poster-actions">
-            <button class="btn btn-ghost" id="poster-voice" hidden><svg><use href="#i-voice"/></svg>Reproducir con voz</button>
+            <button type="button" class="btn btn-primary big-play" id="poster-play"><svg aria-hidden="true"><use href="#i-play"/></svg>Reproducir</button>
+            <button type="button" class="btn btn-ghost" id="poster-voice" hidden><svg aria-hidden="true"><use href="#i-voice"/></svg>Con voz</button>
           </div>
         </div>
       </div>
@@ -316,8 +209,9 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
         <div class="endcard-inner">
           <p>Fin del video</p>
           <div class="endcard-actions">
-            <button class="btn btn-ghost" id="end-replay"><svg><use href="#i-replay"/></svg>Ver de nuevo</button>
-            <a class="btn btn-primary" href="#depurador"><svg><use href="#i-down"/></svg>Ir al depurador</a>
+            <a class="btn btn-primary" href="#depurador"><svg aria-hidden="true"><use href="#i-down"/></svg>Ir al depurador</a>
+            <button type="button" class="btn btn-ghost" id="end-replay"><svg aria-hidden="true"><use href="#i-replay"/></svg>Ver de nuevo</button>
+            <a class="btn btn-text" href="#glosario">Ir al glosario</a>
           </div>
         </div>
       </div>
@@ -325,9 +219,9 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
     <div class="caption" id="caption" aria-live="polite"><span class="cue" id="cue">Presiona reproducir para empezar.</span></div>
     <div class="controls">
       <div class="ctl-group">
-        <button class="ctl" id="btn-prev" aria-label="Capítulo anterior" title="Capítulo anterior"><svg><use href="#i-prev"/></svg></button>
-        <button class="ctl" id="btn-play" aria-label="Reproducir" title="Reproducir (espacio)"><svg><use href="#i-play" id="play-icon"/></svg></button>
-        <button class="ctl" id="btn-next" aria-label="Capítulo siguiente" title="Capítulo siguiente"><svg><use href="#i-next"/></svg></button>
+        <button type="button" class="ctl" id="btn-prev" aria-label="Capítulo anterior" title="Capítulo anterior"><svg><use href="#i-prev"/></svg></button>
+        <button type="button" class="ctl" id="btn-play" aria-label="Reproducir" title="Reproducir (espacio)"><svg><use href="#i-play" id="play-icon"/></svg></button>
+        <button type="button" class="ctl" id="btn-next" aria-label="Capítulo siguiente" title="Capítulo siguiente"><svg><use href="#i-next"/></svg></button>
       </div>
       <span class="time" id="time">0:00 / 0:00</span>
       <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Línea de tiempo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -342,48 +236,49 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
           <option value="1.25">1.25×</option>
           <option value="1.5">1.5×</option>
         </select>
-        <button class="ctl" id="btn-cc" aria-label="Subtítulos" aria-pressed="true" title="Subtítulos (C)"><svg><use href="#i-cc"/></svg></button>
-        <button class="ctl" id="btn-voice" aria-label="Narración por voz" aria-pressed="false" title="Narración por voz (V)"><svg><use href="#i-voice"/></svg></button>
-        <button class="ctl" id="btn-full" aria-label="Pantalla completa" title="Pantalla completa (F)" hidden><svg><use href="#i-full"/></svg></button>
+        <button type="button" class="ctl" id="btn-cc" aria-label="Subtítulos" aria-pressed="true" title="Subtítulos (C)"><svg><use href="#i-cc"/></svg></button>
+        <button type="button" class="ctl" id="btn-voice" aria-label="Narración por voz" aria-pressed="false" title="Narración por voz (V)"><svg><use href="#i-voice"/></svg></button>
+        <button type="button" class="ctl" id="btn-full" aria-label="Pantalla completa" title="Pantalla completa (F)" hidden><svg><use href="#i-full"/></svg></button>
       </div>
     </div>
   </section>
   <p class="rotate-hint">Gira tu teléfono para ver el video más grande.</p>
 
   <section class="below" aria-labelledby="cap-title">
-    <div class="section-head">
-      <h2 id="cap-title">Capítulos</h2>
-      <span class="keys"><kbd>Espacio</kbd> reproducir · <kbd>←</kbd> <kbd>→</kbd> 5 s · <kbd>C</kbd> subtítulos · <kbd>V</kbd> voz</span>
-    </div>
+    <header class="na-seccion">
+      <span class="na-seccion__num">Video · 6 minutos</span>
+      <h2 class="na-seccion__titulo" id="cap-title">Capítulos</h2>
+    </header>
     <div class="chapters" id="chapters"></div>
     <details class="transcript" id="transcript">
       <summary>Transcripción completa</summary>
       <ul class="tr-list" id="tr-list"></ul>
     </details>
+    <p class="keys"><kbd>Espacio</kbd> reproducir · <kbd>←</kbd> <kbd>→</kbd> 5 s · <kbd>C</kbd> subtítulos · <kbd>V</kbd> voz</p>
   </section>
 
   <section class="lab" id="depurador" aria-labelledby="lab-title">
-    <div class="lab-intro">
-      <span class="eyebrow">Pruébalo tú</span>
-      <h2 id="lab-title">Depurador del agente</h2>
-      <p>Maneja tú al agente, paso a paso. Cada clic avanza el ciclo: ves qué decide el modelo, qué ejecuta el arnés, qué entra al contexto y en qué línea del código va. Cuando el agente quiera reservar o enviar un mensaje, decides tú.</p>
-    </div>
+    <header class="na-seccion">
+      <span class="na-seccion__num">Pruébalo tú</span>
+      <h2 class="na-seccion__titulo" id="lab-title">Depurador del agente</h2>
+      <p class="na-seccion__entrada">Maneja tú al agente, paso a paso. Cada clic avanza el ciclo: ves qué decide el modelo, qué ejecuta el arnés, qué entra al contexto y en qué línea del código va. Cuando el agente quiera reservar o enviar un mensaje, decides tú.</p>
+    </header>
     <div class="lab-grid">
       <aside class="panel" id="lab-settings" aria-label="Ajustes del depurador">
         <div class="ctl-block">
           <h3>Escenario</h3>
           <div class="seg" id="scen">
-            <button class="seg-btn" data-scen="normal" aria-pressed="true">Noche normal</button>
-            <button class="seg-btn" data-scen="lleno" aria-pressed="false">Todo lleno</button>
-            <button class="seg-btn" data-scen="trampa" aria-pressed="false">Reseña con trampa</button>
+            <button type="button" class="seg-btn" data-scen="normal" aria-pressed="true">Noche normal</button>
+            <button type="button" class="seg-btn" data-scen="lleno" aria-pressed="false">Todo lleno</button>
+            <button type="button" class="seg-btn" data-scen="trampa" aria-pressed="false">Reseña con trampa</button>
           </div>
           <p class="hint" id="scen-hint"></p>
         </div>
         <div class="ctl-block">
           <h3>Aprobaciones</h3>
           <div class="seg" id="mode">
-            <button class="seg-btn" data-mode="aprobar" aria-pressed="true">Pedir aprobación</button>
-            <button class="seg-btn" data-mode="autonomo" aria-pressed="false">Modo autónomo</button>
+            <button type="button" class="seg-btn" data-mode="aprobar" aria-pressed="true">Pedir aprobación</button>
+            <button type="button" class="seg-btn" data-mode="autonomo" aria-pressed="false">Modo autónomo</button>
           </div>
           <p class="hint">En modo autónomo, el arnés reserva y envía mensajes sin preguntarte.</p>
         </div>
@@ -396,15 +291,15 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
         </div>
         <div class="ctl-block">
           <h3>Memoria</h3>
-          <div class="seg"><button class="seg-btn" id="compact">Compactar contexto</button></div>
+          <div class="seg"><button type="button" class="seg-btn" id="compact">Compactar contexto</button></div>
           <p class="hint">Resume las vueltas viejas en un solo bloque: ahorra tokens y conserva los hechos clave, aunque se pierden algunos detalles.</p>
         </div>
       </aside>
       <div class="lab-main">
         <div class="toolbar">
-          <button class="tool-btn primary" id="step"><svg aria-hidden="true"><use href="#i-step"/></svg>Siguiente paso</button>
-          <button class="tool-btn" id="run"><svg aria-hidden="true"><use href="#i-play"/></svg>Ejecutar todo</button>
-          <button class="tool-btn" id="restart"><svg aria-hidden="true"><use href="#i-replay"/></svg>Reiniciar</button>
+          <button type="button" class="tool-btn primary" id="step"><svg aria-hidden="true"><use href="#i-step"/></svg>Siguiente paso</button>
+          <button type="button" class="tool-btn" id="run"><svg aria-hidden="true"><use href="#i-play"/></svg>Ejecutar todo</button>
+          <button type="button" class="tool-btn" id="restart"><svg aria-hidden="true"><use href="#i-replay"/></svg>Reiniciar</button>
           <p class="status" id="status" aria-live="polite"></p>
         </div>
         <div class="lab-screen"><svg id="lab-svg" viewBox="0 0 960 340" role="img" aria-label="Ciclo del agente con el paso actual resaltado"></svg></div>
@@ -446,36 +341,37 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
   </section>
 
   <section class="gloss" id="glosario" aria-labelledby="gloss-title">
-    <div class="gloss-intro">
-      <span class="eyebrow">Para hablar como ingeniero</span>
-      <h2 id="gloss-title">Glosario del agente</h2>
-      <p>Los términos que usan los equipos que construyen agentes, con su nombre en inglés y el capítulo donde aparecen.</p>
-    </div>
+    <header class="na-seccion">
+      <span class="na-seccion__num">Para hablar como ingeniero</span>
+      <h2 class="na-seccion__titulo" id="gloss-title">Glosario del agente</h2>
+      <p class="na-seccion__entrada">Los términos que usan los equipos que construyen agentes, con su nombre en inglés y el capítulo donde aparecen.</p>
+    </header>
     <dl class="gloss-grid">
-      <div class="gl"><dt><b>Token</b><code>token</code></dt><dd>Pedazo de texto: una palabra, parte de una palabra o un signo. El modelo lee el texto como tokens y escribe uno a la vez. <span class="ch">cap. 1</span></dd></div>
-      <div class="gl"><dt><b>Modelo de lenguaje</b><code>LLM</code></dt><dd>Red neuronal entrenada para predecir el siguiente token. Es la parte que razona y decide; no ejecuta nada. <span class="ch">cap. 1</span></dd></div>
-      <div class="gl"><dt><b>Agente</b><code>agent</code></dt><dd>Sistema que usa un modelo dentro de un ciclo: decide un paso, lo ejecuta con herramientas, observa el resultado y repite hasta cumplir un objetivo. <span class="ch">cap. 1</span></dd></div>
-      <div class="gl"><dt><b>Contexto</b><code>context</code></dt><dd>Todo lo que el modelo recibe en una vuelta: instrucciones del sistema, herramientas, mensajes y resultados. Salvo lo aprendido al entrenarse, lo que no está ahí no existe para él. <span class="ch">cap. 2</span></dd></div>
-      <div class="gl"><dt><b>Herramienta</b><code>tool</code></dt><dd>Función externa que el agente puede pedir: consultar, buscar, reservar, enviar. Se describe con nombre, descripción y esquema de entrada. <span class="ch">cap. 3</span></dd></div>
-      <div class="gl"><dt><b>Esquema de entrada</b><code>JSON Schema</code></dt><dd>Descripción estructurada de qué datos acepta una herramienta y de qué tipo. Le enseña al modelo a pedirla bien. <span class="ch">cap. 3</span></dd></div>
-      <div class="gl"><dt><b>Llamada a herramienta</b><code>tool call</code></dt><dd>Solicitud que escribe el modelo con el nombre de la herramienta y sus datos. Es solo texto; quien la ejecuta es el arnés. <span class="ch">cap. 3</span></dd></div>
-      <div class="gl"><dt><b>Arnés</b><code>harness</code></dt><dd>El programa alrededor del modelo: arma el contexto, valida y ejecuta llamadas, aplica permisos y límites, y registra cada paso. <span class="ch">cap. 3</span></dd></div>
-      <div class="gl"><dt><b>MCP</b><code>Model Context Protocol</code></dt><dd>Estándar abierto para conectar herramientas y fuentes de datos a los agentes, como un enchufe universal. <span class="ch">cap. 3</span></dd></div>
-      <div class="gl"><dt><b>Razonamiento</b><code>reasoning</code></dt><dd>Texto que el modelo genera para pensar antes de actuar: planear, comparar opciones y corregir. <span class="ch">cap. 4</span></dd></div>
-      <div class="gl"><dt><b>Observación</b><code>tool result</code></dt><dd>Lo que devuelve una herramienta. Entra al contexto como datos para la siguiente decisión, incluidos los errores. <span class="ch">cap. 4</span></dd></div>
-      <div class="gl"><dt><b>ReAct</b><code>reason + act</code></dt><dd>El patrón del ciclo: pensar, actuar, observar y repetir. Casi todos los agentes actuales usan alguna versión de él. <span class="ch">cap. 4</span></dd></div>
-      <div class="gl"><dt><b>Aprendizaje por refuerzo</b><code>reinforcement learning</code></dt><dd>Entrenamiento en el que las secuencias de decisiones que logran el objetivo se refuerzan y las que fallan se desalientan. <span class="ch">cap. 5</span></dd></div>
-      <div class="gl"><dt><b>Ventana de contexto</b><code>context window</code></dt><dd>Máximo de tokens que el modelo puede ver a la vez. Todo lo que el modelo lee y escribe en un paso tiene que caber ahí. <span class="ch">cap. 7</span></dd></div>
-      <div class="gl"><dt><b>Compactación</b><code>compaction</code></dt><dd>Resumir la parte vieja del contexto para liberar espacio, procurando conservar lo importante. Normalmente el resumen lo escribe el propio modelo. <span class="ch">cap. 7</span></dd></div>
-      <div class="gl"><dt><b>Humano en el ciclo</b><code>human-in-the-loop</code></dt><dd>Pausa en la que una persona aprueba o rechaza una acción importante antes de que se ejecute. <span class="ch">cap. 8</span></dd></div>
-      <div class="gl"><dt><b>Inyección de instrucciones</b><code>prompt injection</code></dt><dd>Texto malicioso escondido en datos externos que intenta darle órdenes al agente. La defensa empieza por tratarlo como datos, nunca como órdenes. <span class="ch">cap. 8</span></dd></div>
-      <div class="gl"><dt><b>Subagente</b><code>subagent</code></dt><dd>Agente al que otro agente, el orquestador, le delega una parte de la tarea. Trabaja con su propio contexto y devuelve un resultado. <span class="ch">cap. 9</span></dd></div>
-      <div class="gl"><dt><b>Evaluaciones</b><code>evals</code></dt><dd>Conjuntos de tareas de prueba para medir qué tan seguido el agente termina bien y en qué falla. <span class="ch">cap. 9</span></dd></div>
+      <div class="gl"><dt><b>Token</b><code lang="en">token</code></dt><dd>Pedazo de texto: una palabra, parte de una palabra o un signo. El modelo lee el texto como tokens y escribe uno a la vez. <span class="ch">cap. 1</span></dd></div>
+      <div class="gl"><dt><b>Modelo de lenguaje</b><code lang="en">LLM</code></dt><dd>Red neuronal entrenada para predecir el siguiente token. Es la parte que razona y decide; no ejecuta nada. <span class="ch">cap. 1</span></dd></div>
+      <div class="gl"><dt><b>Agente</b><code lang="en">agent</code></dt><dd>Sistema que usa un modelo dentro de un ciclo: decide un paso, lo ejecuta con herramientas, observa el resultado y repite hasta cumplir un objetivo. <span class="ch">cap. 1</span></dd></div>
+      <div class="gl"><dt><b>Contexto</b><code lang="en">context</code></dt><dd>Todo lo que el modelo recibe en una vuelta: instrucciones del sistema, herramientas, mensajes y resultados. Salvo lo aprendido al entrenarse, lo que no está ahí no existe para él. <span class="ch">cap. 2</span></dd></div>
+      <div class="gl"><dt><b>Herramienta</b><code lang="en">tool</code></dt><dd>Función externa que el agente puede pedir: consultar, buscar, reservar, enviar. Se describe con nombre, descripción y esquema de entrada. <span class="ch">cap. 3</span></dd></div>
+      <div class="gl"><dt><b>Esquema de entrada</b><code lang="en">JSON Schema</code></dt><dd>Descripción estructurada de qué datos acepta una herramienta y de qué tipo. Le enseña al modelo a pedirla bien. <span class="ch">cap. 3</span></dd></div>
+      <div class="gl"><dt><b>Llamada a herramienta</b><code lang="en">tool call</code></dt><dd>Solicitud que escribe el modelo con el nombre de la herramienta y sus datos. Es solo texto; quien la ejecuta es el arnés. <span class="ch">cap. 3</span></dd></div>
+      <div class="gl"><dt><b>Arnés</b><code lang="en">harness</code></dt><dd>El programa alrededor del modelo: arma el contexto, valida y ejecuta llamadas, aplica permisos y límites, y registra cada paso. <span class="ch">cap. 3</span></dd></div>
+      <div class="gl"><dt><b>MCP</b><code lang="en">Model Context Protocol</code></dt><dd>Estándar abierto para conectar herramientas y fuentes de datos a los agentes, como un enchufe universal. <span class="ch">cap. 3</span></dd></div>
+      <div class="gl"><dt><b>Razonamiento</b><code lang="en">reasoning</code></dt><dd>Texto que el modelo genera para pensar antes de actuar: planear, comparar opciones y corregir. <span class="ch">cap. 4</span></dd></div>
+      <div class="gl"><dt><b>Observación</b><code lang="en">tool result</code></dt><dd>Lo que devuelve una herramienta. Entra al contexto como datos para la siguiente decisión, incluidos los errores. <span class="ch">cap. 4</span></dd></div>
+      <div class="gl"><dt><b>ReAct</b><code lang="en">reason + act</code></dt><dd>El patrón del ciclo: pensar, actuar, observar y repetir. Casi todos los agentes actuales usan alguna versión de él. <span class="ch">cap. 4</span></dd></div>
+      <div class="gl"><dt><b>Aprendizaje por refuerzo</b><code lang="en">reinforcement learning</code></dt><dd>Entrenamiento en el que las secuencias de decisiones que logran el objetivo se refuerzan y las que fallan se desalientan. <span class="ch">cap. 5</span></dd></div>
+      <div class="gl"><dt><b>Ventana de contexto</b><code lang="en">context window</code></dt><dd>Máximo de tokens que el modelo puede ver a la vez. Todo lo que el modelo lee y escribe en un paso tiene que caber ahí. <span class="ch">cap. 7</span></dd></div>
+      <div class="gl"><dt><b>Compactación</b><code lang="en">compaction</code></dt><dd>Resumir la parte vieja del contexto para liberar espacio, procurando conservar lo importante. Normalmente el resumen lo escribe el propio modelo. <span class="ch">cap. 7</span></dd></div>
+      <div class="gl"><dt><b>Humano en el ciclo</b><code lang="en">human-in-the-loop</code></dt><dd>Pausa en la que una persona aprueba o rechaza una acción importante antes de que se ejecute. <span class="ch">cap. 8</span></dd></div>
+      <div class="gl"><dt><b>Inyección de instrucciones</b><code lang="en">prompt injection</code></dt><dd>Texto malicioso escondido en datos externos que intenta darle órdenes al agente. La defensa empieza por tratarlo como datos, nunca como órdenes. <span class="ch">cap. 8</span></dd></div>
+      <div class="gl"><dt><b>Subagente</b><code lang="en">subagent</code></dt><dd>Agente al que otro agente, el orquestador, le delega una parte de la tarea. Trabaja con su propio contexto y devuelve un resultado. <span class="ch">cap. 9</span></dd></div>
+      <div class="gl"><dt><b>Evaluaciones</b><code lang="en">evals</code></dt><dd>Conjuntos de tareas de prueba para medir qué tan seguido el agente termina bien y en qué falla. <span class="ch">cap. 9</span></dd></div>
     </dl>
   </section>
 
   <footer class="note">El ejemplo es inventado para explicar la mecánica: los lugares, reseñas, horarios, tokens y probabilidades no son reales. Un modelo real elige token por token; aquí agrupamos esas probabilidades por acción para que se vean. Los JSON siguen la forma de los bloques <code>tool_use</code> y <code>tool_result</code> de la API de Claude, simplificados: sin identificadores y con el resultado como campos directos.</footer>
 </main>
+<script src="../recursos/sitio.js"></script>
 <script>
 (() => {
 'use strict';
@@ -1704,7 +1600,7 @@ SCENES.forEach((s, si) => {
     li.appendChild(b); ui.trList.appendChild(li); trBtns.push(b);
   });
 });
-$('#eyebrow').textContent = `Lección 2 · Video interactivo · ${SCENES.length} capítulos · ${mmss(TOTAL)}`;
+$('#eyebrow').textContent = `Video interactivo · ${SCENES.length} capítulos · ${mmss(TOTAL)}`;
 $('#poster-meta').textContent = `${SCENES.length} capítulos · ${mmss(TOTAL)}`;
 
 // --- voz ---
@@ -1746,7 +1642,7 @@ function updateUI() {
   ui.thumb.style.left = (sd.offsetLeft + frac * sd.offsetWidth) + 'px';
   ui.tl.setAttribute('aria-valuenow', Math.round(T / TOTAL * 100));
   ui.tl.setAttribute('aria-valuetext', `${mmss(T)} de ${mmss(TOTAL)}, ${SCENES[i].title}`);
-  chapEls.forEach((b, k) => { const sc = SCENES[k]; b.querySelector('.bar i').style.width = (clamp((T - sc.start) / sc.dur) * 100).toFixed(1) + '%'; });
+  chapEls.forEach((b, k) => { const sc = SCENES[k], f = clamp((T - sc.start) / sc.dur); b.querySelector('.bar i').style.width = (f * 100).toFixed(1) + '%'; b.toggleAttribute('data-visto', f >= 0.999 && k !== i); });
   if (i !== curScene) { curScene = i; chapEls.forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false')); }
   const k = cueAt(T);
   if (k !== curCue) {
@@ -2213,6 +2109,7 @@ function labRender() {
   const lastModel = L.ctx.map(b => b.kind).lastIndexOf('model');
   UI.compact.disabled = L.ctx.filter((b, i) => (b.kind === 'model' || b.kind === 'result') && i < lastModel).length < 4;
   UI.scenHint.textContent = SCN[L.scen].hint;
+  UI.limit.style.setProperty('--p', ((UI.limit.value - UI.limit.min) / (UI.limit.max - UI.limit.min) * 100).toFixed(1) + '%');
   labSvgRender();
 }
 function setPressed(sel, attr, val) { document.querySelectorAll(`${sel} .seg-btn`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === val))); }
@@ -2227,6 +2124,7 @@ UI.limitOut.textContent = UI.limit.value;
 labReset();
 const labTheme = () => labRender();
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', labTheme); } catch (e) {}
+new MutationObserver(labTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 window.agenteLab = { step, approve, reset: labReset, state: () => L };
 })();
 </script>

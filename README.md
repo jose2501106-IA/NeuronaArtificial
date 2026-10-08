@@ -6,6 +6,22 @@ Curso abierto en español para entender la IA por dentro: cada lección es un vi
 
 ![Portada: la ruta de nueve estaciones](preview.png)
 
+## El diseño
+
+El sitio usa el sistema de diseño **Neurona Artificial**, en su versión minimalista con la paleta **Barro y jade**: papel crudo de día, barro de noche y tinta café en lugar de negro. Se dibuja como un mapa de metro: el curso es una ruta, cada lección es una estación y cada parte de un sistema de IA es una línea con su color.
+
+| Línea | Color | Estaciones |
+|---|---|---|
+| M · Modelos | rosa barro | 01 La neurona · 03 El Transformer · 04 Cómo aprende un gigante |
+| D · Datos | ocre | 05 Los datos · 06 ¿Funciona? |
+| S · Sistemas | jade | 02 El agente · 07 RAG y memoria · 08 Del laboratorio al mundo |
+| P · Personas | añil | 09 IA responsable |
+
+- **Tipografía:** Archivo Expanded para nombrar, Archivo para leer y Fragment Mono para datos y código, servidas desde el propio sitio (licencia SIL OFL).
+- **Tema claro y oscuro:** sigue la configuración de tu dispositivo; el botón de la barra lo cambia y la elección se recuerda solo en tu navegador.
+- **Dentro del video,** cada lección conserva su propio mundo (la tinción de Golgi de la neurona, la hoja de ingeniería del agente) y toma del sistema la tipografía y el color de su línea.
+- **Accesible:** todo el texto pasa 4.5:1 de contraste en ambos temas, todo se usa con teclado y el color nunca va solo.
+
 ## La portada
 
 - **La ruta:** nueve estaciones, de la neurona a la IA responsable, dibujadas como una línea de metro. Cada estación muestra si está terminada, abierta, en obra o planeada, y marca dónde vas.
@@ -60,21 +76,25 @@ Curso abierto en español para entender la IA por dentro: cada lección es un vi
 
 - Reproductor: pausa, línea de tiempo, velocidad, capítulos, pantalla completa y narración por voz opcional si tu navegador tiene una voz en español.
 - Atajos de teclado: `Espacio` reproducir o pausar · `←` `→` 5 segundos · `C` subtítulos · `V` voz · `F` pantalla completa · `N` siguiente capítulo.
-- Tema claro y oscuro: la página sigue la configuración de tu dispositivo.
+- Tema claro y oscuro: sigue a tu dispositivo y se cambia con el botón de la barra.
 
 ## Archivos
 
 | Archivo | Para qué sirve |
 |---------|----------------|
 | `index.html` | Portada del curso: la ruta, el mapa del sistema, las lecciones y el método. |
+| `recursos/na.css` | El sistema de diseño: tipografías, colores claro y oscuro, estilos de texto y componentes. |
+| `recursos/leccion.css` | El marco común de las lecciones: reproductor, capítulos, laboratorio. |
+| `recursos/na.js`, `recursos/sitio.js` | Ayudantes del sistema (íconos, pictogramas) y el botón de tema. |
+| `recursos/fuentes/` | Archivo Expanded, Archivo y Fragment Mono en woff2. |
 | `preview.png` | Imagen de 1200 × 630 que aparece al compartir la portada. |
-| `neurona/index.html` | Lección 1 completa en un solo archivo: estilos, animación y laboratorio. |
+| `neurona/index.html` | Lección 1: su escenario, la animación y el laboratorio. |
 | `neurona/preview.png` | Imagen para compartir la lección 1. |
-| `agentes/index.html` | Lección 2 completa en un solo archivo: video, depurador y glosario. |
+| `agentes/index.html` | Lección 2: video, depurador y glosario. |
 | `agentes/preview.png` | Imagen para compartir la lección 2. |
 | `.nojekyll` | Le dice a GitHub Pages que publique los archivos tal cual. |
 
-No hay nada que compilar: cada página es un HTML autocontenido que solo carga tipografías de Google Fonts.
+No hay nada que compilar: cada página es HTML con su propio script y comparte los estilos y las tipografías de `recursos/`. El sitio no carga nada de otros servidores.
 
 ## Cómo se publica
 

@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Neurona Artificial</title>
+<title>Neurona Artificial · aprende IA por dentro</title>
 <meta name="description" content="Curso abierto en español para entender la IA por dentro: videos interactivos con laboratorio, de una sola neurona a los agentes que deciden y actúan.">
-<meta name="theme-color" content="#121922">
+<meta name="theme-color" content="#f4f1ea">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:site_name" content="Neurona Artificial">
@@ -15,509 +15,434 @@
 <meta property="og:image" content="https://jose2501106-ia.github.io/NeuronaArtificial/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="La ruta del curso Neurona Artificial: nueve estaciones, de la neurona a la IA responsable">
+<meta property="og:image:alt" content="Neurona Artificial: la ruta de nueve estaciones y las cuatro líneas del curso">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f3ab0'/%3E%3Cpath d='M8 18 L25 29 M6 32 H23 M8 46 L25 35 M41 32 H56' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='10' fill='%23ffffff'/%3E%3Ccircle cx='57' cy='32' r='4' fill='%23ffffff'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<link rel="icon" href="recursos/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('neurona-artificial:tema');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preload" href="recursos/fuentes/archivo.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="recursos/fuentes/archivo-expanded.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="recursos/na.css">
 <style>
-/* Layout: portada del curso. Encabezado; héroe; la ruta tipo línea de metro como protagonista (horizontal en escritorio,
-   vertical en teléfono) con la ficha de la estación elegida; el sistema por capas; lecciones abiertas; método y recursos; pie. */
-:root{
-  --bg:#eef1f4; --surface:#ffffff; --fg:#121922; --muted:#56616d; --line:#d3dae2; --tint:#e5eaf0;
-  --route:#2f3ab0; --route-ink:#ffffff; --ok:#12705a; --ok-ink:#ffffff; --warn:#8a5800; --focus:#a63c12;
-  --font-display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --r-lg:20px; --r-md:14px;
-  color-scheme:light;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#0b0f14; --surface:#131920; --fg:#e7edf3; --muted:#98a4b1; --line:#2a3440; --tint:#1b232c;
-    --route:#8f9eff; --route-ink:#0b0f2a; --ok:#7fe3c6; --ok-ink:#06231c; --warn:#ffcf5a; --focus:#ffb38a;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#0b0f14; --surface:#131920; --fg:#e7edf3; --muted:#98a4b1; --line:#2a3440; --tint:#1b232c;
-  --route:#8f9eff; --route-ink:#0b0f2a; --ok:#7fe3c6; --ok-ink:#06231c; --warn:#ffcf5a; --focus:#ffb38a;
-  color-scheme:dark;
-}
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth}
-@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
-body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-img{max-width:100%;height:auto;display:block}
-[hidden]{display:none!important}
-h1,h2,h3,h4{font-family:var(--font-display);margin:0;line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
-p{margin:0}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-.wrap{max-width:1120px;margin:0 auto;padding-block:18px 64px;display:grid;gap:64px}
-.eyebrow{font-family:var(--font-mono);font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-
-/* encabezado */
-.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
-.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-weight:800;font-size:1.15rem}
-.brand svg{width:34px;height:34px;flex:none}
-.topnav{display:flex;flex-wrap:wrap;gap:4px}
-.topnav a{text-decoration:none;font-size:.92rem;font-weight:500;padding:.4em .75em;border-radius:999px;color:var(--muted)}
-.topnav a:hover{color:var(--fg);background:var(--tint)}
+/* Portada: barra; héroe con la marca; la ruta de nueve estaciones con la ficha de la elegida; las cuatro líneas;
+   lecciones abiertas; método y recursos; pie. Todo neutro: el color de línea solo en puntos, cuadritos y pictogramas. */
+html { scroll-behavior: smooth; scroll-padding-top: var(--esp-6); }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+main { display: block; }
+.bloque { padding-bottom: var(--esp-24); }
+@media (max-width: 600px) { .bloque { padding-bottom: var(--esp-16); } }
 
 /* héroe */
-.hero{display:grid;gap:18px;max-width:820px;padding-top:28px}
-.hero h1{font-size:clamp(2.7rem,7.4vw,5.6rem);font-weight:800;letter-spacing:-.025em}
-.hero h1 .period{color:var(--route)}
-.hero .lede{font-size:clamp(1.05rem,1.8vw,1.22rem);color:var(--muted);max-width:60ch}
-.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-top:4px}
-.btn{appearance:none;display:inline-flex;align-items:center;gap:.5em;border-radius:999px;padding:.78em 1.25em;font:600 .98rem/1.1 var(--font-body);text-decoration:none;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
-.btn:hover{border-color:var(--muted)}
-.btn.primary{background:var(--route);color:var(--route-ink);border-color:transparent}
-.btn.primary:hover{filter:brightness(1.08)}
-.btn[aria-pressed="true"]{background:var(--ok);color:var(--ok-ink);border-color:transparent}
-.progress-line{font-family:var(--font-mono);font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.progress-line b{color:var(--fg);font-weight:600}
-
-/* encabezados de sección */
-.sec-head{display:grid;gap:8px;max-width:760px}
-.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800}
-.sec-head p{color:var(--muted);max-width:64ch}
-section{display:grid;gap:22px}
-
-/* la ruta */
-.map{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:18px;
-  background-image:radial-gradient(circle,var(--line) 1px,transparent 1.3px);background-size:22px 22px;background-position:11px 11px}
-.map-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px}
-.line-pill{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 14px 4px 4px;font-weight:600}
-.line-pill b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--route);color:var(--route-ink);font-family:var(--font-display);font-weight:800}
-.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted);background:var(--surface);border-radius:999px;padding:4px 8px}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--route)}
-.legend i.done{background:var(--ok);border-color:var(--ok)}
-.legend i.obra{border:2.5px dashed var(--warn)}
-.legend i.plan{border:2.5px solid var(--line)}
-.route-box{position:relative;overflow:visible}
-.route{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(9,minmax(0,1fr));position:relative;z-index:1}
-.track{position:absolute;z-index:0;border-radius:5px;background:repeating-linear-gradient(90deg,var(--line) 0 12px,transparent 12px 20px)}
-.track.v{background:repeating-linear-gradient(180deg,var(--line) 0 12px,transparent 12px 20px)}
-.track .solid{position:absolute;left:0;top:0;border-radius:5px;background:var(--route)}
-.train{position:absolute;z-index:3;width:22px;height:22px;border-radius:50%;background:var(--route);box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--route);transform:translate(-50%,-50%);pointer-events:none}
-.train.go{transition:left 1.4s cubic-bezier(.65,0,.35,1),top 1.4s cubic-bezier(.65,0,.35,1)}
-.st{display:flex;min-width:0}
-.st button{appearance:none;background:none;border:0;color:inherit;font:inherit;cursor:pointer;width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:0 4px 10px;border-radius:14px}
-.st button:hover .ttl{text-decoration:underline;text-underline-offset:3px}
-.st.sel button{background:var(--tint)}
-.here{height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;background:var(--fg);color:var(--bg);font:600 .72rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;visibility:hidden}
-.st.is-here .here{visibility:visible}
-.dot{width:30px;height:30px;flex:none;border-radius:50%;background:var(--surface);border:5px solid var(--route);display:grid;place-items:center;position:relative;z-index:2}
-.st.done .dot{background:var(--ok);border-color:var(--ok)}
-.st.done .dot::after{content:"";width:9px;height:5px;border-left:2.5px solid var(--ok-ink);border-bottom:2.5px solid var(--ok-ink);transform:translateY(-1px) rotate(-45deg)}
-.st.obra .dot{border:3px dashed var(--warn)}
-.st.plan .dot{border:3px solid var(--line)}
-.num{font-family:var(--font-mono);font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.ttl{font-weight:600;font-size:.95rem;line-height:1.25;overflow-wrap:anywhere}
-.st.plan .ttl{color:var(--muted);font-weight:500}
-.tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.state{font:600 .7rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;padding:.2em .6em;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
-.state.open{color:var(--route)} .state.done{color:var(--ok)} .state.obra{color:var(--warn)} .state.plan{color:var(--muted)}
-@media (max-width:860px){
-  .route{grid-template-columns:minmax(0,1fr)}
-  .st button{flex-direction:row;align-items:center;text-align:left;gap:14px;padding:10px 10px 10px 4px}
-  .st button .lbl{display:grid;gap:2px;min-width:0;flex:1}
-  .here{order:5;height:22px;padding:0 8px}
-  .st:not(.is-here) .here{display:none}
+.hero { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-12); padding-top: var(--esp-24); padding-bottom: var(--esp-24); }
+.hero__texto { flex: 3 1 480px; min-width: 0; }
+.hero__titulo { margin: 0; font: 600 clamp(40px, 6vw, 72px)/1 var(--font-ancha); letter-spacing: -0.02em; text-wrap: balance; }
+.hero__entrada { max-width: 600px; margin: var(--esp-6) 0 0; font: 400 20px/30px var(--font-texto); color: var(--tinta-2); }
+.hero__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3) var(--esp-8); margin-top: var(--esp-8); }
+.hero__progreso { margin: var(--esp-6) 0 0; }
+.hero__progreso b { color: var(--tinta); font-weight: 400; }
+.junto { white-space: nowrap; }
+.hero__marca { flex: 2 1 260px; display: flex; justify-content: center; }
+.hero__marca svg { width: 100%; max-width: 300px; height: auto; }
+@media (max-width: 640px) {
+  .hero { padding-top: var(--esp-12); padding-bottom: var(--esp-16); }
+  .hero__entrada { font-size: 17px; line-height: 27px; }
+  .hero__marca { display: none; }
 }
-@media (min-width:861px){ .st button .lbl{display:grid;gap:4px;justify-items:center} }
 
-/* ficha de estación */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:20px;display:grid;gap:12px}
-.station-card{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px 28px;align-items:start}
-@media (max-width:760px){ .station-card{grid-template-columns:minmax(0,1fr)} }
-.sc-main{display:grid;gap:10px;min-width:0}
-.sc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
-.sc-main h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:800}
-.sc-main p{color:var(--muted);max-width:56ch}
-.sc-side{display:grid;gap:10px;min-width:0}
-.sc-side h4{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500}
-.sc-side ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
-.sc-side li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px}
-.sc-side li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--route);margin-top:.5em;justify-self:center}
-.sc-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:4px}
-.soon{font-size:.92rem;color:var(--warn);font-weight:500}
+/* la ruta: cada estación es un botón que muestra su ficha */
+button.na-ruta__enlace { width: 100%; margin: 0; border: 0; background: transparent; font: inherit; cursor: pointer; }
+button.na-ruta__enlace:hover .na-ruta__nombre { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+button.na-ruta__enlace[aria-pressed="true"] .na-ruta__nombre { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.ruta-marco { margin: 0 calc(-1 * var(--esp-1)); }
+@container (min-width: 641px) and (max-width: 900px) { .ruta-palabra { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
 
-/* sistema por capas */
-.layers{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.layer{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:8px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px}
-@media (max-width:700px){ .layer{grid-template-columns:minmax(0,1fr)} }
-.layer.has-open{border-color:color-mix(in srgb,var(--route) 45%,var(--line))}
-.ly-name{display:grid;gap:2px}
-.ly-name b{font-family:var(--font-display);font-weight:800;font-size:1.05rem}
-.ly-name span{font-size:.88rem;color:var(--muted)}
-.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.chip{appearance:none;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:.38em .8em;font:500 .86rem var(--font-body);cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
-.chip .n{font-family:var(--font-mono);font-size:.76rem;color:var(--muted)}
-.chip.open{border-color:var(--route);color:var(--route)} .chip.open .n{color:inherit}
-.chip.done{background:var(--ok);border-color:var(--ok);color:var(--ok-ink)} .chip.done .n{color:inherit}
-.chip.obra{border-style:dashed;border-color:var(--warn);color:var(--warn)} .chip.obra .n{color:inherit}
-.chip.plan{color:var(--muted)}
-.ly-note{font-size:.86rem;color:var(--muted);font-style:italic}
+/* ficha de la estación elegida */
+.parada { display: flex; flex-wrap: wrap; gap: var(--esp-6) var(--esp-12); margin-top: var(--esp-8); padding: var(--esp-6); background: var(--panel); }
+.parada__principal { flex: 3 1 420px; min-width: 0; }
+.parada__lado { flex: 2 1 280px; min-width: 0; display: flex; flex-direction: column; gap: var(--esp-4); }
+.parada__meta { display: flex; align-items: center; gap: var(--esp-2); margin: 0; font: 400 12px/16px var(--font-mono); color: var(--tinta-2); }
+.parada__meta .na-placa { --tam: 20px; }
+.parada__nombre { margin: var(--esp-3) 0 0; font: 600 24px/28px var(--font-ancha); letter-spacing: -0.01em; }
+.parada__largo { margin: var(--esp-1) 0 0; font: 400 15px/22px var(--font-texto); color: var(--tinta-2); }
+.parada__resumen { max-width: 560px; margin: var(--esp-3) 0 0; font: 400 15px/23px var(--font-texto); color: var(--tinta-2); }
+.parada__titulo-lista { margin: 0; font: 400 12px/16px var(--font-mono); color: var(--tinta-2); }
+.parada__acciones { display: flex; flex-wrap: wrap; align-items: center; gap: var(--esp-3) var(--esp-6); }
+.parada__nota { display: flex; align-items: center; gap: var(--esp-2); margin: 0; font: 400 15px/23px var(--font-texto); color: var(--tinta-2); }
+.parada__nota .na-estado { flex: none; }
+@media (max-width: 600px) { .parada { padding: var(--esp-4); } }
 
-/* lecciones */
-.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
-.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-rows:auto 1fr}
-.thumb{position:relative;display:block;aspect-ratio:1200/630;max-width:100%;background:var(--tint);overflow:hidden}
-.thumb img{width:100%;height:100%;object-fit:cover}
-.thumb .badge{position:absolute;left:12px;top:12px;font:600 .74rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;padding:.35em .75em;border-radius:999px;background:var(--fg);color:var(--bg)}
-.thumb .badge.done{background:var(--ok);color:var(--ok-ink)}
-.l-body{padding:18px 20px 20px;display:grid;gap:10px;align-content:start}
-.l-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.l-body h3{font-size:1.45rem;font-weight:800}
-.l-body h3 a{text-decoration:none}
-.l-body h3 a:hover{text-decoration:underline;text-underline-offset:4px}
-.l-body p{color:var(--muted)}
-.l-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px}
+/* las cuatro líneas */
+.lineas { margin: 0; padding: 0; list-style: none; border-bottom: var(--trazo-filete) solid var(--filete); }
+.linea { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--esp-1) var(--esp-8); padding: var(--esp-4) 0; border-top: var(--trazo-filete) solid var(--filete); }
+.linea__nombre { flex: 0 0 200px; display: flex; align-items: center; gap: 10px; margin: 0; font: 600 17px/24px var(--font-texto); }
+.linea__cuadro { flex: none; width: 14px; height: 14px; background: var(--na-linea); }
+.linea__capas { flex: 1 1 320px; min-width: 0; margin: 0; font: 400 15px/23px var(--font-texto); color: var(--tinta-2); }
+.linea__estaciones { flex: 0 1 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 0 2px; font: 400 12px/16px var(--font-mono); color: var(--tinta-2); }
+.linea__estaciones button { min-width: 28px; min-height: 32px; padding: 0 4px; border: 0; border-radius: var(--radio-control); background: transparent; color: var(--tinta); font: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; cursor: pointer; }
+.linea__estaciones button:hover { background: var(--hundido); }
+@media (max-width: 600px) { .linea__nombre { flex-basis: 100%; } }
 
-/* método */
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
-.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;display:grid;gap:6px;align-content:start}
-.step .k{font-family:var(--font-mono);font-size:.78rem;color:var(--route);font-weight:600}
-.step b{font-family:var(--font-display);font-size:1.25rem;font-weight:800}
-.step span{font-size:.92rem;color:var(--muted)}
-.step .who{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:4px}
-.res{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:10px}
-.res li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;display:grid;gap:4px}
-.res a{font-weight:600;text-underline-offset:3px}
-.res span{font-size:.9rem;color:var(--muted)}
+/* lecciones abiertas */
+.lecciones { display: flex; flex-wrap: wrap; gap: var(--esp-4); }
+.lecciones > .na-ficha { flex: 1 1 280px; min-width: 0; }
+.lecciones > .na-ficha.es-destacada { flex: 2 1 480px; }
+.lecciones .na-ficha__nombre { font-size: 24px; line-height: 28px; }
+.lecciones .es-destacada .na-ficha__nombre { font-size: 28px; line-height: 32px; }
+.lecciones .na-ficha__nombre a { color: inherit; text-decoration: none; }
+.lecciones .na-ficha__nombre a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 5px; }
 
-footer{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted)}
-footer button{appearance:none;background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* método y recursos */
+.estudio { display: flex; flex-wrap: wrap; gap: var(--esp-12) var(--esp-16); }
+.estudio > .na-pasos { flex: 3 1 420px; min-width: 0; }
+.recursos { flex: 2 1 300px; min-width: 0; }
+.recursos__titulo { margin: 0 0 var(--esp-2); font: 600 18px/24px var(--font-texto); }
+.recursos ul { margin: 0; padding: 0; list-style: none; border-bottom: var(--trazo-filete) solid var(--filete); }
+.recursos li { padding: var(--esp-3) 0; border-top: var(--trazo-filete) solid var(--filete); }
+.recursos a { display: inline-flex; align-items: center; gap: 6px; color: var(--tinta); font: 500 15px/20px var(--font-texto); text-decoration: none; }
+.recursos a:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.recursos a .na-icono { width: 16px; height: 16px; }
+.recursos li > span { display: block; font: 400 14px/21px var(--font-texto); color: var(--tinta-2); }
+
+/* pie */
+.pie { border-top: var(--trazo-filete) solid var(--filete); }
+.pie__dentro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--esp-4) var(--esp-8); padding-top: var(--esp-8); padding-bottom: var(--esp-12); font: 400 12px/16px var(--font-mono); color: var(--tinta-2); }
+.pie a { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.pie__progreso { display: inline-flex; flex-wrap: wrap; align-items: center; gap: var(--esp-1) var(--esp-3); }
+.pie button { min-height: 40px; padding: 0; border: 0; background: transparent; color: var(--tinta); font: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; cursor: pointer; }
+.sin-js { margin: 0; padding: var(--esp-4); background: var(--resalte); font: 400 15px/23px var(--font-texto); }
+.sin-js a { color: inherit; }
 </style>
 </head>
 <body>
-<main class="wrap">
-  <header class="top">
-    <a class="brand" href="./" aria-label="Neurona Artificial, inicio">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="var(--route)"/><path d="M8 18 L25 29 M6 32 H23 M8 46 L25 35 M41 32 H56" stroke="var(--route-ink)" stroke-width="4.5" stroke-linecap="round"/><circle cx="32" cy="32" r="10" fill="var(--route-ink)"/><circle cx="57" cy="32" r="4" fill="var(--route-ink)"/></svg>
-      <span>Neurona Artificial</span>
-    </a>
-    <nav class="topnav" aria-label="Secciones">
-      <a href="#ruta">La ruta</a>
-      <a href="#sistema">El mapa</a>
-      <a href="#lecciones">Lecciones</a>
-      <a href="#como">Cómo estudiar</a>
-    </nav>
-  </header>
-
-  <section class="hero" aria-labelledby="hero-t">
-    <p class="eyebrow">Curso abierto · en español · paso a paso</p>
-    <h1 id="hero-t">Aprende IA por dentro<span class="period">.</span></h1>
-    <p class="lede">Videos interactivos con laboratorio para entender cómo funciona la inteligencia artificial, de una sola neurona a los agentes que deciden y actúan. Con tacos de por medio.</p>
-    <div class="cta-row">
-      <a class="btn primary" id="cta" href="neurona/">Empezar: La neurona →</a>
-      <a class="btn" href="#ruta">Ver la ruta</a>
-    </div>
-    <p class="progress-line" id="progress-line">2 lecciones abiertas · 7 en camino</p>
-  </section>
-
-  <section id="ruta" aria-labelledby="ruta-t">
-    <div class="sec-head">
-      <h2 id="ruta-t">La ruta</h2>
-      <p>Nueve estaciones, de la neurona a la IA responsable. Toca una estación para ver de qué trata y qué vas a aprender.</p>
-    </div>
-    <div class="map">
-      <div class="map-top">
-        <span class="line-pill"><b>1</b>De la neurona a la IA responsable</span>
-        <div class="legend" aria-label="Leyenda">
-          <span><i class="done"></i>Terminada</span>
-          <span><i></i>Abierta</span>
-          <span><i class="obra"></i>En obra</span>
-          <span><i class="plan"></i>Planeada</span>
-        </div>
-      </div>
-      <div class="route-box" id="route-box">
-        <div class="track" id="track"><div class="solid" id="solid"></div></div>
-        <ol class="route" id="route" aria-label="Estaciones de la ruta"></ol>
-        <div class="train" id="train" aria-hidden="true"></div>
-      </div>
-      <article class="card station-card" id="station-card" aria-live="polite"></article>
-    </div>
-  </section>
-
-  <section id="sistema" aria-labelledby="sistema-t">
-    <div class="sec-head">
-      <h2 id="sistema-t">El mapa del sistema</h2>
-      <p>Las nueve capas de cualquier sistema de IA real. Cada una se apoya en la de abajo, y cada lección vive en una o dos capas. Así ves cómo se conecta todo lo que aprendes.</p>
-    </div>
-    <ol class="layers" id="layers"></ol>
-  </section>
-
-  <section id="lecciones" aria-labelledby="lecciones-t">
-    <div class="sec-head">
-      <h2 id="lecciones-t">Lecciones abiertas</h2>
-      <p>Cada lección es un video con capítulos y subtítulos, más un laboratorio para mover cada pieza con tus manos.</p>
-    </div>
-    <div class="lessons" id="lessons"></div>
-  </section>
-
-  <section id="como" aria-labelledby="como-t">
-    <div class="sec-head">
-      <h2 id="como-t">Cómo estudiar aquí</h2>
-      <p>El mismo método para cada tema. Las lecciones te dan los dos primeros pasos; los otros tres los haces tú, y son los que convierten lo que viste en algo tuyo.</p>
-    </div>
-    <ol class="steps">
-      <li class="step"><span class="k">1</span><b>Mira</b><span>El video te da la intuición en pocos minutos.</span><span class="who">En cada lección</span></li>
-      <li class="step"><span class="k">2</span><b>Juega</b><span>El laboratorio te deja mover cada pieza y ver qué cambia.</span><span class="who">En cada lección</span></li>
-      <li class="step"><span class="k">3</span><b>Escríbelo</b><span>Las matemáticas mínimas y el código desde cero, aunque quede feo.</span><span class="who">Tú</span></li>
-      <li class="step"><span class="k">4</span><b>Constrúyelo</b><span>Repítelo con la herramienta profesional, como scikit-learn o PyTorch.</span><span class="who">Tú</span></li>
-      <li class="step"><span class="k">5</span><b>Explícalo</b><span>Si se lo puedes enseñar a alguien, ya es tuyo.</span><span class="who">Tú</span></li>
-    </ol>
-    <h3 style="font-size:1.25rem;font-weight:800;padding-top:10px">Para ir más lejos</h3>
-    <ul class="res">
-      <li><a href="https://www.3blue1brown.com/" target="_blank" rel="noopener">3Blue1Brown</a><span>Álgebra lineal y redes neuronales con la mejor intuición visual.</span></li>
-      <li><a href="https://karpathy.ai/zero-to-hero.html" target="_blank" rel="noopener">Neural Networks: Zero to Hero</a><span>Andrej Karpathy programa desde una neurona hasta un GPT.</span></li>
-      <li><a href="https://udlbook.github.io/udlbook/" target="_blank" rel="noopener">Understanding Deep Learning</a><span>Libro riguroso y actual de Simon Prince, con PDF gratuito.</span></li>
-      <li><a href="https://search.worldcat.org/title/1569046080" target="_blank" rel="noopener">AI Engineering</a><span>Chip Huyen: cómo se construyen aplicaciones con modelos grandes.</span></li>
-      <li><a href="https://huggingface.co/learn/agents-course" target="_blank" rel="noopener">Curso de agentes de Hugging Face</a><span>Agentes con código, gratis y en línea.</span></li>
-      <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a><span>Anthropic explica patrones prácticos para construir agentes.</span></li>
+<a class="na-saltar" href="#inicio">Saltar al contenido</a>
+<header class="na-barra">
+  <a class="na-barra__marca" href="./">
+    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false"><g fill="none" stroke-width="4.5"><path class="na-marca-m" d="M2 9H8L22 23"/><path class="na-marca-d" d="M2 24H25"/><path class="na-marca-s" d="M2 39H8L22 25"/><path class="na-marca-p" d="M27 24H46"/></g><circle class="na-marca-nucleo" cx="26" cy="24" r="7" stroke-width="3.5"/></svg>
+    <span class="na-barra__nombre">Neurona Artificial</span>
+  </a>
+  <nav class="na-barra__nav" aria-label="Secciones">
+    <ul class="na-barra__enlaces">
+      <li><a href="#ruta"><span class="nav-largo">La ruta</span><span class="nav-corto">Ruta</span></a></li>
+      <li><a href="#mapa"><span class="nav-largo">El mapa</span><span class="nav-corto">Mapa</span></a></li>
+      <li><a href="#lecciones">Lecciones</a></li>
+      <li><a href="#estudiar"><span class="nav-largo">Cómo estudiar</span><span class="nav-corto">Método</span></a></li>
     </ul>
+  </nav>
+  <button type="button" class="na-tema" data-tema aria-label="Usar tema oscuro" title="Tema oscuro"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5A8.5 8.5 0 0 1 12 20.5Z" fill="currentColor"/></svg></button>
+</header>
+
+<main id="inicio">
+  <section class="hero na-pagina" aria-labelledby="hero-t">
+    <div class="hero__texto">
+      <h1 class="hero__titulo" id="hero-t">Aprende IA por dentro</h1>
+      <p class="hero__entrada">Videos interactivos con laboratorio para entender cómo funciona la inteligencia artificial, de una sola neurona a los agentes que deciden y actúan. Con tacos de por medio.</p>
+      <div class="hero__acciones">
+        <a class="na-boton na-boton--principal" id="cta" href="neurona/"><span id="cta-texto">Empezar: La neurona</span><span class="na-flecha" aria-hidden="true"></span></a>
+        <a class="na-boton na-boton--texto" href="#ruta">Ver la ruta</a>
+      </div>
+      <p class="hero__progreso na-etiqueta" id="progreso">2 lecciones abiertas · 7 en camino</p>
+    </div>
+    <div class="hero__marca" aria-hidden="true">
+      <svg viewBox="0 0 48 48" focusable="false"><g fill="none" stroke-width="4.5"><path class="na-marca-m" d="M2 9H8L22 23"/><path class="na-marca-d" d="M2 24H25"/><path class="na-marca-s" d="M2 39H8L22 25"/><path class="na-marca-p" d="M27 24H46"/></g><circle class="na-marca-nucleo" cx="26" cy="24" r="7" stroke-width="3.5"/></svg>
+    </div>
   </section>
 
-  <footer>
-    <span>Neurona Artificial · curso abierto hecho con Claude · <a href="https://github.com/jose2501106-IA/NeuronaArtificial" target="_blank" rel="noopener">código en GitHub</a></span>
-    <span>Tu progreso se guarda solo en este navegador. <button type="button" id="reset">Borrar mi progreso</button></span>
-  </footer>
+  <noscript><div class="na-pagina bloque"><p class="sin-js">Esta página necesita JavaScript para dibujar la ruta. Puedes ir directo a las lecciones: <a href="neurona/">La neurona</a> y <a href="agentes/">El agente</a>.</p></div></noscript>
+
+  <section class="bloque na-pagina" id="ruta" aria-labelledby="ruta-t">
+    <header class="na-seccion">
+      <span class="na-seccion__num">01</span>
+      <h2 class="na-seccion__titulo" id="ruta-t">La ruta</h2>
+      <p class="na-seccion__entrada">Nueve estaciones, de la neurona a la IA responsable. Toca una estación para ver de qué trata; los tramos punteados todavía se construyen.</p>
+    </header>
+    <div class="ruta-marco">
+      <nav class="na-ruta" aria-label="Estaciones de la ruta"><ol class="na-ruta__lista" id="ruta-lista" style="--n:9"></ol></nav>
+    </div>
+    <article class="parada" id="parada" aria-live="polite"></article>
+  </section>
+
+  <section class="bloque na-pagina" id="mapa" aria-labelledby="mapa-t">
+    <header class="na-seccion">
+      <span class="na-seccion__num">02</span>
+      <h2 class="na-seccion__titulo" id="mapa-t">El mapa del sistema</h2>
+      <p class="na-seccion__entrada">Las nueve capas de cualquier sistema de IA real, agrupadas en cuatro líneas. Cada lección vive en una, y así ves cómo se conecta todo lo que aprendes.</p>
+    </header>
+    <ul class="lineas" id="lineas"></ul>
+  </section>
+
+  <section class="bloque na-pagina" id="lecciones" aria-labelledby="lecciones-t">
+    <header class="na-seccion">
+      <span class="na-seccion__num">03</span>
+      <h2 class="na-seccion__titulo" id="lecciones-t">Lecciones abiertas</h2>
+      <p class="na-seccion__entrada">Cada lección es un video con capítulos y subtítulos, más un laboratorio para mover cada pieza con tus manos.</p>
+    </header>
+    <div class="lecciones" id="lista-lecciones"></div>
+  </section>
+
+  <section class="bloque na-pagina" id="estudiar" aria-labelledby="estudiar-t">
+    <header class="na-seccion">
+      <span class="na-seccion__num">04</span>
+      <h2 class="na-seccion__titulo" id="estudiar-t">Cómo estudiar aquí</h2>
+      <p class="na-seccion__entrada">El mismo método para cada tema. Las lecciones te dan los dos primeros pasos; los otros tres los haces tú, y son los que convierten lo que viste en algo tuyo.</p>
+    </header>
+    <div class="estudio">
+      <ol class="na-pasos">
+        <li><span class="na-pasos__punto" aria-hidden="true"></span><div><p class="na-pasos__titulo"><span class="na-pasos__num">01</span>Mira</p><p class="na-pasos__texto">El video te da la intuición en pocos minutos.</p></div></li>
+        <li><span class="na-pasos__punto" aria-hidden="true"></span><div><p class="na-pasos__titulo"><span class="na-pasos__num">02</span>Juega</p><p class="na-pasos__texto">El laboratorio te deja mover cada pieza y ver qué cambia.</p></div></li>
+        <li><span class="na-pasos__punto" aria-hidden="true"></span><div><p class="na-pasos__titulo"><span class="na-pasos__num">03</span>Escríbelo</p><p class="na-pasos__texto">Las matemáticas mínimas y el código desde cero, aunque quede feo.</p></div></li>
+        <li><span class="na-pasos__punto" aria-hidden="true"></span><div><p class="na-pasos__titulo"><span class="na-pasos__num">04</span>Constrúyelo</p><p class="na-pasos__texto">Repítelo con la herramienta profesional, como scikit-learn o PyTorch.</p></div></li>
+        <li><span class="na-pasos__punto" aria-hidden="true"></span><div><p class="na-pasos__titulo"><span class="na-pasos__num">05</span>Explícalo</p><p class="na-pasos__texto">Si se lo puedes enseñar a alguien, ya es tuyo.</p></div></li>
+      </ol>
+      <div class="recursos">
+        <h3 class="recursos__titulo">Para ir más lejos</h3>
+        <ul id="recursos">
+          <li><a href="https://www.3blue1brown.com/" target="_blank" rel="noopener">3Blue1Brown<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Álgebra lineal y redes neuronales con la mejor intuición visual.</span></li>
+          <li><a href="https://karpathy.ai/zero-to-hero.html" target="_blank" rel="noopener">Neural Networks: Zero to Hero<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Andrej Karpathy programa desde una neurona hasta un GPT.</span></li>
+          <li><a href="https://udlbook.github.io/udlbook/" target="_blank" rel="noopener">Understanding Deep Learning<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Libro riguroso y actual de Simon Prince, con PDF gratuito.</span></li>
+          <li><a href="https://search.worldcat.org/title/1569046080" target="_blank" rel="noopener">AI Engineering<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Chip Huyen: cómo se construyen aplicaciones con modelos grandes.</span></li>
+          <li><a href="https://huggingface.co/learn/agents-course" target="_blank" rel="noopener">Curso de agentes de Hugging Face<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Agentes con código, gratis y en línea.</span></li>
+          <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents<svg class="na-icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 18L18 6M9 6H18V15" fill="none" stroke="currentColor" stroke-width="2"/></svg><span class="na-sr">, se abre en otra pestaña</span></a><span>Anthropic explica patrones prácticos para construir agentes.</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 </main>
 
+<footer class="pie">
+  <div class="pie__dentro na-pagina">
+    <span>Neurona Artificial · curso abierto hecho con Claude · <a href="https://github.com/jose2501106-IA/NeuronaArtificial" target="_blank" rel="noopener">código en GitHub</a></span>
+    <span class="pie__progreso">Tu progreso se guarda solo en este navegador.<button type="button" id="borrar">Borrar mi progreso</button></span>
+  </div>
+</footer>
+
+<script src="recursos/na.js"></script>
+<script src="recursos/sitio.js"></script>
 <script>
-(() => {
+(function () {
 'use strict';
-const $ = s => document.querySelector(s);
-const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+var N = window.NeuronaArtificial;
+var $ = function (s) { return document.querySelector(s); };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+var dos = function (n) { return (n < 10 ? '0' : '') + n; };
+var REDUCIDO = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const CAPAS = [
-  { id: 'sociedad', nombre: 'Sociedad', corto: 'Sociedad', desc: 'Seguridad, ética, regulación y energía.' },
-  { id: 'producto', nombre: 'Producto y personas', corto: 'Producto', desc: 'Problemas reales y cómo se usa la IA.', nota: 'Aparece en los ejemplos de cada lección.' },
-  { id: 'sistemas', nombre: 'Sistemas y agentes', corto: 'Sistemas', desc: 'Herramientas, ciclos, memoria y RAG.' },
-  { id: 'inferencia', nombre: 'Inferencia y despliegue', corto: 'Despliegue', desc: 'Costo, velocidad, GPUs y monitoreo.' },
-  { id: 'evaluacion', nombre: 'Evaluación', corto: 'Evaluación', desc: 'Métricas, evals y pruebas de ataque.' },
-  { id: 'entrenamiento', nombre: 'Entrenamiento', corto: 'Entrenamiento', desc: 'Pérdida, gradiente y ajuste fino.' },
-  { id: 'modelos', nombre: 'Modelos', corto: 'Modelos', desc: 'Neuronas, redes y Transformers.' },
-  { id: 'datos', nombre: 'Datos', corto: 'Datos', desc: 'Recolectar, limpiar y etiquetar.' },
-  { id: 'fundamentos', nombre: 'Fundamentos', corto: 'Fundamentos', desc: 'Matemáticas y programación.', nota: 'Van dentro de cada lección, justo cuando se necesitan.' }
+/* ---------- el curso ---------- */
+var LINEAS = [
+  { id: 'm', texto: 'Fundamentos, modelos y entrenamiento: cómo piensa y cómo aprende un modelo.' },
+  { id: 'd', texto: 'Datos y evaluación: de qué aprende un modelo y cómo se mide si funciona.' },
+  { id: 's', texto: 'Sistemas, agentes, inferencia y despliegue: cómo actúa y cómo corre en el mundo.' },
+  { id: 'p', texto: 'Producto y sociedad: para qué sirve, para quién y con qué cuidados.' }
 ];
-const capa = id => CAPAS.find(c => c.id === id);
-
-const LECCIONES = [
-  { id: 'neurona', n: 1, titulo: 'La neurona', largo: 'Cómo piensa una neurona artificial', capas: ['modelos', 'entrenamiento'], estado: 'abierta', url: 'neurona/', dur: '4:06', caps: 9, img: 'neurona/preview.png',
-    alt: 'Diagrama de una neurona que decide si ir por tacos, con salida 0.73',
+var LECCIONES = [
+  { id: 'neurona', largo: 'Cómo piensa una neurona artificial', estado: 'abierta', url: 'neurona/', dur: '4:06', caps: 9,
     resumen: 'Entradas, pesos, sesgo y activación: cómo una sola neurona decide, cómo aprende y cuál es su límite.',
     aprendes: ['Qué hace una neurona con los números', 'Cómo los pesos y el sesgo inclinan una decisión', 'Cómo aprende corrigiendo su error, y hasta dónde llega'] },
-  { id: 'agentes', n: 2, titulo: 'El agente', largo: 'Cómo actúa un agente de IA', capas: ['sistemas'], estado: 'abierta', url: 'agentes/', dur: '6:21', caps: 9, img: 'agentes/preview.png',
-    alt: 'Diagrama del ciclo de un agente: contexto, modelo, arnés y herramientas',
+  { id: 'agentes', largo: 'Cómo actúa un agente de IA', estado: 'abierta', url: 'agentes/', dur: '6:21', caps: 9,
     resumen: 'De predecir a actuar: el modelo, las herramientas, el ciclo, el contexto y los límites, con un depurador paso a paso.',
     aprendes: ['Por qué un agente no solo predice: decide y actúa', 'El ciclo pensar, actuar y observar, con su código', 'Contexto, memoria, permisos e inyección de instrucciones'] },
-  { id: 'transformer', n: 3, titulo: 'El Transformer', capas: ['modelos'], estado: 'obra',
+  { id: 'transformer', estado: 'obra',
     resumen: 'El puente entre tus dos lecciones: cómo se pasa de una sola neurona a un modelo de lenguaje.',
     aprendes: ['Cómo se apilan neuronas en redes profundas', 'Qué es un embedding: palabras convertidas en vectores', 'Cómo funciona la atención, el corazón de los modelos de lenguaje'] },
-  { id: 'gigante', n: 4, titulo: 'Cómo aprende un gigante', capas: ['entrenamiento'], estado: 'plan',
+  { id: 'gigante', estado: 'plan',
     resumen: 'Del texto de internet a un asistente útil: preentrenamiento, ajuste fino y aprendizaje por refuerzo.',
     aprendes: ['Qué pasa durante el preentrenamiento', 'Ajuste fino y refuerzo con retroalimentación humana', 'Por qué más datos y más cómputo mejoran un modelo, y hasta dónde'] },
-  { id: 'datos', n: 5, titulo: 'Los datos', capas: ['datos'], estado: 'plan',
+  { id: 'datos', estado: 'plan',
     resumen: 'De dónde sale lo que sabe un modelo y por qué la calidad de los datos importa tanto.',
     aprendes: ['Cómo el texto se convierte en tokens', 'Cómo se limpian y filtran los datos', 'De dónde salen los sesgos y cómo se detectan'] },
-  { id: 'evaluacion', n: 6, titulo: '¿Funciona?', capas: ['evaluacion'], estado: 'plan',
+  { id: 'evaluacion', estado: 'plan',
     resumen: 'Cómo se mide de verdad un modelo o un agente antes de confiar en él.',
     aprendes: ['Métricas como exactitud, precisión y exhaustividad', 'Cómo se construyen evals para modelos y agentes', 'Pruebas de ataque para encontrar fallas'] },
-  { id: 'rag', n: 7, titulo: 'RAG y memoria', capas: ['sistemas'], estado: 'plan',
+  { id: 'rag', estado: 'plan',
     resumen: 'Buscar antes de responder: cómo un sistema consulta tus documentos.',
     aprendes: ['Cómo se compara el significado con embeddings', 'Buscar documentos antes de responder', 'Cuándo conviene RAG y cuándo ajuste fino'] },
-  { id: 'produccion', n: 8, titulo: 'Del laboratorio al mundo', capas: ['inferencia'], estado: 'plan',
+  { id: 'produccion', estado: 'plan',
     resumen: 'Qué hace falta para que un modelo responda rápido, barato y sin caerse.',
     aprendes: ['Qué hace una GPU y por qué importa', 'El equilibrio entre costo, velocidad y calidad', 'Cómo se despliega y se monitorea un modelo'] },
-  { id: 'responsable', n: 9, titulo: 'IA responsable', capas: ['sociedad'], estado: 'plan',
+  { id: 'responsable', estado: 'plan',
     resumen: 'Seguridad, alineación, leyes y energía: la IA dentro de la sociedad.',
     aprendes: ['Seguridad y alineación: que haga lo que debe', 'Qué piden las leyes de IA, como la de la Unión Europea', 'Energía, trabajo y otros impactos'] }
 ];
-const ABIERTAS = LECCIONES.filter(l => l.estado === 'abierta');
+LECCIONES.forEach(function (l) {
+  var e = N.estacion(l.id);
+  l.n = e.n; l.titulo = e.titulo; l.linea = e.linea;
+});
+var ABIERTAS = LECCIONES.filter(function (l) { return l.estado === 'abierta'; });
+var leccion = function (id) { for (var i = 0; i < LECCIONES.length; i++) if (LECCIONES[i].id === id) return LECCIONES[i]; return null; };
 
-/* ---------- progreso (mismo origen que las lecciones) ---------- */
-const KEY = 'neurona-artificial:progreso:v1';
-const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } };
-const save = p => { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} };
-let prog = load();
-const done = l => prog[l.id] === 'terminada';
-const started = l => prog[l.id] === 'empezada';
-function viewState(l) {
-  if (l.estado === 'abierta') return done(l) ? 'done' : 'open';
-  return l.estado === 'obra' ? 'obra' : 'plan';
+/* ---------- progreso: solo en este navegador, el mismo que escriben las lecciones ---------- */
+var KEY = 'neurona-artificial:progreso:v1';
+var cargar = function () { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } };
+var guardar = function (p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} };
+var prog = cargar();
+var terminada = function (l) { return prog[l.id] === 'terminada'; };
+var empezada = function (l) { return prog[l.id] === 'empezada'; };
+function estadoDe(l) {
+  if (l.estado === 'abierta') return terminada(l) ? 'terminada' : empezada(l) ? 'empezada' : 'abierta';
+  return l.estado;
 }
-const STATE_TXT = { done: 'Terminada', open: 'Abierta', obra: 'En obra', plan: 'Planeada' };
-function hereIndex() {
-  const i = LECCIONES.findIndex(l => l.estado === 'abierta' && !done(l));
-  if (i >= 0) return i;
-  return LECCIONES.findIndex(l => l.estado !== 'abierta');
+function indiceAqui() {
+  for (var k = 0; k < LECCIONES.length; k++) if (LECCIONES[k].estado === 'abierta' && empezada(LECCIONES[k])) return k;
+  for (var i = 0; i < LECCIONES.length; i++) if (LECCIONES[i].estado === 'abierta' && !terminada(LECCIONES[i])) return i;
+  for (var j = 0; j < LECCIONES.length; j++) if (LECCIONES[j].estado !== 'abierta') return j;
+  return 0;
 }
-function toggleDone(id) {
-  prog = load();
+function marcar(id) {
+  prog = cargar();
   if (prog[id] === 'terminada') delete prog[id]; else prog[id] = 'terminada';
-  save(prog); renderAll('static');
+  guardar(prog);
+  pintarTodo();
 }
 
 /* ---------- la ruta ---------- */
-const routeEl = $('#route'), trackEl = $('#track'), solidEl = $('#solid'), trainEl = $('#train'), boxEl = $('#route-box');
-let selected = null;
-function renderRoute() {
-  const here = hereIndex();
-  routeEl.innerHTML = LECCIONES.map((l, i) => {
-    const vs = viewState(l);
-    return `<li class="st ${vs}${i === here ? ' is-here' : ''}${selected === l.id ? ' sel' : ''}" data-id="${l.id}">
-      <button type="button" aria-label="Estación ${l.n}: ${esc(l.titulo)}, ${STATE_TXT[vs]}" aria-pressed="${selected === l.id}">
-        <span class="here">${LECCIONES[here] && LECCIONES[here].estado === 'abierta' ? 'Estás aquí' : 'Próxima parada'}</span>
-        <span class="dot"></span>
-        <span class="lbl"><span class="num">${String(l.n).padStart(2, '0')}</span><span class="ttl">${esc(l.titulo)}</span><span class="tag">${esc(capa(l.capas[0]).corto)}</span></span>
-      </button></li>`;
+var seleccion = null;
+var listaRuta = $('#ruta-lista');
+function pintarRuta() {
+  var aqui = indiceAqui(), abiertaAqui = LECCIONES[aqui].estado === 'abierta';
+  listaRuta.innerHTML = LECCIONES.map(function (l, i) {
+    var est = estadoDe(l), hueco = est === 'obra' || est === 'plan', actual = i === aqui;
+    var textoEstado = actual ? (abiertaAqui ? 'Estás aquí' : 'Próxima parada') : N.ESTADOS[est];
+    return '<li class="na-ruta__estacion" data-linea="' + l.linea + '" data-estado="' + est + '"' + (hueco ? ' data-tramo="hueco"' : '') + (actual ? ' data-actual' : '') + ' data-id="' + l.id + '">' +
+      '<button type="button" class="na-ruta__enlace" aria-pressed="false"' + (actual ? ' aria-current="step"' : '') + '>' +
+      '<span class="na-ruta__punto" aria-hidden="true"></span>' +
+      '<span class="na-ruta__textos"><span class="na-ruta__num"><span class="ruta-palabra">Estación </span>' + dos(l.n) + '</span>' +
+      '<span class="na-ruta__nombre">' + esc(l.titulo) + '</span>' +
+      '<span class="na-ruta__estado">' + textoEstado + '</span></span></button></li>';
   }).join('');
-  routeEl.querySelectorAll('.st button').forEach(b => b.addEventListener('click', () => select(b.parentElement.dataset.id, true)));
+  marcarSeleccion();
 }
-function centerOf(i) {
-  const dot = routeEl.children[i] && routeEl.children[i].querySelector('.dot');
-  if (!dot) return { x: 0, y: 0 };
-  const r = dot.getBoundingClientRect(), b = boxEl.getBoundingClientRect();
-  return { x: r.left - b.left + r.width / 2, y: r.top - b.top + r.height / 2 };
+function marcarSeleccion() {
+  var id = seleccion || LECCIONES[indiceAqui()].id;
+  var items = listaRuta.querySelectorAll('.na-ruta__estacion');
+  for (var i = 0; i < items.length; i++) items[i].querySelector('button').setAttribute('aria-pressed', String(items[i].getAttribute('data-id') === id));
 }
-function layoutRoute(mode) {
-  const n = LECCIONES.length, c0 = centerOf(0), cN = centerOf(n - 1);
-  const vertical = Math.abs(cN.y - c0.y) > Math.abs(cN.x - c0.x);
-  let lastOpen = -1; LECCIONES.forEach((l, i) => { if (l.estado === 'abierta') lastOpen = i; });
-  const cS = centerOf(Math.max(0, lastOpen));
-  trackEl.classList.toggle('v', vertical);
-  if (vertical) {
-    Object.assign(trackEl.style, { left: (c0.x - 4) + 'px', top: c0.y + 'px', width: '8px', height: (cN.y - c0.y) + 'px' });
-    Object.assign(solidEl.style, { width: '8px', height: Math.max(0, cS.y - c0.y) + 'px' });
-  } else {
-    Object.assign(trackEl.style, { left: c0.x + 'px', top: (c0.y - 4) + 'px', width: (cN.x - c0.x) + 'px', height: '8px' });
-    Object.assign(solidEl.style, { height: '8px', width: Math.max(0, cS.x - c0.x) + 'px' });
-  }
-  const h = hereIndex(), ch = centerOf(Math.max(0, h));
-  if (mode === 'start' && !REDUCED) {
-    trainEl.classList.remove('go');
-    Object.assign(trainEl.style, { left: c0.x + 'px', top: c0.y + 'px' });
-  } else if (mode === 'animate' && !REDUCED) {
-    trainEl.classList.add('go');
-    Object.assign(trainEl.style, { left: ch.x + 'px', top: ch.y + 'px' });
-  } else {
-    trainEl.classList.remove('go');
-    Object.assign(trainEl.style, { left: ch.x + 'px', top: ch.y + 'px' });
-  }
-}
+listaRuta.addEventListener('click', function (ev) {
+  var b = ev.target.closest('button');
+  if (b) elegir(b.parentNode.getAttribute('data-id'));
+});
 
-/* ---------- ficha de estación ---------- */
-const cardEl = $('#station-card');
-function renderCard() {
-  const l = LECCIONES.find(x => x.id === selected) || LECCIONES[Math.max(0, hereIndex())];
-  const vs = viewState(l);
-  const capasTxt = l.capas.map(c => capa(c).nombre).join(' · ');
-  let actions = '';
+/* ---------- ficha de la estación elegida ---------- */
+var parada = $('#parada');
+function textoAccion(l) { return terminada(l) ? 'Volver a verla' : empezada(l) ? 'Continuar' : 'Abrir la lección'; }
+function pintarParada() {
+  var l = leccion(seleccion) || LECCIONES[indiceAqui()];
+  var ln = N.linea(l.linea), est = estadoDe(l);
+  var meta = 'Estación ' + dos(l.n) + ' · Línea ' + ln.letra + ' · ' + ln.nombre + (l.dur ? ' · ' + l.dur + ' · ' + l.caps + ' capítulos' : '');
+  var acciones;
   if (l.estado === 'abierta') {
-    actions = `<div class="sc-actions"><a class="btn primary" href="${l.url}">${done(l) ? 'Volver a verla' : started(l) ? 'Continuar' : 'Abrir lección'} →</a>
-      <button type="button" class="btn" data-toggle="${l.id}" aria-pressed="${done(l)}">${done(l) ? 'Terminada ✓' : 'Marcar como terminada'}</button></div>`;
+    acciones = '<div class="parada__acciones">' +
+      '<a class="na-boton na-boton--principal" href="' + l.url + '">' + textoAccion(l) + '<span class="na-flecha" aria-hidden="true"></span></a>' +
+      '<button type="button" class="na-boton na-boton--texto" data-marcar="' + l.id + '" aria-pressed="' + terminada(l) + '">' +
+      (terminada(l) ? N.icono('check') + 'Terminada' : 'Marcar como terminada') + '</button></div>';
   } else if (l.estado === 'obra') {
-    actions = '<p class="soon">En construcción: es la próxima parada de la ruta.</p>';
+    acciones = '<p class="parada__nota">' + N.estado('obra') + '<span>Es la próxima parada de la ruta.</span></p>';
   } else {
-    actions = '<p class="soon" style="color:var(--muted)">Planeada. Se abre cuando terminemos las estaciones anteriores.</p>';
+    acciones = '<p class="parada__nota">' + N.estado('plan') + '<span>Se abre cuando terminemos las estaciones anteriores.</span></p>';
   }
-  cardEl.innerHTML = `<div class="sc-main">
-      <div class="sc-meta"><span class="eyebrow">Estación ${String(l.n).padStart(2, '0')} · ${esc(capasTxt)}</span><span class="state ${vs}">${STATE_TXT[vs]}</span>${l.dur ? `<span class="eyebrow">${l.dur} · ${l.caps} capítulos</span>` : ''}</div>
-      <h3>${esc(l.largo || l.titulo)}</h3>
-      <p>${esc(l.resumen)}</p>
-      ${actions}
-    </div>
-    <div class="sc-side"><h4>Vas a aprender</h4><ul>${l.aprendes.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>`;
-  cardEl.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => toggleDone(b.dataset.toggle)));
+  parada.setAttribute('data-linea', l.linea);
+  parada.innerHTML = '<div class="parada__principal">' +
+      '<p class="parada__meta">' + N.placa(l.id, { tamano: 20 }) + '<span>' + meta + '</span></p>' +
+      '<h3 class="parada__nombre">' + esc(l.titulo) + '</h3>' +
+      (l.largo ? '<p class="parada__largo">' + esc(l.largo) + '</p>' : '') +
+      '<p class="parada__resumen">' + esc(l.resumen) + '</p>' +
+    '</div>' +
+    '<div class="parada__lado">' +
+      '<p class="parada__titulo-lista">Vas a aprender</p>' +
+      '<ul class="na-ficha__lista">' + l.aprendes.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>' +
+      acciones +
+    '</div>';
 }
-function select(id, fromUser) {
-  selected = id;
-  renderRoute(); renderCard(); layoutRoute('static');
-  if (fromUser) {
-    const b = routeEl.querySelector(`[data-id="${id}"] button`);
+parada.addEventListener('click', function (ev) {
+  var b = ev.target.closest('[data-marcar]');
+  if (b) { marcar(b.getAttribute('data-marcar')); var nb = parada.querySelector('[data-marcar]'); if (nb) nb.focus(); }
+});
+function elegir(id, desplazar) {
+  seleccion = id;
+  marcarSeleccion();
+  pintarParada();
+  if (desplazar) {
+    $('#ruta').scrollIntoView({ behavior: REDUCIDO ? 'auto' : 'smooth', block: 'start' });
+    var b = listaRuta.querySelector('[data-id="' + id + '"] button');
     if (b) b.focus({ preventScroll: true });
   }
 }
 
-/* ---------- mapa del sistema ---------- */
-function renderLayers() {
-  $('#layers').innerHTML = CAPAS.map(c => {
-    const ls = LECCIONES.filter(l => l.capas.includes(c.id));
-    const chips = ls.map(l => `<button type="button" class="chip ${viewState(l)}" data-go="${l.id}"><span class="n">${String(l.n).padStart(2, '0')}</span>${esc(l.titulo)}${done(l) ? ' ✓' : ''}</button>`).join('');
-    const open = ls.some(l => l.estado === 'abierta');
-    return `<li class="layer${open ? ' has-open' : ''}"><div class="ly-name"><b>${esc(c.nombre)}</b><span>${esc(c.desc)}</span></div>
-      <div class="chips">${chips}${c.nota ? `<span class="ly-note">${esc(c.nota)}</span>` : ''}</div></li>`;
+/* ---------- las cuatro líneas ---------- */
+function pintarLineas() {
+  $('#lineas').innerHTML = LINEAS.map(function (x) {
+    var ln = N.linea(x.id);
+    var est = LECCIONES.filter(function (l) { return l.linea === x.id; });
+    return '<li class="linea" data-linea="' + x.id + '">' +
+      '<p class="linea__nombre"><span class="linea__cuadro" aria-hidden="true"></span>' + ln.letra + ' · ' + esc(ln.nombre) + '</p>' +
+      '<p class="linea__capas">' + esc(x.texto) + '</p>' +
+      '<p class="linea__estaciones"><span>' + (est.length > 1 ? 'Estaciones' : 'Estación') + '</span> ' +
+        est.map(function (l) { return '<button type="button" data-ir="' + l.id + '" aria-label="Ver la estación ' + dos(l.n) + ', ' + esc(l.titulo) + '">' + dos(l.n) + '</button>'; }).join('<span aria-hidden="true">·</span>') +
+      '</p></li>';
   }).join('');
-  document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
-    select(b.dataset.go, false);
-    $('#ruta').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
-  }));
 }
+$('#lineas').addEventListener('click', function (ev) {
+  var b = ev.target.closest('[data-ir]');
+  if (b) elegir(b.getAttribute('data-ir'), true);
+});
 
 /* ---------- lecciones abiertas ---------- */
-function renderLessons() {
-  $('#lessons').innerHTML = ABIERTAS.map(l => `<article class="lesson">
-      <a class="thumb" href="${l.url}" tabindex="-1" aria-hidden="true"><img src="${l.img}" alt="" width="1200" height="630" loading="lazy">
-        ${done(l) ? '<span class="badge done">Terminada ✓</span>' : started(l) ? '<span class="badge">En curso</span>' : ''}</a>
-      <div class="l-body">
-        <div class="l-meta"><span>Lección ${l.n} · ${esc(l.capas.map(c => capa(c).corto).join(' · '))}</span><span>${l.dur} · ${l.caps} capítulos</span></div>
-        <h3><a href="${l.url}">${esc(l.largo)}</a></h3>
-        <p>${esc(l.resumen)}</p>
-        <div class="l-actions"><a class="btn primary" href="${l.url}">${done(l) ? 'Volver a verla' : started(l) ? 'Continuar' : 'Ver lección'} →</a>
-          <button type="button" class="btn" data-toggle="${l.id}" aria-pressed="${done(l)}">${done(l) ? 'Terminada ✓' : 'Marcar como terminada'}</button></div>
-      </div></article>`).join('');
-  document.querySelectorAll('#lessons [data-toggle]').forEach(b => b.addEventListener('click', () => toggleDone(b.dataset.toggle)));
+function pintarLecciones() {
+  var aqui = LECCIONES[indiceAqui()];
+  var orden = ABIERTAS.slice().sort(function (a, b) { return (b === aqui) - (a === aqui) || a.n - b.n; });
+  $('#lista-lecciones').innerHTML = orden.map(function (l) {
+    var ln = N.linea(l.linea), est = estadoDe(l), esAqui = l === aqui;
+    return '<article class="na-ficha' + (esAqui ? ' es-destacada' : '') + '" data-linea="' + l.linea + '" data-leccion="' + l.id + '">' +
+      '<p class="na-ficha__cabecera">' + N.placa(l.id) + '<span class="na-ficha__num">Estación ' + dos(l.n) + ' · Línea ' + ln.letra + '</span></p>' +
+      '<h3 class="na-ficha__nombre"><a href="' + l.url + '">' + esc(l.titulo) + '</a></h3>' +
+      '<p class="na-ficha__resumen">' + esc(l.resumen) + '</p>' +
+      '<ul class="na-ficha__lista">' + l.aprendes.map(function (a) { return '<li>' + esc(a) + '</li>'; }).join('') + '</ul>' +
+      '<p class="na-ficha__meta">' + N.estado(esAqui ? 'actual' : est) + '<span>' + l.dur + ' · ' + l.caps + ' capítulos</span></p>' +
+      '<a class="na-ficha__accion" href="' + l.url + '">' + textoAccion(l) + '<span class="na-flecha" aria-hidden="true"></span></a>' +
+    '</article>';
+  }).join('');
 }
 
 /* ---------- héroe ---------- */
-function renderHero() {
-  const nDone = ABIERTAS.filter(done).length, nOpen = ABIERTAS.length, nNext = LECCIONES.length - nOpen;
-  const cta = $('#cta');
-  const enCurso = ABIERTAS.find(l => started(l) && !done(l));
-  const sig = ABIERTAS.find(l => !done(l));
-  if (enCurso) { cta.textContent = `Continuar: ${enCurso.titulo} →`; cta.href = enCurso.url; }
-  else if (sig) { cta.textContent = `${nDone ? 'Sigue con' : 'Empezar'}: ${sig.titulo} →`; cta.href = sig.url; }
-  else { const nx = LECCIONES.find(l => l.estado !== 'abierta'); cta.textContent = `Próxima parada: ${nx.titulo} →`; cta.href = '#ruta'; cta.onclick = () => select(nx.id, false); }
-  $('#progress-line').innerHTML = `${nOpen} lecciones abiertas · ${nNext} en camino · llevas <b>${nDone} de ${nOpen}</b>`;
+function pintarHeroe() {
+  var hechas = ABIERTAS.filter(terminada).length, abiertas = ABIERTAS.length, faltan = LECCIONES.length - abiertas;
+  var cta = $('#cta'), texto = $('#cta-texto');
+  var enCurso = ABIERTAS.filter(function (l) { return empezada(l) && !terminada(l); })[0];
+  var siguiente = ABIERTAS.filter(function (l) { return !terminada(l); })[0];
+  cta.onclick = null;
+  if (enCurso) { texto.textContent = 'Continuar: ' + enCurso.titulo; cta.href = enCurso.url; }
+  else if (siguiente) { texto.textContent = (hechas ? 'Sigue con: ' : 'Empezar: ') + siguiente.titulo; cta.href = siguiente.url; }
+  else {
+    var prox = LECCIONES.filter(function (l) { return l.estado !== 'abierta'; })[0];
+    texto.textContent = 'Próxima parada: ' + prox.titulo; cta.href = '#ruta';
+    cta.onclick = function () { elegir(prox.id, false); };
+  }
+  $('#progreso').innerHTML = '<span class="junto">' + abiertas + ' lecciones abiertas</span> · <span class="junto">' + faltan + ' en camino</span> · <span class="junto">llevas <b>' + hechas + ' de ' + abiertas + '</b></span>';
 }
 
-function renderAll(mode) {
-  prog = load();
-  renderHero(); renderRoute(); renderCard(); renderLayers(); renderLessons();
-  layoutRoute(mode);
-}
-/* el tren sale de la estación 1 y se detiene en «Estás aquí» */
-function rideTrain() {
-  layoutRoute('start');
-  requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(() => layoutRoute('animate'), 250)));
+function pintarTodo() {
+  prog = cargar();
+  pintarHeroe(); pintarRuta(); pintarParada(); pintarLecciones();
 }
 
-/* borrar progreso en dos toques */
-const resetBtn = $('#reset'); let armed = 0;
-resetBtn.addEventListener('click', () => {
-  if (!armed) { resetBtn.textContent = '¿Seguro? Toca otra vez para borrar'; armed = setTimeout(() => { armed = 0; resetBtn.textContent = 'Borrar mi progreso'; }, 4000); return; }
-  clearTimeout(armed); armed = 0;
+/* borrar el progreso en dos toques */
+var borrar = $('#borrar'), armado = 0;
+borrar.addEventListener('click', function () {
+  if (!armado) {
+    borrar.textContent = '¿Seguro? Toca otra vez para borrar';
+    armado = setTimeout(function () { armado = 0; borrar.textContent = 'Borrar mi progreso'; }, 4000);
+    return;
+  }
+  clearTimeout(armado); armado = 0;
   try { localStorage.removeItem(KEY); } catch (e) {}
-  resetBtn.textContent = 'Progreso borrado';
-  setTimeout(() => { resetBtn.textContent = 'Borrar mi progreso'; }, 2500);
-  renderAll('start'); rideTrain();
+  borrar.textContent = 'Progreso borrado';
+  setTimeout(function () { borrar.textContent = 'Borrar mi progreso'; }, 2500);
+  seleccion = null;
+  pintarTodo();
 });
 
-let rt = 0;
-window.addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => layoutRoute('static')); });
-window.addEventListener('storage', e => { if (e.key === KEY) renderAll('static'); });
-window.addEventListener('pageshow', e => { if (e.persisted) renderAll('static'); });
-renderAll('start');
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(rideTrain); else rideTrain();
-window.naHub = { select, renderAll };
+window.addEventListener('storage', function (ev) { if (ev.key === KEY) pintarTodo(); });
+window.addEventListener('pageshow', function (ev) { if (ev.persisted) pintarTodo(); });
+pintarLineas();
+pintarTodo();
+window.naPortada = { elegir: elegir, pintarTodo: pintarTodo, estadoDe: function (id) { return estadoDe(leccion(id)); } };
 })();
 </script>
 </body>
