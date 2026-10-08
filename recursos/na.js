@@ -199,7 +199,7 @@
     return el;
   }
 
-  /* Lista de capítulos como estaciones: los vistos se llenan, el actual lleva el halo amarillo. */
+  /* Lista de capítulos como estaciones: los vistos se llenan y el actual lleva el halo del color de su línea. */
   function capitulos(el, o) {
     o = o || {};
     var lista = o.capitulos || [];
