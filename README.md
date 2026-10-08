@@ -1,20 +1,19 @@
-# Cómo piensa una neurona artificial
+# Neurona Artificial · mini curso de IA
 
-Video interactivo de 4 minutos que sigue una decisión cotidiana, **¿vamos por tacos esta noche?**, mientras pasa por una neurona artificial: entradas, pesos, suma, sesgo, activación y aprendizaje.
+Lecciones interactivas en español para entender la IA por dentro: cada una es un video animado con capítulos y subtítulos, más un laboratorio para experimentar. El hilo conductor es una decisión cotidiana: **¿vamos por tacos esta noche?**
 
 **Ver en línea:** https://jose2501106-ia.github.io/NeuronaArtificial/
 
+## Lecciones
+
+| # | Lección | Duración | Qué aprendes | Enlace |
+|---|---------|----------|--------------|--------|
+| 1 | **Cómo piensa una neurona artificial** | 4:06 | Entradas, pesos, suma, sesgo, activación, aprendizaje y el límite de una sola neurona. | [Abrir](https://jose2501106-ia.github.io/NeuronaArtificial/) |
+| 2 | **Cómo actúa un agente de IA** | 6:21 | De predecir a actuar: modelo, herramientas, el ciclo pensar-actuar-observar, contexto y memoria, permisos e inyección de instrucciones. | [Abrir](https://jose2501106-ia.github.io/NeuronaArtificial/agentes/) |
+
 ![Neurona artificial decidiendo si ir por tacos](preview.png)
 
-## Qué incluye
-
-- **Video animado** con controles de reproductor: pausa, línea de tiempo, velocidad, capítulos y pantalla completa.
-- **Subtítulos y transcripción**: cada frase de la transcripción lleva a ese momento del video.
-- **Narración por voz** opcional, si tu navegador tiene una voz en español.
-- **Laboratorio** para mover entradas, pesos, sesgo y función de activación, ver la cuenta paso a paso, entrenar la neurona y explorar el mapa de decisión.
-- **Tema claro y oscuro**: en claro la neurona se ve como una tinción de Golgi; en oscuro, como fluorescencia.
-
-## Capítulos
+### Lección 1 · La neurona
 
 | # | Inicio | Capítulo |
 |---|--------|----------|
@@ -28,22 +27,48 @@ Video interactivo de 4 minutos que sigue una decisión cotidiana, **¿vamos por 
 | 8 | 3:07 | El límite de una neurona |
 | 9 | 3:36 | De una neurona a una red |
 
-Atajos de teclado: `Espacio` reproducir o pausar · `←` `→` 5 segundos · `C` subtítulos · `V` voz · `F` pantalla completa · `N` siguiente capítulo.
+**Laboratorio:** mueve entradas, pesos y sesgo, cambia la función de activación, entrena la neurona y explora el mapa de decisión.
+
+### Lección 2 · El agente
+
+![Ciclo de un agente de IA: contexto, modelo, arnés y herramientas](agentes/preview.png)
+
+| # | Inicio | Capítulo |
+|---|--------|----------|
+| 1 | 0:00 | Del modelo al agente |
+| 2 | 0:34 | El encargo |
+| 3 | 1:06 | Las herramientas |
+| 4 | 1:48 | El ciclo del agente |
+| 5 | 2:34 | Cómo decide |
+| 6 | 3:16 | Cuando algo falla |
+| 7 | 3:52 | Contexto y memoria |
+| 8 | 4:37 | Límites y permisos |
+| 9 | 5:26 | Misión cumplida |
+
+**Depurador:** maneja al agente paso a paso. Ves qué decide el modelo (con sus probabilidades), el JSON de cada llamada y resultado, la línea del ciclo en código que se está ejecutando y cómo crece el contexto. Tú apruebas o rechazas las reservas y los mensajes. Incluye tres escenarios (noche normal, todo lleno y una reseña con instrucciones escondidas), modo autónomo, límite de vueltas y compactación del contexto. Al final hay un glosario con los términos que usan los ingenieros.
+
+## Cómo se usa
+
+- Reproductor: pausa, línea de tiempo, velocidad, capítulos, pantalla completa y narración por voz opcional si tu navegador tiene una voz en español.
+- Atajos de teclado: `Espacio` reproducir o pausar · `←` `→` 5 segundos · `C` subtítulos · `V` voz · `F` pantalla completa · `N` siguiente capítulo.
+- Tema claro y oscuro: la página sigue la configuración de tu dispositivo.
 
 ## Archivos
 
 | Archivo | Para qué sirve |
 |---------|----------------|
-| `index.html` | Toda la página en un solo archivo: estilos, animación y laboratorio. No necesita compilarse. |
-| `preview.png` | Imagen de 1200 × 630 que aparece al compartir el enlace (WhatsApp, redes). |
+| `index.html` | Lección 1 completa en un solo archivo: estilos, animación y laboratorio. |
+| `preview.png` | Imagen de 1200 × 630 que aparece al compartir la lección 1. |
+| `agentes/index.html` | Lección 2 completa en un solo archivo: video, depurador y glosario. |
+| `agentes/preview.png` | Imagen para compartir la lección 2. |
 | `.nojekyll` | Le dice a GitHub Pages que publique los archivos tal cual. |
+
+No hay nada que compilar: cada lección es un HTML autocontenido que solo carga tipografías de Google Fonts.
 
 ## Cómo se publica
 
-GitHub Pages sirve el sitio desde la rama `main`, carpeta raíz (Settings → Pages → Deploy from a branch → `main` / `/ (root)`).
+GitHub Pages sirve el sitio desde la rama `main`, carpeta raíz (Settings → Pages → Deploy from a branch → `main` / `/ (root)`). Cada commit en `main` se publica solo en uno o dos minutos.
 
-Para actualizarlo, edita `index.html` y haz commit en `main`. La página se actualiza sola en uno o dos minutos.
+## Notas
 
-## Nota
-
-Los valores del ejemplo (hambre 0.8, amigos 0.6, lluvia 0.2, pesos y sesgo) son inventados para explicar la mecánica. La neurona del video usa la función sigmoide y aprende con la regla Δw = η · error · x, que es el descenso por gradiente sobre la pérdida logística. Las redes reales repiten esta misma pieza a gran escala.
+Los ejemplos son inventados para explicar la mecánica: los valores de la neurona, los lugares, las reseñas, los horarios, los tokens y las probabilidades no son reales. En la lección 2, un modelo real elige token por token; ahí se agrupan esas probabilidades por acción para que se vean. Los JSON siguen la forma de los bloques `tool_use` y `tool_result` de la API de Claude, simplificados.

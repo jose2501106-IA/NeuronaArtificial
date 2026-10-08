@@ -63,7 +63,7 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-inline:16px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1100px;margin:0 auto;padding-block:28px 72px;display:grid;gap:28px}
+.wrap{max-width:1100px;margin:0 auto;padding-block:20px 72px;display:grid;gap:28px}
 h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.08;letter-spacing:-.01em}
 p{margin:0}
 .eyebrow{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -188,6 +188,21 @@ details.transcript summary{cursor:pointer;padding:12px 0;font-weight:600}
 .learn-log{font-family:var(--font-mono);font-size:.82rem;color:var(--muted);min-height:1.4em}
 .map-box svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
 footer.note{font-size:.84rem;color:var(--muted);max-width:70ch}
+/* ---------- Navegación del curso ---------- */
+.course{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:.88rem}
+.course .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.course ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.course a{display:inline-flex;align-items:center;gap:.45em;padding:.32em .8em;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:500}
+.course a:hover{border-color:var(--muted)}
+.course a .n{font-family:var(--font-mono);font-size:.8em;color:var(--muted)}
+.course a[aria-current="page"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.course a[aria-current="page"] .n{color:inherit;opacity:.7}
+.course a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.next-lesson{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px}
+.next-lesson .t{display:grid;gap:4px}
+.next-lesson .t b{font-family:var(--font-display);font-size:1.3rem;font-weight:800}
+.next-lesson .t span{color:var(--muted);font-size:.94rem}
+
 @media (prefers-reduced-motion: reduce){ .tl-tip{transition:none} }
 </style>
 </head>
@@ -206,6 +221,14 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:70ch}
 </svg>
 
 <main class="wrap">
+  <nav class="course" aria-label="Lecciones del curso">
+    <span class="lbl">Lecciones</span>
+    <ol>
+      <li><a href="./" aria-current="page"><span class="n">1</span>La neurona</a></li>
+      <li><a href="agentes/"><span class="n">2</span>El agente</a></li>
+    </ol>
+  </nav>
+
   <header class="intro">
     <span class="eyebrow" id="eyebrow">Video interactivo · 9 capítulos</span>
     <h1>Cómo piensa una neurona artificial</h1>
@@ -233,6 +256,7 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:70ch}
           <div class="endcard-actions">
             <button class="btn btn-ghost" id="end-replay"><svg><use href="#i-replay"/></svg>Ver de nuevo</button>
             <a class="btn btn-primary" href="#laboratorio"><svg><use href="#i-down"/></svg>Ir al laboratorio</a>
+            <a class="btn btn-ghost" href="agentes/">Siguiente lección →</a>
           </div>
         </div>
       </div>
@@ -337,6 +361,11 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:70ch}
       </div>
     </div>
   </section>
+
+  <a class="next-lesson" href="agentes/" style="text-decoration:none;color:inherit">
+    <span class="t"><span class="eyebrow">Siguiente lección</span><b>Cómo actúa un agente de IA</b><span>De predecir a actuar: modelo, herramientas, ciclo, contexto y límites, con un depurador paso a paso.</span></span>
+    <span class="btn btn-primary">Ver lección 2 →</span>
+  </a>
 
   <footer class="note">Los valores del ejemplo son inventados para explicar la mecánica. La neurona del video usa sigmoide y aprende con descenso por gradiente sobre la pérdida logística; las redes reales repiten esta misma pieza a gran escala.</footer>
 </main>
@@ -1132,10 +1161,10 @@ const SCENES = [
       const bo = 1 - seg(lt, 16.4, 17.8);
       op(ST.bio, bo); op(ST.bioLabels, bo);
       op(ST.soma, seg(lt, 0, 0.8));
-      ST.dend.forEach((p, k) => { const u = seg(lt, 0.3 + k * 0.1, 1.5 + k * 0.1); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); });
-      const ua = seg(lt, 1.0, 2.4); at(ST.axon, 'stroke-dasharray', `${ST.axon._L.toFixed(1)} ${ST.axon._L.toFixed(1)}`); at(ST.axon, 'stroke-dashoffset', (ST.axon._L * (1 - ua)).toFixed(1));
+      ST.dend.forEach((p, k) => { const u = seg(lt, 0.3 + k * 0.1, 1.5 + k * 0.1); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); op(p, u > 0.005 ? 1 : 0); });
+      const ua = seg(lt, 1.0, 2.4); at(ST.axon, 'stroke-dasharray', `${ST.axon._L.toFixed(1)} ${ST.axon._L.toFixed(1)}`); at(ST.axon, 'stroke-dashoffset', (ST.axon._L * (1 - ua)).toFixed(1)); op(ST.axon, ua > 0.005 ? 1 : 0);
       ST.myelin.forEach((m, k) => op(m, seg(lt, 1.6 + k * 0.2, 2.0 + k * 0.2)));
-      ST.term.forEach(p => { const u = seg(lt, 2.2, 2.9); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); });
+      ST.term.forEach(p => { const u = seg(lt, 2.2, 2.9); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); op(p, u > 0.005 ? 1 : 0); });
       const fl = pulse(lt, 13.3, 14.9);
       ST.bulbs.forEach(b => { op(b, seg(lt, 2.7, 3.1)); at(b, 'r', (6 + 5 * fl).toFixed(2)); });
       op(ST.bLab.dend, seg(lt, 5.2, 6.0)); op(ST.bLab.soma, seg(lt, 7.4, 8.2)); op(ST.bLab.axon, seg(lt, 10.8, 11.6));
