@@ -1,19 +1,28 @@
-# Neurona Artificial · mini curso de IA
+# Neurona Artificial · aprende IA por dentro
 
-Lecciones interactivas en español para entender la IA por dentro: cada una es un video animado con capítulos y subtítulos, más un laboratorio para experimentar. El hilo conductor es una decisión cotidiana: **¿vamos por tacos esta noche?**
+Curso abierto en español para entender la IA por dentro: cada lección es un video animado con capítulos y subtítulos, más un laboratorio para experimentar. El hilo conductor es una decisión cotidiana: **¿vamos por tacos esta noche?**
 
-**Ver en línea:** https://jose2501106-ia.github.io/NeuronaArtificial/
+**Portada del curso:** https://jose2501106-ia.github.io/NeuronaArtificial/
+
+![Portada: la ruta de nueve estaciones](preview.png)
+
+## La portada
+
+- **La ruta:** nueve estaciones, de la neurona a la IA responsable, dibujadas como una línea de metro. Cada estación muestra si está terminada, abierta, en obra o planeada, y marca dónde vas.
+- **El mapa del sistema:** las nueve capas de un sistema de IA real y en cuál vive cada lección.
+- **Lecciones abiertas, método de estudio y recursos** para ir más lejos.
+- **Tu progreso** se guarda solo en tu navegador: una lección se marca como terminada al llegar al final del video, o con el botón «Marcar como terminada».
 
 ## Lecciones
 
 | # | Lección | Duración | Qué aprendes | Enlace |
 |---|---------|----------|--------------|--------|
-| 1 | **Cómo piensa una neurona artificial** | 4:06 | Entradas, pesos, suma, sesgo, activación, aprendizaje y el límite de una sola neurona. | [Abrir](https://jose2501106-ia.github.io/NeuronaArtificial/) |
+| 1 | **Cómo piensa una neurona artificial** | 4:06 | Entradas, pesos, suma, sesgo, activación, aprendizaje y el límite de una sola neurona. | [Abrir](https://jose2501106-ia.github.io/NeuronaArtificial/neurona/) |
 | 2 | **Cómo actúa un agente de IA** | 6:21 | De predecir a actuar: modelo, herramientas, el ciclo pensar-actuar-observar, contexto y memoria, permisos e inyección de instrucciones. | [Abrir](https://jose2501106-ia.github.io/NeuronaArtificial/agentes/) |
 
-![Neurona artificial decidiendo si ir por tacos](preview.png)
-
 ### Lección 1 · La neurona
+
+![Neurona artificial decidiendo si ir por tacos](neurona/preview.png)
 
 | # | Inicio | Capítulo |
 |---|--------|----------|
@@ -57,13 +66,15 @@ Lecciones interactivas en español para entender la IA por dentro: cada una es u
 
 | Archivo | Para qué sirve |
 |---------|----------------|
-| `index.html` | Lección 1 completa en un solo archivo: estilos, animación y laboratorio. |
-| `preview.png` | Imagen de 1200 × 630 que aparece al compartir la lección 1. |
+| `index.html` | Portada del curso: la ruta, el mapa del sistema, las lecciones y el método. |
+| `preview.png` | Imagen de 1200 × 630 que aparece al compartir la portada. |
+| `neurona/index.html` | Lección 1 completa en un solo archivo: estilos, animación y laboratorio. |
+| `neurona/preview.png` | Imagen para compartir la lección 1. |
 | `agentes/index.html` | Lección 2 completa en un solo archivo: video, depurador y glosario. |
 | `agentes/preview.png` | Imagen para compartir la lección 2. |
 | `.nojekyll` | Le dice a GitHub Pages que publique los archivos tal cual. |
 
-No hay nada que compilar: cada lección es un HTML autocontenido que solo carga tipografías de Google Fonts.
+No hay nada que compilar: cada página es un HTML autocontenido que solo carga tipografías de Google Fonts.
 
 ## Cómo se publica
 

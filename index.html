@@ -3,1753 +3,521 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Video interactivo de 4 minutos: sigue la decisión «¿vamos por tacos?» dentro de una neurona artificial y juega con sus pesos en el laboratorio.">
-<meta name="theme-color" content="#111316">
+<title>Neurona Artificial</title>
+<meta name="description" content="Curso abierto en español para entender la IA por dentro: videos interactivos con laboratorio, de una sola neurona a los agentes que deciden y actúan.">
+<meta name="theme-color" content="#121922">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="es_MX">
 <meta property="og:site_name" content="Neurona Artificial">
-<meta property="og:title" content="Cómo piensa una neurona artificial">
-<meta property="og:description" content="Video interactivo de 4 minutos: sigue la decisión «¿vamos por tacos?» dentro de una neurona y juega con sus pesos en el laboratorio.">
+<meta property="og:title" content="Neurona Artificial: aprende IA por dentro">
+<meta property="og:description" content="Videos interactivos con laboratorio, de una sola neurona a los agentes que deciden y actúan. Una ruta de nueve estaciones, en español.">
 <meta property="og:url" content="https://jose2501106-ia.github.io/NeuronaArtificial/">
 <meta property="og:image" content="https://jose2501106-ia.github.io/NeuronaArtificial/preview.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Diagrama de una neurona artificial que decide si ir por tacos: entradas, pesos, suma, activación y salida 0.73">
+<meta property="og:image:alt" content="La ruta del curso Neurona Artificial: nueve estaciones, de la neurona a la IA responsable">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23ecc46c'/%3E%3Cpath d='M9 17 L26 28 M7 32 H24 M9 47 L26 36 M42 32 H56' stroke='%231b1309' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='33' cy='32' r='10' fill='%231b1309'/%3E%3Ccircle cx='57' cy='32' r='4' fill='%231b1309'/%3E%3C/svg%3E">
-<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Cómo piensa una neurona artificial</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232f3ab0'/%3E%3Cpath d='M8 18 L25 29 M6 32 H23 M8 46 L25 35 M41 32 H56' stroke='%23ffffff' stroke-width='4.5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='10' fill='%23ffffff'/%3E%3Ccircle cx='57' cy='32' r='4' fill='%23ffffff'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
-/* Layout: una columna — encabezado, reproductor (escenario + subtítulos + controles), capítulos y transcripción; abajo el laboratorio en dos columnas.
-   Escenario: campo claro = tinción de Golgi (tinta sobre ámbar); campo oscuro = fluorescencia. */
+/* Layout: portada del curso. Encabezado; héroe; la ruta tipo línea de metro como protagonista (horizontal en escritorio,
+   vertical en teléfono) con la ficha de la estación elegida; el sistema por capas; lecciones abiertas; método y recursos; pie. */
 :root{
-  --bg:#edf0f1; --surface:#ffffff; --fg:#141a1f; --muted:#56616b; --line:#d3dade;
-  --accent:#e2a93b; --accent-ink:#1c1406; --focus:#2f2b8f;
-  --pos:#2f2b8f; --neg:#8f1733;
-  --scr-bg:#ecc46c; --scr-bg2:#cf9238; --scr-surround:#17110a; --scr-ink:#1b1309; --scr-muted:#5f4722;
-  --scr-wire:#8a6a35; --scr-pos:#2f2b8f; --scr-neg:#8f1733; --scr-sig:#fffaf0; --scr-sig-ring:#1b1309;
-  --scr-pill-ink:#fff7e6; --scr-panel:rgba(255,248,230,.58); --scr-panel-line:rgba(27,19,9,.32); --scr-grid:rgba(27,19,9,.10);
-  --scr-glow:0; --scr-fill:rgba(255,250,236,.72); --scr-solid:#f6e6bf;
-  --player:#111316; --player-2:#1b1e23; --player-fg:#f1ede4; --player-muted:#a6a39b; --player-line:#2b2f36;
+  --bg:#eef1f4; --surface:#ffffff; --fg:#121922; --muted:#56616d; --line:#d3dae2; --tint:#e5eaf0;
+  --route:#2f3ab0; --route-ink:#ffffff; --ok:#12705a; --ok-ink:#ffffff; --warn:#8a5800; --focus:#a63c12;
   --font-display:"Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-body:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --r-lg:18px; --r-md:12px; --r-sm:8px;
+  --r-lg:20px; --r-md:14px;
+  color-scheme:light;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0c0f12; --surface:#151a1f; --fg:#e8ecef; --muted:#9aa5ae; --line:#27313a;
-    --accent:#f2c14e; --accent-ink:#17110a; --focus:#8fd8ff; --pos:#3fd8c2; --neg:#ff7a52;
-    --scr-bg:#0b0f12; --scr-bg2:#040506; --scr-surround:#000000; --scr-ink:#f4e6c4; --scr-muted:#a3967a;
-    --scr-wire:#4a4f55; --scr-pos:#3fd8c2; --scr-neg:#ff7a52; --scr-sig:#fff1b8; --scr-sig-ring:#fff1b8;
-    --scr-pill-ink:#061012; --scr-panel:rgba(18,24,29,.82); --scr-panel-line:rgba(244,230,196,.22); --scr-grid:rgba(244,230,196,.06);
-    --scr-glow:1; --scr-fill:rgba(20,27,32,.9); --scr-solid:#141b20;
-    --player:#0f1215; --player-2:#181c21; --player-line:#262b31;
+    --bg:#0b0f14; --surface:#131920; --fg:#e7edf3; --muted:#98a4b1; --line:#2a3440; --tint:#1b232c;
+    --route:#8f9eff; --route-ink:#0b0f2a; --ok:#7fe3c6; --ok-ink:#06231c; --warn:#ffcf5a; --focus:#ffb38a;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0c0f12; --surface:#151a1f; --fg:#e8ecef; --muted:#9aa5ae; --line:#27313a;
-  --accent:#f2c14e; --accent-ink:#17110a; --focus:#8fd8ff; --pos:#3fd8c2; --neg:#ff7a52;
-  --scr-bg:#0b0f12; --scr-bg2:#040506; --scr-surround:#000000; --scr-ink:#f4e6c4; --scr-muted:#a3967a;
-  --scr-wire:#4a4f55; --scr-pos:#3fd8c2; --scr-neg:#ff7a52; --scr-sig:#fff1b8; --scr-sig-ring:#fff1b8;
-  --scr-pill-ink:#061012; --scr-panel:rgba(18,24,29,.82); --scr-panel-line:rgba(244,230,196,.22); --scr-grid:rgba(244,230,196,.06);
-  --scr-glow:1; --scr-fill:rgba(20,27,32,.9); --scr-solid:#141b20;
-  --player:#0f1215; --player-2:#181c21; --player-line:#262b31;
+  --bg:#0b0f14; --surface:#131920; --fg:#e7edf3; --muted:#98a4b1; --line:#2a3440; --tint:#1b232c;
+  --route:#8f9eff; --route-ink:#0b0f2a; --ok:#7fe3c6; --ok-ink:#06231c; --warn:#ffcf5a; --focus:#ffb38a;
   color-scheme:dark;
 }
 *,*::before,*::after{box-sizing:border-box}
-body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;padding-inline:16px;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1100px;margin:0 auto;padding-block:20px 72px;display:grid;gap:28px}
-h1,h2,h3{font-family:var(--font-display);text-wrap:balance;margin:0;line-height:1.08;letter-spacing:-.01em}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-inline:16px;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+img{max-width:100%;height:auto;display:block}
+[hidden]{display:none!important}
+h1,h2,h3,h4{font-family:var(--font-display);margin:0;line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
 p{margin:0}
-.eyebrow{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-header.intro{display:grid;gap:12px;max-width:760px}
-header.intro h1{font-size:clamp(2.1rem,5vw,3.6rem);font-weight:800}
-header.intro p.lede{color:var(--muted);font-size:1.06rem;max-width:62ch}
-kbd{font-family:var(--font-mono);font-size:.8em;border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:0 .35em;background:var(--surface)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.wrap{max-width:1120px;margin:0 auto;padding-block:18px 64px;display:grid;gap:64px}
+.eyebrow{font-family:var(--font-mono);font-size:.76rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 
-/* ---------- Reproductor ---------- */
-.player{background:var(--player);color:var(--player-fg);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--player-line);box-shadow:0 18px 50px -24px rgba(0,0,0,.45);outline:none}
-.player:focus-visible{box-shadow:0 0 0 3px var(--focus)}
-.stage-wrap{position:relative;aspect-ratio:16/9;max-width:100%;background:var(--scr-surround)}
-.stage-wrap > #stage{position:absolute;inset:0;width:100%;height:100%;display:block}
-#stage text{font-family:var(--font-body)}
-#stage .mono,#lab-svg .mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
-#stage .disp,#lab-svg .disp{font-family:var(--font-display)}
-.poster,.endcard{position:absolute;inset:0;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at 50% 50%,rgba(12,9,4,.62),rgba(12,9,4,.82))}
-.poster-inner,.endcard-inner{display:grid;justify-items:center;gap:14px;text-align:center}
-.poster h2{font-size:clamp(1.3rem,3.6vw,2.4rem);font-weight:800;color:#fff8ea;text-shadow:0 2px 18px rgba(0,0,0,.6)}
-.poster p,.endcard p{color:#f0e6d0;font-family:var(--font-mono);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 8px rgba(0,0,0,.6)}
-.poster-actions,.endcard-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
-.btn{appearance:none;border:0;border-radius:999px;padding:.72em 1.25em;font:600 .98rem/1 var(--font-body);cursor:pointer;display:inline-flex;align-items:center;gap:.55em;text-decoration:none}
-.btn svg{width:1.1em;height:1.1em}
-.btn-primary{background:var(--accent);color:var(--accent-ink)}
-.btn-primary:hover{filter:brightness(1.06)}
-.btn-ghost{background:rgba(255,248,234,.14);color:#fff8ea;box-shadow:inset 0 0 0 1px rgba(255,248,234,.35);backdrop-filter:blur(4px)}
-.btn-ghost:hover{background:rgba(255,248,234,.22)}
-.btn:focus-visible,.ctl:focus-visible,.chap:focus-visible,.seg-btn:focus-visible,.timeline:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.big-play{width:76px;height:76px;border-radius:50%;padding:0;justify-content:center;font-size:0}
-.big-play svg{width:30px;height:30px;margin-left:4px}
+/* encabezado */
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--font-display);font-weight:800;font-size:1.15rem}
+.brand svg{width:34px;height:34px;flex:none}
+.topnav{display:flex;flex-wrap:wrap;gap:4px}
+.topnav a{text-decoration:none;font-size:.92rem;font-weight:500;padding:.4em .75em;border-radius:999px;color:var(--muted)}
+.topnav a:hover{color:var(--fg);background:var(--tint)}
 
-.caption{min-height:4.4em;padding:12px 20px 10px;display:grid;place-items:center;text-align:center;font-size:clamp(.98rem,1.7vw,1.14rem);line-height:1.45;background:var(--player-2);border-top:1px solid var(--player-line)}
-.caption .cue{max-width:64ch;text-wrap:pretty}
-.caption .cue b{color:var(--accent);font-weight:600}
-.caption.off{display:none}
+/* héroe */
+.hero{display:grid;gap:18px;max-width:820px;padding-top:28px}
+.hero h1{font-size:clamp(2.7rem,7.4vw,5.6rem);font-weight:800;letter-spacing:-.025em}
+.hero h1 .period{color:var(--route)}
+.hero .lede{font-size:clamp(1.05rem,1.8vw,1.22rem);color:var(--muted);max-width:60ch}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding-top:4px}
+.btn{appearance:none;display:inline-flex;align-items:center;gap:.5em;border-radius:999px;padding:.78em 1.25em;font:600 .98rem/1.1 var(--font-body);text-decoration:none;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--fg)}
+.btn:hover{border-color:var(--muted)}
+.btn.primary{background:var(--route);color:var(--route-ink);border-color:transparent}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn[aria-pressed="true"]{background:var(--ok);color:var(--ok-ink);border-color:transparent}
+.progress-line{font-family:var(--font-mono);font-size:.84rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.progress-line b{color:var(--fg);font-weight:600}
 
-.controls{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:10px 14px 12px;border-top:1px solid var(--player-line)}
-.ctl{appearance:none;background:transparent;border:0;color:var(--player-fg);width:40px;height:40px;border-radius:10px;display:grid;place-items:center;cursor:pointer;flex:none}
-.ctl:hover{background:rgba(255,255,255,.08)}
-.ctl svg{width:22px;height:22px}
-.ctl[aria-pressed="true"]{background:rgba(242,193,78,.18);color:var(--accent)}
-.ctl[disabled]{opacity:.35;cursor:not-allowed}
-.time{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.86rem;color:var(--player-muted);white-space:nowrap;min-width:92px;text-align:center}
-.speed{appearance:none;background:var(--player-2);color:var(--player-fg);border:1px solid var(--player-line);border-radius:9px;font:500 .85rem var(--font-mono);padding:.45em .6em;cursor:pointer}
-.timeline{position:relative;flex:1 1 220px;height:34px;cursor:pointer;touch-action:none;min-width:0}
-.tl-segs{position:absolute;left:0;right:0;top:50%;height:6px;transform:translateY(-50%);display:flex;gap:3px}
-.tl-seg{position:relative;height:100%;background:rgba(255,255,255,.16);border-radius:3px;overflow:hidden}
-.tl-seg i{position:absolute;inset:0;width:0;background:var(--accent);border-radius:3px}
-.timeline:hover .tl-segs{height:9px}
-.tl-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:#fff8ea;transform:translate(-50%,-50%);box-shadow:0 0 0 3px rgba(242,193,78,.45);pointer-events:none}
-.tl-tip{position:absolute;bottom:34px;transform:translateX(-50%);background:#000;color:#fff;font:500 .78rem var(--font-body);padding:.35em .6em;border-radius:6px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s}
-.timeline:hover .tl-tip{opacity:1}
-.ctl-group{display:flex;align-items:center;gap:4px}
-.spacer{flex:1 1 0}
-.rotate-hint{display:none;font-size:.85rem;color:var(--muted);text-align:center;margin-top:-16px}
-@media (max-width:640px){
-  .controls{padding:8px 8px 10px}
-  .timeline{order:-1;flex-basis:100%}
-  .time{min-width:0;font-size:.8rem}
-  .ctl{width:36px;height:36px}
-  .caption{min-height:6.2em;padding:10px 14px}
+/* encabezados de sección */
+.sec-head{display:grid;gap:8px;max-width:760px}
+.sec-head h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:800}
+.sec-head p{color:var(--muted);max-width:64ch}
+section{display:grid;gap:22px}
+
+/* la ruta */
+.map{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px;display:grid;gap:18px;
+  background-image:radial-gradient(circle,var(--line) 1px,transparent 1.3px);background-size:22px 22px;background-position:11px 11px}
+.map-top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 18px}
+.line-pill{display:inline-flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 14px 4px 4px;font-weight:600}
+.line-pill b{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--route);color:var(--route-ink);font-family:var(--font-display);font-weight:800}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.84rem;color:var(--muted);background:var(--surface);border-radius:999px;padding:4px 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:50%;background:var(--surface);border:3px solid var(--route)}
+.legend i.done{background:var(--ok);border-color:var(--ok)}
+.legend i.obra{border:2.5px dashed var(--warn)}
+.legend i.plan{border:2.5px solid var(--line)}
+.route-box{position:relative;overflow:visible}
+.route{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(9,minmax(0,1fr));position:relative;z-index:1}
+.track{position:absolute;z-index:0;border-radius:5px;background:repeating-linear-gradient(90deg,var(--line) 0 12px,transparent 12px 20px)}
+.track.v{background:repeating-linear-gradient(180deg,var(--line) 0 12px,transparent 12px 20px)}
+.track .solid{position:absolute;left:0;top:0;border-radius:5px;background:var(--route)}
+.train{position:absolute;z-index:3;width:22px;height:22px;border-radius:50%;background:var(--route);box-shadow:0 0 0 4px var(--surface),0 0 0 6px var(--route);transform:translate(-50%,-50%);pointer-events:none}
+.train.go{transition:left 1.4s cubic-bezier(.65,0,.35,1),top 1.4s cubic-bezier(.65,0,.35,1)}
+.st{display:flex;min-width:0}
+.st button{appearance:none;background:none;border:0;color:inherit;font:inherit;cursor:pointer;width:100%;min-width:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:0 4px 10px;border-radius:14px}
+.st button:hover .ttl{text-decoration:underline;text-underline-offset:3px}
+.st.sel button{background:var(--tint)}
+.here{height:26px;display:inline-flex;align-items:center;padding:0 10px;border-radius:999px;background:var(--fg);color:var(--bg);font:600 .72rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;visibility:hidden}
+.st.is-here .here{visibility:visible}
+.dot{width:30px;height:30px;flex:none;border-radius:50%;background:var(--surface);border:5px solid var(--route);display:grid;place-items:center;position:relative;z-index:2}
+.st.done .dot{background:var(--ok);border-color:var(--ok)}
+.st.done .dot::after{content:"";width:9px;height:5px;border-left:2.5px solid var(--ok-ink);border-bottom:2.5px solid var(--ok-ink);transform:translateY(-1px) rotate(-45deg)}
+.st.obra .dot{border:3px dashed var(--warn)}
+.st.plan .dot{border:3px solid var(--line)}
+.num{font-family:var(--font-mono);font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.ttl{font-weight:600;font-size:.95rem;line-height:1.25;overflow-wrap:anywhere}
+.st.plan .ttl{color:var(--muted);font-weight:500}
+.tag{font-family:var(--font-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.state{font:600 .7rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;padding:.2em .6em;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.state.open{color:var(--route)} .state.done{color:var(--ok)} .state.obra{color:var(--warn)} .state.plan{color:var(--muted)}
+@media (max-width:860px){
+  .route{grid-template-columns:minmax(0,1fr)}
+  .st button{flex-direction:row;align-items:center;text-align:left;gap:14px;padding:10px 10px 10px 4px}
+  .st button .lbl{display:grid;gap:2px;min-width:0;flex:1}
+  .here{order:5;height:22px;padding:0 8px}
+  .st:not(.is-here) .here{display:none}
 }
-@media (max-width:640px) and (orientation:portrait){ .rotate-hint{display:block} }
-.player:fullscreen{display:flex;flex-direction:column;border-radius:0;width:100vw;height:100vh}
-.player:fullscreen .stage-wrap{flex:1;aspect-ratio:auto}
-.player:fullscreen #stage{object-fit:contain}
+@media (min-width:861px){ .st button .lbl{display:grid;gap:4px;justify-items:center} }
 
-/* ---------- Capítulos y transcripción ---------- */
-.below{display:grid;gap:14px}
-.section-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
-.section-head h2{font-size:1.5rem;font-weight:800}
-.chapters{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:10px}
-.chap{appearance:none;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;color:var(--fg);cursor:pointer;display:grid;gap:4px;font:inherit;min-width:0}
-.chap:hover{border-color:var(--muted)}
-.chap .n{font-family:var(--font-mono);font-size:.74rem;color:var(--muted);display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
-.chap .t{font-weight:600;line-height:1.25}
-.chap .bar{height:3px;border-radius:2px;background:var(--line);overflow:hidden;margin-top:6px}
-.chap .bar i{display:block;height:100%;width:0;background:var(--accent)}
-.chap[aria-current="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
-details.transcript{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:4px 16px}
-details.transcript summary{cursor:pointer;padding:12px 0;font-weight:600}
-.tr-list{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:2px;max-height:420px;overflow:auto}
-.tr-list li button{appearance:none;background:none;border:0;text-align:left;width:100%;display:grid;grid-template-columns:52px 1fr;gap:10px;padding:7px 8px;border-radius:8px;color:var(--fg);font:inherit;cursor:pointer}
-.tr-list li button:hover{background:var(--bg)}
-.tr-list li button.now{background:color-mix(in srgb,var(--accent) 18%,transparent)}
-.tr-list .ts{font-family:var(--font-mono);font-size:.8rem;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
-.tr-list h4{grid-column:1/-1;margin:12px 8px 2px;font:600 .78rem var(--font-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.keys{font-size:.86rem;color:var(--muted)}
+/* ficha de estación */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:20px;display:grid;gap:12px}
+.station-card{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px 28px;align-items:start}
+@media (max-width:760px){ .station-card{grid-template-columns:minmax(0,1fr)} }
+.sc-main{display:grid;gap:10px;min-width:0}
+.sc-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+.sc-main h3{font-size:clamp(1.5rem,3vw,2rem);font-weight:800}
+.sc-main p{color:var(--muted);max-width:56ch}
+.sc-side{display:grid;gap:10px;min-width:0}
+.sc-side h4{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.sc-side ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.sc-side li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:8px}
+.sc-side li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--route);margin-top:.5em;justify-self:center}
+.sc-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:4px}
+.soon{font-size:.92rem;color:var(--warn);font-weight:500}
 
-/* ---------- Laboratorio ---------- */
-.lab{display:grid;gap:18px;padding-top:8px;border-top:1px solid var(--line)}
-.lab-intro{display:grid;gap:8px;max-width:760px;padding-top:20px}
-.lab-intro h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800}
-.lab-intro p{color:var(--muted);max-width:64ch}
-.lab-grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:18px;align-items:start}
-@media (max-width:880px){ .lab-grid{grid-template-columns:minmax(0,1fr)} .lab-visual{order:-1} }
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:grid;gap:14px;min-width:0;align-content:start}
-.panel h3{font-size:1.02rem;font-weight:800;font-family:var(--font-display)}
-.ctl-block{display:grid;gap:10px}
-.ctl-block+.ctl-block{padding-top:12px;border-top:1px solid var(--line)}
-.slider{display:grid;grid-template-columns:1fr auto;gap:2px 10px;align-items:center}
-.slider label{font-size:.92rem;font-weight:500;display:flex;gap:6px;align-items:baseline}
-.slider label .sym{font-family:var(--font-mono);font-size:.82rem;color:var(--muted)}
-.slider output{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:.92rem;font-weight:600;min-width:4.2ch;text-align:right}
-.slider input{grid-column:1/-1;width:100%;accent-color:var(--accent);margin:0;height:26px}
-.slider output.pos{color:var(--pos)} .slider output.neg{color:var(--neg)}
-.seg{display:flex;flex-wrap:wrap;gap:6px}
-.seg-btn{appearance:none;border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:.42em .85em;font:500 .86rem var(--font-body);cursor:pointer}
-.seg-btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.seg-btn:disabled{opacity:.45;cursor:not-allowed}
-.hint{font-size:.84rem;color:var(--muted)}
-.lab-visual{display:grid;gap:14px;min-width:0}
-.lab-screen{border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line);background:var(--scr-bg)}
-.lab-screen svg{display:block;width:100%;height:auto}
-.lab-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
-@media (max-width:560px){ .lab-row{grid-template-columns:minmax(0,1fr)} }
-.readout{font-family:var(--font-mono);font-size:.9rem;line-height:1.7;font-variant-numeric:tabular-nums;overflow-x:auto}
-.readout .row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding:3px 0}
-.readout .row span:first-child{color:var(--muted);font-family:var(--font-body)}
-.verdict{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:800;font-size:1.35rem}
-.verdict .pill{font:600 .78rem var(--font-mono);letter-spacing:.04em;padding:.3em .7em;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
-.learn-log{font-family:var(--font-mono);font-size:.82rem;color:var(--muted);min-height:1.4em}
-.map-box svg{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}
-footer.note{font-size:.84rem;color:var(--muted);max-width:70ch}
-/* ---------- Navegación del curso ---------- */
-.course{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:.88rem}
-.course .lbl{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
-.course ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
-.course a{display:inline-flex;align-items:center;gap:.45em;padding:.32em .8em;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:500}
-.course a:hover{border-color:var(--muted)}
-.course a .n{font-family:var(--font-mono);font-size:.8em;color:var(--muted)}
-.course a[aria-current="page"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
-.course a[aria-current="page"] .n{color:inherit;opacity:.7}
-.course a:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
-.next-lesson{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 20px}
-.next-lesson .t{display:grid;gap:4px}
-.next-lesson .t b{font-family:var(--font-display);font-size:1.3rem;font-weight:800}
-.next-lesson .t span{color:var(--muted);font-size:.94rem}
+/* sistema por capas */
+.layers{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.layer{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:8px 20px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 16px}
+@media (max-width:700px){ .layer{grid-template-columns:minmax(0,1fr)} }
+.layer.has-open{border-color:color-mix(in srgb,var(--route) 45%,var(--line))}
+.ly-name{display:grid;gap:2px}
+.ly-name b{font-family:var(--font-display);font-weight:800;font-size:1.05rem}
+.ly-name span{font-size:.88rem;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chip{appearance:none;display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:.38em .8em;font:500 .86rem var(--font-body);cursor:pointer;border:1px solid var(--line);background:var(--bg);color:var(--fg)}
+.chip .n{font-family:var(--font-mono);font-size:.76rem;color:var(--muted)}
+.chip.open{border-color:var(--route);color:var(--route)} .chip.open .n{color:inherit}
+.chip.done{background:var(--ok);border-color:var(--ok);color:var(--ok-ink)} .chip.done .n{color:inherit}
+.chip.obra{border-style:dashed;border-color:var(--warn);color:var(--warn)} .chip.obra .n{color:inherit}
+.chip.plan{color:var(--muted)}
+.ly-note{font-size:.86rem;color:var(--muted);font-style:italic}
 
-@media (prefers-reduced-motion: reduce){ .tl-tip{transition:none} }
+/* lecciones */
+.lessons{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-rows:auto 1fr}
+.thumb{position:relative;display:block;aspect-ratio:1200/630;max-width:100%;background:var(--tint);overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .badge{position:absolute;left:12px;top:12px;font:600 .74rem var(--font-mono);letter-spacing:.04em;text-transform:uppercase;padding:.35em .75em;border-radius:999px;background:var(--fg);color:var(--bg)}
+.thumb .badge.done{background:var(--ok);color:var(--ok-ink)}
+.l-body{padding:18px 20px 20px;display:grid;gap:10px;align-content:start}
+.l-meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px;font-family:var(--font-mono);font-size:.78rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.l-body h3{font-size:1.45rem;font-weight:800}
+.l-body h3 a{text-decoration:none}
+.l-body h3 a:hover{text-decoration:underline;text-underline-offset:4px}
+.l-body p{color:var(--muted)}
+.l-actions{display:flex;flex-wrap:wrap;gap:8px;padding-top:6px}
+
+/* método */
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:16px;display:grid;gap:6px;align-content:start}
+.step .k{font-family:var(--font-mono);font-size:.78rem;color:var(--route);font-weight:600}
+.step b{font-family:var(--font-display);font-size:1.25rem;font-weight:800}
+.step span{font-size:.92rem;color:var(--muted)}
+.step .who{font-family:var(--font-mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.res{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:10px}
+.res li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;display:grid;gap:4px}
+.res a{font-weight:600;text-underline-offset:3px}
+.res span{font-size:.9rem;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-top:22px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:.88rem;color:var(--muted)}
+footer button{appearance:none;background:none;border:0;padding:0;font:inherit;color:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 </style>
 </head>
 <body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12.5-7.5z" fill="currentColor"/></symbol>
-  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4.2" height="15" rx="1.2" fill="currentColor"/><rect x="13.8" y="4.5" width="4.2" height="15" rx="1.2" fill="currentColor"/></symbol>
-  <symbol id="i-prev" viewBox="0 0 24 24"><path d="M6 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M19 5.5v13L9 12z" fill="currentColor"/></symbol>
-  <symbol id="i-next" viewBox="0 0 24 24"><path d="M18 5v14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" fill="none"/><path d="M5 5.5v13L15 12z" fill="currentColor"/></symbol>
-  <symbol id="i-cc" viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10.5 10.2a2.4 2.4 0 1 0 0 3.6M17 10.2a2.4 2.4 0 1 0 0 3.6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
-  <symbol id="i-voice" viewBox="0 0 24 24"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.6 7.6 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
-  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M5 12a7 7 0 1 0 2.1-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M4.5 3.5v4.6h4.6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-</svg>
-
 <main class="wrap">
-  <nav class="course" aria-label="Lecciones del curso">
-    <span class="lbl">Lecciones</span>
-    <ol>
-      <li><a href="./" aria-current="page"><span class="n">1</span>La neurona</a></li>
-      <li><a href="agentes/"><span class="n">2</span>El agente</a></li>
-    </ol>
-  </nav>
-
-  <header class="intro">
-    <span class="eyebrow" id="eyebrow">Video interactivo · 9 capítulos</span>
-    <h1>Cómo piensa una neurona artificial</h1>
-    <p class="lede">Sigue una decisión cotidiana, <em>¿vamos por tacos esta noche?</em>, mientras pasa por una neurona: entradas, pesos, suma, sesgo, activación y aprendizaje. Pausa, adelanta o salta de capítulo cuando quieras.</p>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Neurona Artificial, inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="var(--route)"/><path d="M8 18 L25 29 M6 32 H23 M8 46 L25 35 M41 32 H56" stroke="var(--route-ink)" stroke-width="4.5" stroke-linecap="round"/><circle cx="32" cy="32" r="10" fill="var(--route-ink)"/><circle cx="57" cy="32" r="4" fill="var(--route-ink)"/></svg>
+      <span>Neurona Artificial</span>
+    </a>
+    <nav class="topnav" aria-label="Secciones">
+      <a href="#ruta">La ruta</a>
+      <a href="#sistema">El mapa</a>
+      <a href="#lecciones">Lecciones</a>
+      <a href="#como">Cómo estudiar</a>
+    </nav>
   </header>
 
-  <section class="player" id="player" tabindex="0" aria-label="Reproductor del video interactivo">
-    <div class="stage-wrap">
-      <svg id="stage" viewBox="0 0 960 540" role="img" aria-label="Animación de una neurona artificial procesando información"></svg>
-      <div class="poster" id="poster">
-        <div class="poster-inner">
-          <p id="poster-meta">9 capítulos</p>
-          <h2>¿Qué pasa dentro de una neurona artificial?</h2>
-          <div class="poster-actions">
-            <button class="btn btn-primary big-play" id="poster-play" aria-label="Reproducir"><svg><use href="#i-play"/></svg></button>
-          </div>
-          <div class="poster-actions">
-            <button class="btn btn-ghost" id="poster-voice" hidden><svg><use href="#i-voice"/></svg>Reproducir con voz</button>
-          </div>
-        </div>
-      </div>
-      <div class="endcard" id="endcard" hidden>
-        <div class="endcard-inner">
-          <p>Fin del video</p>
-          <div class="endcard-actions">
-            <button class="btn btn-ghost" id="end-replay"><svg><use href="#i-replay"/></svg>Ver de nuevo</button>
-            <a class="btn btn-primary" href="#laboratorio"><svg><use href="#i-down"/></svg>Ir al laboratorio</a>
-            <a class="btn btn-ghost" href="agentes/">Siguiente lección →</a>
-          </div>
-        </div>
-      </div>
+  <section class="hero" aria-labelledby="hero-t">
+    <p class="eyebrow">Curso abierto · en español · paso a paso</p>
+    <h1 id="hero-t">Aprende IA por dentro<span class="period">.</span></h1>
+    <p class="lede">Videos interactivos con laboratorio para entender cómo funciona la inteligencia artificial, de una sola neurona a los agentes que deciden y actúan. Con tacos de por medio.</p>
+    <div class="cta-row">
+      <a class="btn primary" id="cta" href="neurona/">Empezar: La neurona →</a>
+      <a class="btn" href="#ruta">Ver la ruta</a>
     </div>
-    <div class="caption" id="caption" aria-live="polite"><span class="cue" id="cue">Presiona reproducir para empezar.</span></div>
-    <div class="controls">
-      <div class="ctl-group">
-        <button class="ctl" id="btn-prev" aria-label="Capítulo anterior" title="Capítulo anterior"><svg><use href="#i-prev"/></svg></button>
-        <button class="ctl" id="btn-play" aria-label="Reproducir" title="Reproducir (espacio)"><svg><use href="#i-play" id="play-icon"/></svg></button>
-        <button class="ctl" id="btn-next" aria-label="Capítulo siguiente" title="Capítulo siguiente"><svg><use href="#i-next"/></svg></button>
-      </div>
-      <span class="time" id="time">0:00 / 0:00</span>
-      <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Línea de tiempo" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-        <div class="tl-segs" id="tl-segs"></div>
-        <div class="tl-thumb" id="tl-thumb"></div>
-        <div class="tl-tip" id="tl-tip"></div>
-      </div>
-      <div class="ctl-group">
-        <select class="speed" id="speed" aria-label="Velocidad">
-          <option value="0.75">0.75×</option>
-          <option value="1" selected>1×</option>
-          <option value="1.25">1.25×</option>
-          <option value="1.5">1.5×</option>
-        </select>
-        <button class="ctl" id="btn-cc" aria-label="Subtítulos" aria-pressed="true" title="Subtítulos (C)"><svg><use href="#i-cc"/></svg></button>
-        <button class="ctl" id="btn-voice" aria-label="Narración por voz" aria-pressed="false" title="Narración por voz (V)"><svg><use href="#i-voice"/></svg></button>
-        <button class="ctl" id="btn-full" aria-label="Pantalla completa" title="Pantalla completa (F)" hidden><svg><use href="#i-full"/></svg></button>
-      </div>
-    </div>
-  </section>
-  <p class="rotate-hint">Gira tu teléfono para ver el video más grande.</p>
-
-  <section class="below" aria-labelledby="cap-title">
-    <div class="section-head">
-      <h2 id="cap-title">Capítulos</h2>
-      <span class="keys"><kbd>Espacio</kbd> reproducir · <kbd>←</kbd> <kbd>→</kbd> 5 s · <kbd>C</kbd> subtítulos · <kbd>V</kbd> voz</span>
-    </div>
-    <div class="chapters" id="chapters"></div>
-    <details class="transcript" id="transcript">
-      <summary>Transcripción completa</summary>
-      <ul class="tr-list" id="tr-list"></ul>
-    </details>
+    <p class="progress-line" id="progress-line">2 lecciones abiertas · 7 en camino</p>
   </section>
 
-  <section class="lab" id="laboratorio" aria-labelledby="lab-title">
-    <div class="lab-intro">
-      <span class="eyebrow">Pruébalo tú</span>
-      <h2 id="lab-title">Laboratorio de la neurona</h2>
-      <p>Mueve las entradas, los pesos y el sesgo, y mira cómo cambia cada número. Empieza con los mismos valores del video. Haz clic en el mapa para elegir hambre y amigos de un solo golpe.</p>
+  <section id="ruta" aria-labelledby="ruta-t">
+    <div class="sec-head">
+      <h2 id="ruta-t">La ruta</h2>
+      <p>Nueve estaciones, de la neurona a la IA responsable. Toca una estación para ver de qué trata y qué vas a aprender.</p>
     </div>
-    <div class="lab-grid">
-      <div class="panel" id="lab-controls">
-        <div class="ctl-block">
-          <h3>Escenarios</h3>
-          <div class="seg" id="presets">
-            <button class="seg-btn" data-preset="video" aria-pressed="true">Valores del video</button>
-            <button class="seg-btn" data-preset="perfecta" aria-pressed="false">Noche perfecta</button>
-            <button class="seg-btn" data-preset="tormenta" aria-pressed="false">Tormenta</button>
-            <button class="seg-btn" data-preset="sinhambre" aria-pressed="false">Sin hambre</button>
-          </div>
-        </div>
-        <div class="ctl-block" id="in-sliders"><h3>Entradas</h3></div>
-        <div class="ctl-block" id="w-sliders"><h3>Pesos y sesgo</h3></div>
-        <div class="ctl-block">
-          <h3>Función de activación</h3>
-          <div class="seg" id="acts">
-            <button class="seg-btn" data-act="sigmoid" aria-pressed="true">Sigmoide</button>
-            <button class="seg-btn" data-act="step" aria-pressed="false">Escalón</button>
-            <button class="seg-btn" data-act="relu" aria-pressed="false">ReLU</button>
-            <button class="seg-btn" data-act="tanh" aria-pressed="false">Tanh</button>
-          </div>
-        </div>
-        <div class="ctl-block">
-          <h3>Entrénala</h3>
-          <p class="hint">Dile qué pasó en realidad y deja que ajuste sus pesos con la regla <span class="mono">Δw = η · error · x</span> (η = 0.5).</p>
-          <div class="seg" id="targets">
-            <button class="seg-btn" data-target="1" aria-pressed="true">Sí fueron</button>
-            <button class="seg-btn" data-target="0" aria-pressed="false">No fueron</button>
-          </div>
-          <div class="seg">
-            <button class="seg-btn" id="learn-1">Aprender 1 paso</button>
-            <button class="seg-btn" id="learn-10">Aprender 10 pasos</button>
-            <button class="seg-btn" id="learn-reset">Restablecer pesos</button>
-          </div>
-          <p class="learn-log" id="learn-log" aria-live="polite"></p>
+    <div class="map">
+      <div class="map-top">
+        <span class="line-pill"><b>1</b>De la neurona a la IA responsable</span>
+        <div class="legend" aria-label="Leyenda">
+          <span><i class="done"></i>Terminada</span>
+          <span><i></i>Abierta</span>
+          <span><i class="obra"></i>En obra</span>
+          <span><i class="plan"></i>Planeada</span>
         </div>
       </div>
-      <div class="lab-visual">
-        <div class="lab-screen"><svg id="lab-svg" viewBox="0 0 960 520" role="img" aria-label="Neurona del laboratorio con los valores actuales"></svg></div>
-        <div class="lab-row">
-          <div class="panel">
-            <h3>Cuenta paso a paso</h3>
-            <div class="readout" id="readout"></div>
-            <div class="verdict" id="verdict"></div>
-          </div>
-          <div class="panel map-box">
-            <h3>Mapa de decisión</h3>
-            <svg id="map-svg" viewBox="0 0 360 340" role="img" aria-label="Mapa de decisión según hambre y amigos"></svg>
-            <p class="hint" id="map-hint">Lluvia fija en 0.2. La línea es donde z = 0.</p>
-          </div>
-        </div>
+      <div class="route-box" id="route-box">
+        <div class="track" id="track"><div class="solid" id="solid"></div></div>
+        <ol class="route" id="route" aria-label="Estaciones de la ruta"></ol>
+        <div class="train" id="train" aria-hidden="true"></div>
       </div>
+      <article class="card station-card" id="station-card" aria-live="polite"></article>
     </div>
   </section>
 
-  <a class="next-lesson" href="agentes/" style="text-decoration:none;color:inherit">
-    <span class="t"><span class="eyebrow">Siguiente lección</span><b>Cómo actúa un agente de IA</b><span>De predecir a actuar: modelo, herramientas, ciclo, contexto y límites, con un depurador paso a paso.</span></span>
-    <span class="btn btn-primary">Ver lección 2 →</span>
-  </a>
+  <section id="sistema" aria-labelledby="sistema-t">
+    <div class="sec-head">
+      <h2 id="sistema-t">El mapa del sistema</h2>
+      <p>Las nueve capas de cualquier sistema de IA real. Cada una se apoya en la de abajo, y cada lección vive en una o dos capas. Así ves cómo se conecta todo lo que aprendes.</p>
+    </div>
+    <ol class="layers" id="layers"></ol>
+  </section>
 
-  <footer class="note">Los valores del ejemplo son inventados para explicar la mecánica. La neurona del video usa sigmoide y aprende con descenso por gradiente sobre la pérdida logística; las redes reales repiten esta misma pieza a gran escala.</footer>
+  <section id="lecciones" aria-labelledby="lecciones-t">
+    <div class="sec-head">
+      <h2 id="lecciones-t">Lecciones abiertas</h2>
+      <p>Cada lección es un video con capítulos y subtítulos, más un laboratorio para mover cada pieza con tus manos.</p>
+    </div>
+    <div class="lessons" id="lessons"></div>
+  </section>
+
+  <section id="como" aria-labelledby="como-t">
+    <div class="sec-head">
+      <h2 id="como-t">Cómo estudiar aquí</h2>
+      <p>El mismo método para cada tema. Las lecciones te dan los dos primeros pasos; los otros tres los haces tú, y son los que convierten lo que viste en algo tuyo.</p>
+    </div>
+    <ol class="steps">
+      <li class="step"><span class="k">1</span><b>Mira</b><span>El video te da la intuición en pocos minutos.</span><span class="who">En cada lección</span></li>
+      <li class="step"><span class="k">2</span><b>Juega</b><span>El laboratorio te deja mover cada pieza y ver qué cambia.</span><span class="who">En cada lección</span></li>
+      <li class="step"><span class="k">3</span><b>Escríbelo</b><span>Las matemáticas mínimas y el código desde cero, aunque quede feo.</span><span class="who">Tú</span></li>
+      <li class="step"><span class="k">4</span><b>Constrúyelo</b><span>Repítelo con la herramienta profesional, como scikit-learn o PyTorch.</span><span class="who">Tú</span></li>
+      <li class="step"><span class="k">5</span><b>Explícalo</b><span>Si se lo puedes enseñar a alguien, ya es tuyo.</span><span class="who">Tú</span></li>
+    </ol>
+    <h3 style="font-size:1.25rem;font-weight:800;padding-top:10px">Para ir más lejos</h3>
+    <ul class="res">
+      <li><a href="https://www.3blue1brown.com/" target="_blank" rel="noopener">3Blue1Brown</a><span>Álgebra lineal y redes neuronales con la mejor intuición visual.</span></li>
+      <li><a href="https://karpathy.ai/zero-to-hero.html" target="_blank" rel="noopener">Neural Networks: Zero to Hero</a><span>Andrej Karpathy programa desde una neurona hasta un GPT.</span></li>
+      <li><a href="https://udlbook.github.io/udlbook/" target="_blank" rel="noopener">Understanding Deep Learning</a><span>Libro riguroso y actual de Simon Prince, con PDF gratuito.</span></li>
+      <li><a href="https://search.worldcat.org/title/1569046080" target="_blank" rel="noopener">AI Engineering</a><span>Chip Huyen: cómo se construyen aplicaciones con modelos grandes.</span></li>
+      <li><a href="https://huggingface.co/learn/agents-course" target="_blank" rel="noopener">Curso de agentes de Hugging Face</a><span>Agentes con código, gratis y en línea.</span></li>
+      <li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener">Building effective agents</a><span>Anthropic explica patrones prácticos para construir agentes.</span></li>
+    </ul>
+  </section>
+
+  <footer>
+    <span>Neurona Artificial · curso abierto hecho con Claude · <a href="https://github.com/jose2501106-IA/NeuronaArtificial" target="_blank" rel="noopener">código en GitHub</a></span>
+    <span>Tu progreso se guarda solo en este navegador. <button type="button" id="reset">Borrar mi progreso</button></span>
+  </footer>
 </main>
+
 <script>
 (() => {
 'use strict';
-/* ================= utilidades ================= */
-const NS = 'http://www.w3.org/2000/svg';
-const $ = (s, r = document) => r.querySelector(s);
-function el(tag, attrs, parent) {
-  const e = document.createElementNS(NS, tag);
-  if (attrs) for (const k in attrs) { if (k === 'text') e.textContent = attrs[k]; else e.setAttribute(k, attrs[k]); }
-  if (parent) parent.appendChild(e);
-  return e;
-}
-const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-const lerp = (a, b, t) => a + (b - a) * t;
-const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-const seg = (t, a, b) => ease(clamp((t - a) / (b - a)));
-const lin = (t, a, b) => clamp((t - a) / (b - a));
-const pulse = (t, a, b) => { const u = lin(t, a, b); return Math.sin(u * Math.PI); };
-const sig = z => 1 / (1 + Math.exp(-z));
-function op(e, o) {
-  o = clamp(o); o = Math.round(o * 1000) / 1000;
-  if (e._o !== o) { e._o = o; e.setAttribute('opacity', o); e.style.display = o < 0.002 ? 'none' : ''; }
-}
-function txt(e, s) { if (e._t !== s) { e._t = s; e.textContent = s; } }
-function at(e, k, v) { const key = '_a_' + k; if (e[key] !== v) { e[key] = v; e.setAttribute(k, v); } }
-function tf(e, tx, ty, s = 1) { at(e, 'transform', `translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${s.toFixed(4)})`); }
-const MINUS = '−';
-function fmt(v, d = 1, sign = false) {
-  const s = Math.abs(v).toFixed(d);
-  if (Number(s) === 0) return (0).toFixed(d);
-  return (v < 0 ? MINUS : (sign ? '+' : '')) + s;
-}
-const say = s => s.replace(/−/g, 'menos ');
-
-/* ================= modelo del ejemplo ================= */
-const X0 = [0.8, 0.6, 0.2], W0 = [2.0, 1.5, -2.5], B0 = -1.0;
-const INPUTS = [
-  { name: 'Hambre', sym: 'x₁', icon: 'taco' },
-  { name: 'Amigos', sym: 'x₂', icon: 'friends' },
-  { name: 'Lluvia', sym: 'x₃', icon: 'rain' }
-];
-const WSYM = ['w₁', 'w₂', 'w₃'];
-const dotp = (w, x) => w.reduce((s, wi, i) => s + wi * x[i], 0);
-const Z0 = dotp(W0, X0) + B0;
-const Y0 = sig(Z0);
-const ACTS = {
-  sigmoid: { name: 'sigmoide', f: sig, lo: 0, hi: 1 },
-  step: { name: 'escalón', f: z => (z >= 0 ? 1 : 0), lo: 0, hi: 1 },
-  relu: { name: 'ReLU', f: z => Math.max(0, z), lo: 0, hi: 6 },
-  tanh: { name: 'tanh', f: Math.tanh, lo: -1, hi: 1 }
-};
-const ETA = 0.5;
-const LEARN = [];
-(() => {
-  let w = W0.slice(), b = B0;
-  for (let k = 0; k <= 6; k++) {
-    const z = dotp(w, X0) + b, y = sig(z);
-    LEARN.push({ w: w.slice(), b, z, y });
-    const e = 1 - y;
-    w = w.map((wi, i) => wi + ETA * e * X0[i]); b += ETA * e;
-  }
-})();
-
-/* ================= íconos (tinta) ================= */
-function icon(kind, parent, x, y) {
-  const g = el('g', { transform: `translate(${x} ${y})`, fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 2.2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, parent);
-  if (kind === 'taco') {
-    el('path', { d: 'M -15 -3 A 15 15 0 0 0 15 -3 Z', fill: 'var(--scr-fill)' }, g);
-    el('path', { d: 'M -10 -3 A 10 10 0 0 0 10 -3' }, g);
-    el('path', { d: 'M -15 -4 q 2.5 -6 5 0 t 5 0 t 5 0 t 5 0 t 5 0 t 5 0' }, g);
-  } else if (kind === 'friends') {
-    el('circle', { cx: -6, cy: -8, r: 5 }, g);
-    el('path', { d: 'M -15 12 a 9 9 0 0 1 18 0' }, g);
-    el('circle', { cx: 8, cy: -5, r: 4.2 }, g);
-    el('path', { d: 'M 5.5 12 a 7.5 7.5 0 0 1 11 -6.5' }, g);
-  } else if (kind === 'rain') {
-    el('path', { d: 'M -10 4 h 19 a 6 6 0 0 0 0 -12 a 8 8 0 0 0 -15 -2 a 6 6 0 0 0 -4 14 z', fill: 'var(--scr-fill)' }, g);
-    el('path', { d: 'M -7 9 l -2 6 M 0 9 l -2 6 M 7 9 l -2 6' }, g);
-  }
-  return g;
-}
-
-/* ================= curva de activación ================= */
-function curveD(type, x0, y0, w, h, zmin = -6, zmax = 6) {
-  const A = ACTS[type];
-  const X = z => x0 + (z - zmin) / (zmax - zmin) * w;
-  const Y = v => y0 + h - (clamp(v, A.lo, A.hi) - A.lo) / (A.hi - A.lo) * h;
-  if (type === 'step') return `M ${X(zmin)} ${Y(0)} H ${X(0)} V ${Y(1)} H ${X(zmax)}`;
-  let d = '';
-  for (let k = 0; k <= 72; k++) {
-    const z = zmin + (zmax - zmin) * k / 72;
-    d += (k ? ' L ' : 'M ') + X(z).toFixed(2) + ' ' + Y(A.f(z)).toFixed(2);
-  }
-  return d;
-}
-
-/* ================= diagrama de la neurona (video y laboratorio) ================= */
-const G = {
-  ys: [132, 270, 408], card: { x: 28, w: 200, h: 74 },
-  sum: { x: 548, y: 270, r: 56 }, act: { x: 642, y: 214, w: 140, h: 112 },
-  out: { x: 878, y: 270, r: 42 }, bias: { x: 548, y: 424, w: 124, h: 36 },
-  plot: { x: 656, y: 238, w: 112, h: 62 }
-};
-
-function makeDiagram(parent) {
-  const D = { g: el('g', {}, parent), inp: [], wire: [], pill: [], prod: [], tok: [], parts: {} };
-  const g = D.g;
-  // contenedor de la neurona
-  const box = el('g', {}, g);
-  el('rect', { x: 474, y: 186, width: 326, height: 176, rx: 26, fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 1.6, 'stroke-dasharray': '5 7', opacity: .55 }, box);
-  el('text', { x: 488, y: 177, class: 'mono', 'font-size': 13, 'letter-spacing': '2', fill: 'var(--scr-muted)', text: 'NEURONA' }, box);
-  D.parts.box = box;
-  // cables y su capa de partículas
-  const wiresG = el('g', {}, g), pillsG = el('g', {}, g), prodG = el('g', {}, g), partG = el('g', {}, g), tokG = el('g', {}, g);
-  const ang = [-28, 0, 28].map(a => a * Math.PI / 180);
-  G.ys.forEach((y, i) => {
-    const ex = G.sum.x - G.sum.r * Math.cos(ang[i]), ey = G.sum.y + G.sum.r * Math.sin(ang[i]);
-    const path = el('path', { d: `M ${G.card.x + G.card.w} ${y} C 340 ${y}, 400 ${ey}, ${ex.toFixed(1)} ${ey.toFixed(1)}`, fill: 'none', stroke: 'var(--scr-wire)', 'stroke-width': 2.5, 'stroke-linecap': 'round' }, wiresG);
-    D.wire.push(path);
-  });
-  // tarjetas de entrada
-  const inG = el('g', {}, g);
-  G.ys.forEach((y, i) => {
-    const c = el('g', {}, inG);
-    const halo = el('rect', { x: G.card.x - 5, y: y - 42, width: G.card.w + 10, height: 84, rx: 18, fill: 'none', stroke: 'var(--scr-sig)', 'stroke-width': 5, opacity: 0 }, c);
-    el('rect', { x: G.card.x, y: y - 37, width: G.card.w, height: G.card.h, rx: 14, fill: 'var(--scr-fill)', stroke: 'var(--scr-ink)', 'stroke-width': 1.6 }, c);
-    icon(INPUTS[i].icon, c, 58, y - 3);
-    const name = el('text', { x: 86, y: y - 5, 'font-size': 19, 'font-weight': 600, fill: 'var(--scr-ink)', text: INPUTS[i].name }, c);
-    el('text', { x: 86, y: y + 16, class: 'mono', 'font-size': 13, fill: 'var(--scr-muted)', text: INPUTS[i].sym }, c);
-    const val = el('text', { x: 214, y: y + 7, class: 'mono', 'font-size': 26, 'font-weight': 600, 'text-anchor': 'end', fill: 'var(--scr-ink)', text: '0.0' }, c);
-    el('rect', { x: 40, y: y + 25, width: 176, height: 5, rx: 2.5, fill: 'var(--scr-grid)' }, c);
-    const bar = el('rect', { x: 40, y: y + 25, width: 0, height: 5, rx: 2.5, fill: 'var(--scr-ink)' }, c);
-    D.inp.push({ g: c, halo, name, val, bar });
-  });
-  // pastillas de pesos y etiquetas de productos
-  D.wire.forEach((p, i) => {
-    const L = p.getTotalLength(); p._L = L;
-    const a = p.getPointAtLength(L * 0.42), b = p.getPointAtLength(L * 0.83);
-    const pg = el('g', { transform: `translate(${a.x.toFixed(1)} ${a.y.toFixed(1)})` }, pillsG);
-    const pr = el('rect', { x: -57, y: -17, width: 114, height: 34, rx: 17, fill: 'var(--scr-pos)' }, pg);
-    const pt = el('text', { x: 0, y: 1, class: 'mono', 'font-size': 16, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-pill-ink)', text: '' }, pg);
-    D.pill.push({ g: pg, rect: pr, text: pt, x: a.x, y: a.y });
-    const qg = el('g', { transform: `translate(${b.x.toFixed(1)} ${b.y.toFixed(1)})` }, prodG);
-    const qr = el('rect', { x: -30, y: -14, width: 60, height: 28, rx: 9, fill: 'var(--scr-fill)', stroke: 'var(--scr-pos)', 'stroke-width': 1.8 }, qg);
-    const qt = el('text', { x: 0, y: 1, class: 'mono', 'font-size': 15, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-pos)', text: '' }, qg);
-    D.prod.push({ g: qg, rect: qr, text: qt });
-    // partículas ambientales
-    const parts = [0, 1, 2].map(() => el('circle', { r: 4.2, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.3, opacity: 0 }, partG));
-    p._parts = parts;
-    // ficha que viaja (solo video)
-    const tg = el('g', { opacity: 0 }, tokG);
-    const tr = el('rect', { x: -26, y: -15, width: 52, height: 30, rx: 15, fill: 'var(--scr-sig)', stroke: 'var(--scr-ink)', 'stroke-width': 1.6 }, tg);
-    const tt = el('text', { x: 0, y: 1, class: 'mono', 'font-size': 15, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: '#1b1309', text: '' }, tg);
-    D.tok.push({ g: tg, rect: tr, text: tt });
-  });
-  // sesgo
-  const biasG = el('g', {}, g);
-  const bw = el('line', { x1: G.sum.x, y1: G.bias.y - 18, x2: G.sum.x, y2: G.sum.y + G.sum.r, stroke: 'var(--scr-wire)', 'stroke-width': 2.5 }, biasG);
-  const bRect = el('rect', { x: G.bias.x - 62, y: G.bias.y - 18, width: 124, height: 36, rx: 18, fill: 'var(--scr-neg)' }, biasG);
-  const bText = el('text', { x: G.bias.x, y: G.bias.y + 1, class: 'mono', 'font-size': 16, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-pill-ink)', text: '' }, biasG);
-  el('text', { x: G.bias.x, y: G.bias.y + 38, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'sesgo' }, biasG);
-  D.parts.bias = { g: biasG, wire: bw, rect: bRect, text: bText };
-  // suma
-  const sumG = el('g', {}, g);
-  const sHalo = el('circle', { cx: G.sum.x, cy: G.sum.y, r: G.sum.r + 7, fill: 'none', stroke: 'var(--scr-sig)', 'stroke-width': 6, opacity: 0 }, sumG);
-  el('circle', { cx: G.sum.x, cy: G.sum.y, r: G.sum.r, fill: 'var(--scr-fill)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, sumG);
-  const sSym = el('text', { x: G.sum.x, y: G.sum.y + 2, 'font-size': 44, 'font-weight': 500, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-ink)', text: 'Σ' }, sumG);
-  const sLab = el('text', { x: G.sum.x, y: G.sum.y - 20, class: 'mono', 'font-size': 14, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'z' }, sumG);
-  const sVal = el('text', { x: G.sum.x, y: G.sum.y + 13, class: 'mono', 'font-size': 26, 'font-weight': 600, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: '' }, sumG);
-  D.parts.sum = { g: sumG, halo: sHalo, sym: sSym, lab: sLab, val: sVal };
-  // flechas internas
-  const arrG = el('g', { stroke: 'var(--scr-ink)', 'stroke-width': 2, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, g);
-  el('path', { d: 'M 606 270 H 634 M 627 263 L 635 270 L 627 277' }, arrG);
-  el('path', { d: 'M 784 270 H 828 M 821 263 L 829 270 L 821 277' }, arrG);
-  el('text', { x: 619, y: 257, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', stroke: 'none', text: 'z' }, arrG);
-  D.parts.arrows = arrG;
-  // activación
-  const actG = el('g', {}, g);
-  const aHalo = el('rect', { x: G.act.x - 7, y: G.act.y - 7, width: G.act.w + 14, height: G.act.h + 14, rx: 19, fill: 'none', stroke: 'var(--scr-sig)', 'stroke-width': 6, opacity: 0 }, actG);
-  el('rect', { x: G.act.x, y: G.act.y, width: G.act.w, height: G.act.h, rx: 14, fill: 'var(--scr-fill)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, actG);
-  el('text', { x: G.act.x + 12, y: G.act.y + 18, class: 'mono', 'font-size': 12, fill: 'var(--scr-muted)', text: 'f(z)' }, actG);
-  const P = G.plot;
-  el('line', { x1: P.x, y1: P.y + P.h, x2: P.x + P.w, y2: P.y + P.h, stroke: 'var(--scr-grid)', 'stroke-width': 1.5 }, actG);
-  el('line', { x1: P.x + P.w / 2, y1: P.y - 4, x2: P.x + P.w / 2, y2: P.y + P.h, stroke: 'var(--scr-grid)', 'stroke-width': 1.5 }, actG);
-  const aCurve = el('path', { d: curveD('sigmoid', P.x, P.y, P.w, P.h), fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 2.6, 'stroke-linecap': 'round' }, actG);
-  const aDot = el('circle', { r: 5.5, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.6, cx: P.x, cy: P.y + P.h }, actG);
-  const aName = el('text', { x: G.act.x + G.act.w / 2, y: G.act.y + G.act.h + 20, class: 'mono', 'font-size': 12.5, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'activación · sigmoide' }, actG);
-  D.parts.act = { g: actG, halo: aHalo, curve: aCurve, dot: aDot, name: aName, type: 'sigmoid' };
-  // salida
-  const outG = el('g', {}, g);
-  const oHalo = el('circle', { cx: G.out.x, cy: G.out.y, r: G.out.r + 12, fill: 'none', stroke: 'var(--scr-sig)', 'stroke-width': 6, opacity: 0 }, outG);
-  el('circle', { cx: G.out.x, cy: G.out.y, r: G.out.r, fill: 'var(--scr-fill)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, outG);
-  const ringLen = 2 * Math.PI * (G.out.r + 6);
-  el('circle', { cx: G.out.x, cy: G.out.y, r: G.out.r + 6, fill: 'none', stroke: 'var(--scr-grid)', 'stroke-width': 5 }, outG);
-  const oRing = el('circle', { cx: G.out.x, cy: G.out.y, r: G.out.r + 6, fill: 'none', stroke: 'var(--scr-pos)', 'stroke-width': 5, 'stroke-linecap': 'round', transform: `rotate(-90 ${G.out.x} ${G.out.y})`, 'stroke-dasharray': `0 ${ringLen}` }, outG);
-  el('text', { x: G.out.x, y: G.out.y - G.out.r - 16, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'salida' }, outG);
-  const oVal = el('text', { x: G.out.x, y: G.out.y + 1, class: 'mono', 'font-size': 23, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-ink)', text: '' }, outG);
-  const vG = el('g', { transform: `translate(${G.out.x} ${G.out.y + 78})` }, outG);
-  const vRect = el('rect', { x: -60, y: -19, width: 120, height: 38, rx: 19, fill: 'var(--scr-ink)' }, vG);
-  const vText = el('text', { x: 0, y: 1, class: 'disp', 'font-size': 18, 'font-weight': 800, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-bg)', text: '' }, vG);
-  D.parts.out = { g: outG, halo: oHalo, ring: oRing, ringLen, val: oVal, vG, vRect, vText };
-  // partículas a través de la neurona (Σ → salida)
-  const thru = el('path', { d: `M ${G.sum.x} ${G.sum.y} L ${G.out.x} ${G.out.y}`, fill: 'none', stroke: 'none' }, g);
-  thru._L = thru.getTotalLength();
-  thru._parts = [0, 1].map(() => el('circle', { r: 4.6, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.3, opacity: 0 }, partG));
-  D.thru = thru;
-  // reordenar: partículas y fichas por encima
-  g.insertBefore(partG, pillsG); g.appendChild(tokG);
-  D.parts.groups = { inG, wiresG, pillsG, prodG, partG, tokG };
-
-  /* --- aplicar un estado completo --- */
-  D.apply = st => {
-    const dim = st.dim || {};
-    const skel = st.skel ?? 1;
-    op(box, skel * (dim.box ?? 1));
-    // entradas
-    for (let i = 0; i < 3; i++) {
-      const I = D.inp[i], xv = st.xv ? st.xv[i] : 1, x = st.x[i];
-      op(I.g, skel * (dim.inputs ?? 1));
-      txt(I.val, xv > 0.01 ? fmt(x * Math.min(1, xv * 1.0001), 1) : '—');
-      at(I.bar, 'width', (176 * clamp(x) * clamp(xv)).toFixed(1));
-      op(I.halo, (st.hiIn ? st.hiIn[i] : 0) * 0.9);
-    }
-    // cables
-    const ws = st.wStyle ?? 1;
-    for (let i = 0; i < 3; i++) {
-      const p = D.wire[i], w = st.w[i];
-      op(p, skel * (dim.wires ?? 1));
-      at(p, 'stroke-width', lerp(2.5, 1.6 + Math.abs(w) * 2.2, ws).toFixed(2));
-      at(p, 'stroke', ws > 0.5 ? (w < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)') : 'var(--scr-wire)');
-      at(p, 'stroke-dasharray', ws > 0.5 && w < 0 ? '11 7' : 'none');
-      const P = D.pill[i], pv = st.wv ? st.wv[i] : ws;
-      op(P.g, pv * (dim.pills ?? 1));
-      at(P.rect, 'fill', w < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)');
-      txt(P.text, `${WSYM[i]} = ${fmt(w, st.wDec ?? 1, true)}`);
-      const fl = st.pillFlash ? st.pillFlash[i] : 0;
-      at(P.g, 'transform', `translate(${P.x.toFixed(1)} ${P.y.toFixed(1)}) scale(${(1 + 0.16 * fl).toFixed(3)})`);
-      const Q = D.prod[i], prod = w * st.x[i];
-      op(Q.g, (st.pv ? st.pv[i] : 1) * (dim.prods ?? 1));
-      const col = prod < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)';
-      at(Q.rect, 'stroke', col); at(Q.text, 'fill', col);
-      txt(Q.text, fmt(prod, st.wDec ?? 1, true));
-    }
-    // sesgo
-    const B = D.parts.bias, bv = st.bv ?? 1;
-    op(B.g, bv * (dim.bias ?? 1));
-    at(B.rect, 'fill', st.b < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)');
-    txt(B.text, `b = ${fmt(st.b, st.wDec ?? 1, true)}`);
-    // suma
-    const S = D.parts.sum, zm = st.zMode ?? 1;
-    op(S.g, skel * (dim.sum ?? 1));
-    op(S.sym, 1 - zm); op(S.lab, zm); op(S.val, zm);
-    txt(S.val, fmt(st.zShow ?? st.z, st.zDec ?? 1));
-    op(S.halo, (st.hiSum ?? 0) * 0.9);
-    op(D.parts.arrows, skel * Math.min(dim.act ?? 1, dim.sum ?? 1));
-    // activación
-    const A = D.parts.act, type = st.act || 'sigmoid', AF = ACTS[type];
-    if (A.type !== type) { A.type = type; at(A.curve, 'd', curveD(type, G.plot.x, G.plot.y, G.plot.w, G.plot.h)); txt(A.name, 'activación · ' + AF.name); }
-    op(A.g, skel * (dim.act ?? 1));
-    op(A.halo, (st.hiAct ?? 0) * 0.9);
-    const zc = clamp(st.zDot ?? st.z, -6, 6), yv = AF.f(zc);
-    at(A.dot, 'cx', (G.plot.x + (zc + 6) / 12 * G.plot.w).toFixed(2));
-    at(A.dot, 'cy', (G.plot.y + G.plot.h - (clamp(yv, AF.lo, AF.hi) - AF.lo) / (AF.hi - AF.lo) * G.plot.h).toFixed(2));
-    op(A.dot, st.actDot ?? 1);
-    // salida
-    const O = D.parts.out, y = st.y ?? AF.f(st.z), yvis = st.yv ?? 1;
-    op(O.g, skel * (dim.out ?? 1));
-    op(O.halo, (st.hiOut ?? 0) * 0.9);
-    const frac = clamp((y - AF.lo) / (AF.hi - AF.lo)) * yvis;
-    at(O.ring, 'stroke-dasharray', `${(O.ringLen * frac).toFixed(1)} ${O.ringLen.toFixed(1)}`);
-    op(O.ring, frac > 0.004 ? 1 : 0);
-    at(O.ring, 'stroke', st.z >= 0 ? 'var(--scr-pos)' : 'var(--scr-neg)');
-    txt(O.val, yvis > 0.02 ? fmt(y, 2) : '—');
-    op(O.vG, st.verdict ?? 0);
-    txt(O.vText, st.verdictText || (st.z >= 0 ? '¡Vamos!' : 'Mejor no'));
-    at(O.vRect, 'fill', 'var(--scr-ink)');
-    // flujo de partículas
-    const fl = st.flow || 0, ph = st.phase || 0;
-    D.wire.forEach((p, i) => {
-      p._parts.forEach((c, k) => {
-        if (fl <= 0.01) { op(c, 0); return; }
-        const u = (ph * 0.42 + k / 3) % 1, pt = p.getPointAtLength(p._L * u);
-        at(c, 'cx', pt.x.toFixed(1)); at(c, 'cy', pt.y.toFixed(1));
-        op(c, fl * Math.sin(u * Math.PI) * (dim.wires ?? 1));
-      });
-    });
-    const tf2 = st.flowThru || 0;
-    D.thru._parts.forEach((c, k) => {
-      if (tf2 <= 0.01) { op(c, 0); return; }
-      const u = (ph * 0.5 + k / 2) % 1, pt = D.thru.getPointAtLength(D.thru._L * u);
-      at(c, 'cx', pt.x.toFixed(1)); at(c, 'cy', pt.y.toFixed(1));
-      op(c, tf2 * Math.sin(u * Math.PI));
-    });
-    // fichas que viajan
-    for (let i = 0; i < 3; i++) {
-      const T = D.tok[i], s = st.tok ? st.tok[i] : null;
-      if (!s || s.o <= 0.01) { op(T.g, 0); continue; }
-      const p = D.wire[i], pt = p.getPointAtLength(p._L * clamp(s.f));
-      at(T.g, 'transform', `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)}) scale(${(s.s || 1).toFixed(3)})`);
-      txt(T.text, s.label); op(T.g, s.o);
-      at(T.rect, 'fill', s.after ? (s.neg ? 'var(--scr-neg)' : 'var(--scr-pos)') : 'var(--scr-sig)');
-      at(T.text, 'fill', s.after ? 'var(--scr-pill-ink)' : '#1b1309');
-    }
-  };
-  D.cam = (tx, ty, s) => tf(g, tx, ty, s);
-  return D;
-}
-
-/* ================= escenario del video ================= */
-function isGlow() {
-  return getComputedStyle(document.documentElement).getPropertyValue('--scr-glow').trim() === '1';
-}
-function buildStage(svg) {
-  const S = { svg };
-  const defs = el('defs', {}, svg);
-  const rg = el('radialGradient', { id: 'scrbg', cx: '50%', cy: '46%', r: '78%' }, defs);
-  el('stop', { offset: '0%', style: 'stop-color:var(--scr-bg)' }, rg);
-  el('stop', { offset: '100%', style: 'stop-color:var(--scr-bg2)' }, rg);
-  const pat = el('pattern', { id: 'dots', width: 24, height: 24, patternUnits: 'userSpaceOnUse' }, defs);
-  el('circle', { cx: 12, cy: 12, r: 1.1, fill: 'var(--scr-grid)' }, pat);
-  const fg = el('filter', { id: 'glow', x: '-60%', y: '-60%', width: '220%', height: '220%' }, defs);
-  el('feGaussianBlur', { stdDeviation: 3.2, result: 'b' }, fg);
-  const fm = el('feMerge', {}, fg); el('feMergeNode', { in: 'b' }, fm); el('feMergeNode', { in: 'SourceGraphic' }, fm);
-  const cp = el('clipPath', { id: 'eye' }, defs);
-  S.eye = el('circle', { cx: 520, cy: 270, r: 700 }, cp);
-
-  el('rect', { x: 0, y: 0, width: 960, height: 540, fill: 'var(--scr-surround)' }, svg);
-  const content = el('g', { 'clip-path': 'url(#eye)' }, svg);
-  el('rect', { x: 0, y: 0, width: 960, height: 540, fill: 'url(#scrbg)' }, content);
-  el('rect', { x: 0, y: 0, width: 960, height: 540, fill: 'url(#dots)' }, content);
-  S.content = content;
-
-  /* --- neurona biológica --- */
-  const bio = el('g', { transform: 'translate(78 40.5) scale(0.85)' }, content);
-  const ink = { fill: 'none', stroke: 'var(--scr-ink)', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
-  const dendD = [
-    ['M 404 252 C 380 232, 352 214, 318 196 C 296 184, 284 170, 276 150', 5],
-    ['M 330 202 C 316 208, 300 210, 282 206', 2.6],
-    ['M 400 270 C 372 268, 344 274, 312 272 C 290 271, 272 262, 256 252', 5],
-    ['M 318 272 C 304 286, 290 296, 268 302', 2.6],
-    ['M 404 292 C 382 312, 360 334, 334 352 C 316 364, 304 382, 296 402', 5],
-    ['M 340 348 C 326 344, 310 346, 292 352', 2.6],
-    ['M 432 228 C 428 204, 422 184, 410 160 C 404 148, 398 140, 386 132', 4.4],
-    ['M 416 172 C 426 160, 440 152, 452 146', 2.4],
-    ['M 440 310 C 444 334, 446 356, 442 382 C 440 396, 444 408, 452 420', 4.4]
-  ];
-  S.dend = dendD.map(([d, w]) => { const p = el('path', Object.assign({ d, 'stroke-width': w }, ink), bio); p._L = p.getTotalLength(); return p; });
-  const axon = el('path', Object.assign({ d: 'M 462 270 C 500 268, 530 272, 560 270 L 720 270', 'stroke-width': 4.6 }, ink), bio);
-  axon._L = axon.getTotalLength(); S.axon = axon;
-  S.myelin = [568, 618, 668].map(x => el('rect', { x, y: 262, width: 40, height: 16, rx: 8, fill: 'var(--scr-fill)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, bio));
-  const termD = ['M 720 270 C 740 258, 752 244, 770 232', 'M 720 270 C 744 270, 760 274, 780 276', 'M 720 270 C 740 284, 750 298, 766 312'];
-  S.term = termD.map(d => { const p = el('path', Object.assign({ d, 'stroke-width': 2.8 }, ink), bio); p._L = p.getTotalLength(); return p; });
-  S.bulbs = [[770, 232], [780, 276], [766, 312]].map(([cx, cy]) => el('circle', { cx, cy, r: 6, fill: 'var(--scr-ink)' }, bio));
-  const somaHalo = el('circle', { cx: 432, cy: 268, r: 62, fill: 'var(--scr-sig)', opacity: 0 }, bio);
-  S.somaHalo = somaHalo;
-  S.soma = el('path', { d: 'M 400 250 C 410 228, 446 224, 462 244 C 474 258, 472 284, 458 298 C 444 312, 414 312, 402 296 C 392 284, 392 262, 400 250 Z', fill: 'var(--scr-ink)' }, bio);
-  el('circle', { cx: 432, cy: 268, r: 11, fill: 'var(--scr-bg)', opacity: .55 }, bio);
-  const bioSig = el('g', {}, bio);
-  S.bioDots = S.dend.filter((_, i) => i % 2 === 0 || i === 8).map(() => el('circle', { r: 5.5, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.5, opacity: 0 }, bioSig));
-  S.axDot = el('circle', { r: 7, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.6, opacity: 0 }, bioSig);
-  S.bioSig = bioSig;
-  S.bio = bio;
-  // anotaciones del microscopio
-  const bl = el('g', {}, content);
-  const lab = (x, y, t, anchor = 'start') => el('text', { x, y, 'font-size': 19, 'font-weight': 600, fill: 'var(--scr-ink)', 'text-anchor': anchor, text: t }, bl);
-  S.bLab = {
-    dend: el('g', {}, bl), soma: el('g', {}, bl), axon: el('g', {}, bl)
-  };
-  S.bLab.dend.appendChild(lab(318, 142, 'dendritas'));
-  S.bLab.soma.appendChild(lab(478, 338, 'cuerpo celular'));
-  el('path', { d: 'M 476 326 L 458 304', stroke: 'var(--scr-ink)', 'stroke-width': 1.5, fill: 'none' }, S.bLab.soma);
-  S.bLab.axon.appendChild(lab(594, 248, 'axón', 'middle'));
-  S.scaleBar = el('g', {}, bl);
-  el('line', { x1: 610, y1: 432, x2: 660, y2: 432, stroke: 'var(--scr-ink)', 'stroke-width': 4 }, S.scaleBar);
-  el('text', { x: 635, y: 452, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: '10 µm' }, S.scaleBar);
-  S.bioLabels = bl;
-
-  /* --- diagrama --- */
-  S.D = makeDiagram(content);
-
-  /* --- encabezados y rótulos --- */
-  const head = el('g', {}, content);
-  icon('taco', head, 252, 52);
-  el('text', { x: 282, y: 63, class: 'disp', 'font-size': 31, 'font-weight': 800, fill: 'var(--scr-ink)', text: '¿Vamos por tacos esta noche?' }, head);
-  S.head = head;
-  const legend = el('g', {}, content);
-  el('line', { x1: 690, y1: 480, x2: 726, y2: 480, stroke: 'var(--scr-pos)', 'stroke-width': 6, 'stroke-linecap': 'round' }, legend);
-  el('text', { x: 736, y: 485, class: 'mono', 'font-size': 14, fill: 'var(--scr-ink)', text: 'peso +  empuja al sí' }, legend);
-  el('line', { x1: 690, y1: 506, x2: 726, y2: 506, stroke: 'var(--scr-neg)', 'stroke-width': 6, 'stroke-dasharray': '9 6' }, legend);
-  el('text', { x: 736, y: 511, class: 'mono', 'font-size': 14, fill: 'var(--scr-ink)', text: 'peso −  frena' }, legend);
-  S.legend = legend;
-  const ann = el('g', {}, content);
-  const annot = (x, y, t) => el('text', { x, y, class: 'mono', 'font-size': 15, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: t }, ann);
-  S.ann = [annot(128, 80, '≈ dendritas'), annot(637, 150, '≈ cuerpo celular'), annot(878, 352, '≈ axón')];
-  S.annG = ann;
-
-  // capítulo (rótulo superior izquierdo)
-  const chip = el('g', { transform: 'translate(20 18)' }, content);
-  const chipR = el('rect', { x: 0, y: 0, width: 200, height: 30, rx: 15, fill: 'var(--scr-ink)' }, chip);
-  const chipT = el('text', { x: 14, y: 20, class: 'mono', 'font-size': 13, 'letter-spacing': '1', fill: 'var(--scr-bg)', text: '' }, chip);
-  S.chip = { g: chip, r: chipR, t: chipT };
-
-  // rótulo superior del microscopio (fuera del campo)
-  S.slide = el('text', { x: 24, y: 520, class: 'mono', 'font-size': 13, 'letter-spacing': '1', fill: 'var(--scr-sig)', opacity: .8, text: '' }, svg);
-  S.rim = el('circle', { cx: 520, cy: 270, r: 250, fill: 'none', stroke: 'var(--scr-sig)', 'stroke-opacity': .22, 'stroke-width': 6 }, svg);
-  return S;
-}
-
-/* ================= paneles del video ================= */
-function panelCard(g, x, y, w, h) {
-  return el('rect', { x, y, width: w, height: h, rx: 18, fill: 'var(--scr-panel)', stroke: 'var(--scr-panel-line)', 'stroke-width': 1.2 }, g);
-}
-function arrowHead(parent, color) {
-  return el('path', { d: 'M -1 -7 L 11 0 L -1 7 Z', fill: color }, parent);
-}
-
-function buildNumline(parent) {
-  const g = el('g', {}, parent);
-  panelCard(g, 560, 64, 380, 406);
-  el('text', { x: 584, y: 100, class: 'disp', 'font-size': 20, 'font-weight': 800, fill: 'var(--scr-ink)', text: 'La suma: cada entrada empuja' }, g);
-  const X = z => 750 + z * 56;
-  el('line', { x1: X(-3) - 8, y1: 340, x2: X(3) + 8, y2: 340, stroke: 'var(--scr-ink)', 'stroke-width': 2 }, g);
-  for (let z = -3; z <= 3; z++) {
-    el('line', { x1: X(z), y1: 333, x2: X(z), y2: 347, stroke: 'var(--scr-ink)', 'stroke-width': z === 0 ? 2.6 : 1.4 }, g);
-    el('text', { x: X(z), y: 366, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: z < 0 ? MINUS + Math.abs(z) : String(z) }, g);
-  }
-  const prods = W0.map((w, i) => w * X0[i]);
-  const names = ['hambre', 'amigos', 'lluvia', 'sesgo'];
-  const vals = [...prods, B0];
-  let acc = 0;
-  const rows = vals.map((v, i) => {
-    const a = acc, b = acc + v; acc = b;
-    const y = 136 + i * 44, col = v < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)';
-    const rg = el('g', {}, g);
-    const ln = el('line', { x1: X(a), y1: y, x2: X(a), y2: y, stroke: col, 'stroke-width': 6, 'stroke-linecap': 'round' }, rg);
-    if (v < 0) ln.setAttribute('stroke-dasharray', '10 6');
-    const hd = arrowHead(rg, col);
-    const lb = el('text', { x: X((a + b) / 2), y: y - 11, class: 'mono', 'font-size': 14, 'font-weight': 600, 'text-anchor': 'middle', fill: col, text: `${fmt(v, 1, true)} ${names[i]}` }, rg);
-    const tick = el('line', { x1: X(a), y1: y - 9, x2: X(a), y2: y + 9, stroke: 'var(--scr-ink)', 'stroke-width': 1.5, opacity: .6 }, rg);
-    return { g: rg, ln, hd, lb, tick, a, b, y };
-  });
-  const mk = el('g', {}, g);
-  const mkLine = el('line', { x1: 0, y1: 314, x2: 0, y2: 322, stroke: 'var(--scr-ink)', 'stroke-width': 1.6, 'stroke-dasharray': '4 4' }, mk);
-  el('path', { d: 'M -8 322 L 8 322 L 0 334 Z', fill: 'var(--scr-ink)' }, mk);
-  const mkT = el('text', { x: 0, y: 306, class: 'mono', 'font-size': 15, 'font-weight': 600, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: '' }, mk);
-  const mkBg = el('rect', { x: -44, y: 290, width: 88, height: 22, rx: 6, fill: 'var(--scr-fill)' }, mk);
-  mk.insertBefore(mkBg, mkT);
-  const f1 = el('text', { x: 584, y: 410, class: 'mono', 'font-size': 15, fill: 'var(--scr-ink)', text: 'z = w₁·x₁ + w₂·x₂ + w₃·x₃ + b' }, g);
-  const f2 = el('text', { x: 584, y: 438, class: 'mono', 'font-size': 15, 'font-weight': 600, fill: 'var(--scr-ink)', text: `  = 1.6 + 0.9 ${MINUS} 0.5 ${MINUS} 1.0 = ${fmt(Z0)}` }, g);
-  const NL = { g, rows, mk, mkLine, mkT, f1, f2, X };
-  NL.set = (p, total, label, fo1, fo2) => {
-    rows.forEach((r, i) => {
-      const u = p[i];
-      op(r.g, u > 0 ? 1 : 0);
-      const xe = X(lerp(r.a, r.b, u));
-      at(r.ln, 'x2', xe.toFixed(1));
-      const dir = r.b < r.a ? -1 : 1;
-      at(r.hd, 'transform', `translate(${(xe + dir * 2).toFixed(1)} ${r.y}) scale(${dir} 1)`);
-      op(r.hd, u > 0.15 ? 1 : 0); op(r.lb, clamp((u - 0.5) * 2));
-    });
-    at(mk, 'transform', `translate(${X(total).toFixed(1)} 0)`);
-    txt(mkT, label);
-    op(NL.f1, fo1); op(NL.f2, fo2);
-  };
-  return NL;
-}
-
-function buildSigPanel(parent) {
-  const g = el('g', {}, parent);
-  panelCard(g, 500, 52, 440, 450);
-  el('text', { x: 524, y: 88, class: 'disp', 'font-size': 20, 'font-weight': 800, fill: 'var(--scr-ink)', text: 'Función de activación: sigmoide' }, g);
-  const ft = el('text', { x: 524, y: 114, class: 'mono', 'font-size': 15, fill: 'var(--scr-ink)' }, g);
-  ft.appendChild(document.createTextNode('σ(z) = 1 / (1 + e'));
-  el('tspan', { dy: -7, 'font-size': 11, text: `${MINUS}z` }, ft);
-  el('tspan', { dy: 7, text: ')' }, ft);
-  const P = { x: 552, y: 140, w: 364, h: 186 };
-  const X = z => P.x + (clamp(z, -6, 6) + 6) / 12 * P.w, Y = v => P.y + P.h - v * P.h;
-  el('line', { x1: P.x, y1: Y(1), x2: P.x + P.w, y2: Y(1), stroke: 'var(--scr-ink)', 'stroke-width': 1.2, 'stroke-dasharray': '3 5', opacity: .55 }, g);
-  el('line', { x1: P.x, y1: Y(.5), x2: P.x + P.w, y2: Y(.5), stroke: 'var(--scr-grid)', 'stroke-width': 1.5 }, g);
-  el('line', { x1: P.x, y1: Y(0), x2: P.x + P.w, y2: Y(0), stroke: 'var(--scr-ink)', 'stroke-width': 2 }, g);
-  el('line', { x1: X(0), y1: P.y - 6, x2: X(0), y2: Y(0), stroke: 'var(--scr-ink)', 'stroke-width': 1.2, opacity: .45 }, g);
-  [[1, '1'], [.5, '0.5'], [0, '0']].forEach(([v, t]) => el('text', { x: P.x - 10, y: Y(v) + 5, class: 'mono', 'font-size': 13, 'text-anchor': 'end', fill: 'var(--scr-muted)', text: t }, g));
-  [-6, -3, 0, 3, 6].forEach(z => el('text', { x: X(z), y: Y(0) + 22, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: z < 0 ? MINUS + Math.abs(z) : String(z) }, g));
-  el('text', { x: P.x + P.w + 6, y: Y(0) + 5, class: 'mono', 'font-size': 14, fill: 'var(--scr-ink)', text: 'z' }, g);
-  const curve = el('path', { d: curveD('sigmoid', P.x, P.y, P.w, P.h), fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 3.4, 'stroke-linecap': 'round' }, g);
-  curve._L = curve.getTotalLength();
-  at(curve, 'stroke-dasharray', `${curve._L} ${curve._L}`);
-  const tracer = el('circle', { r: 6, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.6 }, g);
-  const guides = el('g', {}, g);
-  const gv = el('line', { stroke: 'var(--scr-ink)', 'stroke-width': 1.6, 'stroke-dasharray': '5 4' }, guides);
-  const gh = el('line', { stroke: 'var(--scr-ink)', 'stroke-width': 1.6, 'stroke-dasharray': '5 4' }, guides);
-  const gzT = el('text', { class: 'mono', 'font-size': 14, 'font-weight': 600, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: 'z = 1.0' }, guides);
-  const gyT = el('text', { class: 'mono', 'font-size': 15, 'font-weight': 600, fill: 'var(--scr-ink)', text: '' }, guides);
-  const pt = el('circle', { r: 8, fill: 'var(--scr-sig)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, guides);
-  // fichas: cualquier z → aplastado
-  const chipsDef = [{ z: -7, t: `${MINUS}7` }, { z: 0.3, t: '0.3' }, { z: 120, t: '120' }];
-  const chips = chipsDef.map(c => {
-    const cg = el('g', {}, g);
-    const r = el('rect', { x: -26, y: -14, width: 52, height: 28, rx: 14, fill: 'var(--scr-sig)', stroke: 'var(--scr-ink)', 'stroke-width': 1.6 }, cg);
-    const tt = el('text', { x: 0, y: 1, class: 'mono', 'font-size': 14, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: '#1b1309', text: c.t }, cg);
-    const out = el('text', { x: 0, y: -22, class: 'mono', 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: `→ ${sig(c.z).toFixed(2)}` }, cg);
-    return Object.assign({ g: cg, r, tt, out }, c);
-  });
-  // tarjetas de otras activaciones
-  const cardsDef = [['sigmoid', 'Sigmoide', 'la de este video'], ['step', 'Escalón', 'perceptrón, 1958'], ['relu', 'ReLU', 'redes profundas']];
-  const cards = cardsDef.map(([type, name, note], i) => {
-    const x = 520 + i * 140, y = 372;
-    const cg = el('g', {}, g);
-    el('rect', { x, y, width: 126, height: 116, rx: 12, fill: 'var(--scr-fill)', stroke: i === 0 ? 'var(--scr-ink)' : 'var(--scr-panel-line)', 'stroke-width': i === 0 ? 2.2 : 1.2 }, cg);
-    el('text', { x: x + 12, y: y + 22, 'font-size': 15, 'font-weight': 600, fill: 'var(--scr-ink)', text: name }, cg);
-    el('line', { x1: x + 14, y1: y + 86, x2: x + 112, y2: y + 86, stroke: 'var(--scr-grid)', 'stroke-width': 1.5 }, cg);
-    el('path', { d: curveD(type, x + 14, y + 34, 98, 52), fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 2.4, 'stroke-linecap': 'round' }, cg);
-    el('text', { x: x + 12, y: y + 106, class: 'mono', 'font-size': 10.5, fill: 'var(--scr-muted)', text: note }, cg);
-    return cg;
-  });
-  const SP = { g, P, X, Y, curve, tracer, guides, gv, gh, gzT, gyT, pt, chips, cards };
-  SP.set = (o) => {
-    at(curve, 'stroke-dashoffset', (curve._L * (1 - o.draw)).toFixed(1));
-    const zt = lerp(-6, 6, o.draw);
-    op(tracer, o.draw > 0.01 && o.draw < 0.995 ? 1 : 0);
-    at(tracer, 'cx', X(zt).toFixed(1)); at(tracer, 'cy', Y(sig(zt)).toFixed(1));
-    chips.forEach((c, i) => {
-      const cv = o.chips[i];
-      op(c.g, cv.o);
-      const yy = lerp(Y(0), Y(sig(c.z)), cv.sq);
-      at(c.g, 'transform', `translate(${X(c.z).toFixed(1)} ${yy.toFixed(1)})`);
-      op(c.out, cv.sq > 0.95 ? 1 : 0);
-    });
-    const zz = o.z, yy = sig(zz), gp = o.guide;
-    op(guides, gp > 0.01 ? 1 : 0);
-    const gx = X(zz), gyy = lerp(Y(0), Y(yy), clamp(gp * 2));
-    at(gv, 'x1', gx.toFixed(1)); at(gv, 'x2', gx.toFixed(1)); at(gv, 'y1', Y(0)); at(gv, 'y2', gyy.toFixed(1));
-    const hx = lerp(gx, P.x, clamp(gp * 2 - 1));
-    at(gh, 'x1', gx.toFixed(1)); at(gh, 'x2', hx.toFixed(1)); at(gh, 'y1', Y(yy).toFixed(1)); at(gh, 'y2', Y(yy).toFixed(1));
-    op(gh, gp > 0.5 ? 1 : 0);
-    at(gzT, 'x', gx.toFixed(1)); at(gzT, 'y', (Y(0) - 10).toFixed(1));
-    at(pt, 'cx', gx.toFixed(1)); at(pt, 'cy', gyy.toFixed(1));
-    txt(gyT, `σ(${fmt(zz)}) = ${yy.toFixed(2)}`);
-    at(gyT, 'x', (P.x + 10).toFixed(1)); at(gyT, 'y', (Y(yy) - 10).toFixed(1));
-    op(gyT, gp > 0.95 ? 1 : 0);
-    cards.forEach((c, i) => op(c, o.cards[i]));
-  };
-  return SP;
-}
-
-function buildLearnPanel(parent) {
-  const g = el('g', {}, parent);
-  const b1 = el('g', {}, g);
-  panelCard(b1, 690, 36, 254, 120);
-  el('text', { x: 708, y: 60, class: 'mono', 'font-size': 12, 'letter-spacing': '1', fill: 'var(--scr-muted)', text: 'EJEMPLO REAL' }, b1);
-  const row = (y, l) => { el('text', { x: 708, y, 'font-size': 15, fill: 'var(--scr-muted)', text: l }, b1); return el('text', { x: 926, y, class: 'mono', 'font-size': 16, 'font-weight': 600, 'text-anchor': 'end', fill: 'var(--scr-ink)', text: '' }, b1); };
-  const vT = row(86, 'objetivo'), vP = row(111, 'predicción'), vE = row(136, 'error');
-  const b2 = el('g', {}, g);
-  panelCard(b2, 690, 168, 254, 84);
-  el('text', { x: 708, y: 202, class: 'mono', 'font-size': 18, 'font-weight': 600, fill: 'var(--scr-ink)', text: 'Δw = η · error · x' }, b2);
-  el('text', { x: 708, y: 231, class: 'mono', 'font-size': 12.5, fill: 'var(--scr-muted)', text: 'η = 0.5  (tasa de aprendizaje)' }, b2);
-  const b3 = el('g', {}, g);
-  panelCard(b3, 690, 264, 254, 230);
-  el('text', { x: 708, y: 288, class: 'mono', 'font-size': 12, 'letter-spacing': '1', fill: 'var(--scr-muted)', text: 'PREDICCIÓN EN CADA PASO' }, b3);
-  const P = { x: 736, y: 312, w: 186, h: 138 };
-  const X = k => P.x + k / 6 * P.w, Y = v => P.y + P.h - (v - 0.6) / 0.4 * P.h;
-  [[1, '1.0'], [.8, '0.8'], [.6, '0.6']].forEach(([v, t]) => {
-    el('line', { x1: P.x, y1: Y(v), x2: P.x + P.w, y2: Y(v), stroke: v === 1 ? 'var(--scr-ink)' : 'var(--scr-grid)', 'stroke-width': v === 1 ? 1.4 : 1.2, 'stroke-dasharray': v === 1 ? '5 4' : 'none' }, b3);
-    el('text', { x: P.x - 8, y: Y(v) + 4, class: 'mono', 'font-size': 12, 'text-anchor': 'end', fill: 'var(--scr-muted)', text: t }, b3);
-  });
-  el('text', { x: P.x + P.w, y: Y(1) - 7, class: 'mono', 'font-size': 11, 'text-anchor': 'end', fill: 'var(--scr-muted)', text: 'objetivo' }, b3);
-  for (let k = 0; k <= 6; k++) el('text', { x: X(k), y: P.y + P.h + 18, class: 'mono', 'font-size': 12, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: String(k) }, b3);
-  el('text', { x: P.x + P.w, y: P.y + P.h + 34, class: 'mono', 'font-size': 11, 'text-anchor': 'end', fill: 'var(--scr-muted)', text: 'paso' }, b3);
-  const poly = el('path', { d: '', fill: 'none', stroke: 'var(--scr-pos)', 'stroke-width': 2.6, 'stroke-linejoin': 'round' }, b3);
-  const dots = LEARN.map(L => el('circle', { cx: X(LEARN.indexOf(L)), cy: Y(L.y), r: 4.8, fill: 'var(--scr-pos)', stroke: 'var(--scr-fill)', 'stroke-width': 1.5 }, b3));
-  const LP = { g, b1, b2, b3, vT, vP, vE };
-  LP.set = (o) => {
-    op(b1, o.b1); op(b2, o.b2); op(b3, o.b3);
-    txt(vT, '1 · sí fueron'); txt(vP, o.pred.toFixed(2)); txt(vE, fmt(1 - o.pred, 2, true));
-    const n = o.steps; let d = '';
-    for (let k = 0; k <= 6; k++) {
-      const vis = clamp(n - k + 1);
-      op(dots[k], vis);
-      if (k <= Math.floor(n)) d += (k ? ' L ' : 'M ') + X(k).toFixed(1) + ' ' + Y(LEARN[k].y).toFixed(1);
-    }
-    const kf = Math.floor(n), fr = n - kf;
-    if (kf < 6 && fr > 0) d += ` L ${lerp(X(kf), X(kf + 1), fr).toFixed(1)} ${lerp(Y(LEARN[kf].y), Y(LEARN[kf + 1].y), fr).toFixed(1)}`;
-    at(poly, 'd', d);
-  };
-  return LP;
-}
-
-/* mapa de decisión (compartido) */
-function makeMap(parent, o) {
-  const g = el('g', {}, parent), N = 20, S = o.size, cs = S / N;
-  const heat = el('g', {}, g);
-  const NC = 44, cv = document.createElement('canvas'); cv.width = NC; cv.height = NC;
-  const cx2 = cv.getContext('2d');
-  const img = el('image', { x: o.x, y: o.y, width: S, height: S, preserveAspectRatio: 'none' }, heat);
-  let cols = null;
-  const hex = v => { const m = /^#?([0-9a-f]{6})$/i.exec((v || '').trim()); if (!m) return null; const n = parseInt(m[1], 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
-  const readCols = () => { const cs2 = getComputedStyle(document.documentElement); cols = { pos: hex(cs2.getPropertyValue('--scr-pos')) || [47, 43, 143], neg: hex(cs2.getPropertyValue('--scr-neg')) || [143, 23, 51] }; };
-  el('rect', { x: o.x, y: o.y, width: S, height: S, fill: 'none', stroke: o.ink, 'stroke-width': 1.6 }, g);
-  const PX = a => o.x + a * S, PY = b => o.y + (1 - b) * S;
-  [0, .5, 1].forEach(v => {
-    el('text', { x: PX(v), y: o.y + S + 18, class: 'mono', 'font-size': o.fs, 'text-anchor': 'middle', fill: o.muted, text: String(v) }, g);
-    el('text', { x: o.x - 8, y: PY(v) + 4, class: 'mono', 'font-size': o.fs, 'text-anchor': 'end', fill: o.muted, text: String(v) }, g);
-  });
-  el('text', { x: PX(.5), y: o.y + S + 38, 'font-size': o.fs + 2, 'font-weight': 600, 'text-anchor': 'middle', fill: o.ink, text: 'Hambre (x₁) →' }, g);
-  el('text', { x: 0, y: 0, 'font-size': o.fs + 2, 'font-weight': 600, 'text-anchor': 'middle', fill: o.ink, transform: `translate(${o.x - 34} ${PY(.5)}) rotate(-90)`, text: 'Amigos (x₂) →' }, g);
-  const line = el('line', { stroke: o.ink, 'stroke-width': 3, 'stroke-linecap': 'round' }, g);
-  const zp = el('text', { class: 'disp', 'font-size': o.fs + 4, 'font-weight': 800, fill: 'var(--scr-pos)', text: 'vamos' }, g);
-  const zn = el('text', { class: 'disp', 'font-size': o.fs + 4, 'font-weight': 800, fill: 'var(--scr-neg)', text: 'no vamos' }, g);
-  const ptG = el('g', {}, g);
-  const pt = el('circle', { r: 7.5, fill: o.ptFill, stroke: o.ink, 'stroke-width': 2.2 }, ptG);
-  const ptT = el('text', { class: 'mono', 'font-size': o.fs, 'font-weight': 600, fill: o.ink, text: o.ptLabel || '' }, ptG);
-  const M = { g, heat, line, zp, zn, ptG, PX, PY, S, x: o.x, y: o.y };
-  let last = '';
-  M.refresh = () => { readCols(); last = ''; };
-  M.update = (p) => {
-    const key = [p.w1, p.w2, p.c, p.step].map(v => (+v).toFixed(4)).join('|');
-    if (key !== last) {
-      last = key;
-      if (!cols) readCols();
-      if (cx2) {
-        const id = cx2.createImageData(NC, NC), d = id.data;
-        for (let j = 0; j < NC; j++) for (let i = 0; i < NC; i++) {
-          const a = (i + .5) / NC, b = 1 - (j + .5) / NC, z = p.w1 * a + p.w2 * b + p.c;
-          const c = z >= 0 ? cols.pos : cols.neg, k = (j * NC + i) * 4;
-          d[k] = c[0]; d[k + 1] = c[1]; d[k + 2] = c[2];
-          d[k + 3] = Math.round(255 * (p.step ? 0.42 : 0.08 + 0.5 * Math.abs(Math.tanh(z / 2))));
-        }
-        cx2.putImageData(id, 0, 0);
-        try { img.setAttribute('href', cv.toDataURL()); } catch (e) {}
-      }
-      const pts = [];
-      const add = (a, b) => { if (a >= -1e-9 && a <= 1 + 1e-9 && b >= -1e-9 && b <= 1 + 1e-9 && !pts.some(q => Math.hypot(q[0] - a, q[1] - b) < 1e-6)) pts.push([a, b]); };
-      if (Math.abs(p.w2) > 1e-9) { add(0, -p.c / p.w2); add(1, -(p.w1 + p.c) / p.w2); }
-      if (Math.abs(p.w1) > 1e-9) { add(-p.c / p.w1, 0); add(-(p.w2 + p.c) / p.w1, 1); }
-      if (pts.length >= 2) {
-        at(line, 'x1', PX(pts[0][0]).toFixed(1)); at(line, 'y1', PY(pts[0][1]).toFixed(1));
-        at(line, 'x2', PX(pts[1][0]).toFixed(1)); at(line, 'y2', PY(pts[1][1]).toFixed(1));
-        line._ok = true;
-      } else line._ok = false;
-      const corners = [[0, 0], [1, 0], [0, 1], [1, 1]].map(([a, b]) => ({ a, b, z: p.w1 * a + p.w2 * b + p.c }));
-      const hiC = corners.reduce((m, c) => (c.z > m.z ? c : m)), loC = corners.reduce((m, c) => (c.z < m.z ? c : m));
-      const place = (t, c) => { at(t, 'text-anchor', c.a ? 'end' : 'start'); at(t, 'x', PX(c.a ? 0.96 : 0.04).toFixed(1)); at(t, 'y', (PY(lerp(c.b, .5, .2)) + 6).toFixed(1)); };
-      place(zp, hiC); place(zn, loC);
-      zp._ok = hiC.z > 0; zn._ok = loC.z < 0;
-    }
-    op(heat, p.heat ?? 1);
-    op(line, line._ok ? (p.line ?? 1) : 0);
-    op(zp, zp._ok ? (p.labels ?? 1) : 0); op(zn, zn._ok ? (p.labels ?? 1) : 0);
-    op(ptG, p.point ?? 1);
-    at(pt, 'cx', PX(p.px).toFixed(1)); at(pt, 'cy', PY(p.py).toFixed(1));
-    const right = p.px < 0.62;
-    at(ptT, 'x', (PX(p.px) + (right ? 12 : -12)).toFixed(1)); at(ptT, 'y', (PY(p.py) - 10).toFixed(1));
-    at(ptT, 'text-anchor', right ? 'start' : 'end');
-  };
-  return M;
-}
-
-function buildMapPanel(parent) {
-  const g = el('g', {}, parent);
-  panelCard(g, 592, 36, 352, 468);
-  el('text', { x: 612, y: 68, class: 'disp', 'font-size': 19, 'font-weight': 800, fill: 'var(--scr-ink)', text: 'Mapa de decisión' }, g);
-  const M = makeMap(g, { x: 652, y: 92, size: 268, ink: 'var(--scr-ink)', muted: 'var(--scr-muted)', fs: 13, ptFill: 'var(--scr-sig)', ptLabel: 'esta noche' });
-  const note = el('text', { x: 612, y: 486, class: 'mono', 'font-size': 12.5, fill: 'var(--scr-muted)', text: 'lluvia fija en 0.2 · línea: z = 0' }, g);
-  // XOR
-  const xg = el('g', {}, g);
-  const pts = [[0, 0, 0], [1, 1, 0], [0, 1, 1], [1, 0, 1]];
-  pts.forEach(([a, b, c]) => {
-    const cx = M.PX(lerp(.12, .88, a)), cy = M.PY(lerp(.12, .88, b));
-    el('circle', { cx, cy, r: 15, fill: c ? 'var(--scr-pos)' : 'var(--scr-neg)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, xg);
-    el('text', { x: cx, y: cy + 1, class: 'mono', 'font-size': 13, 'font-weight': 600, 'text-anchor': 'middle', 'dominant-baseline': 'central', fill: 'var(--scr-pill-ink)', text: c ? 'sí' : 'no' }, xg);
-  });
-  const xl = el('line', { stroke: 'var(--scr-ink)', 'stroke-width': 3, 'stroke-dasharray': '8 6', 'stroke-linecap': 'round' }, xg);
-  const xx = el('text', { x: M.PX(.5), y: M.PY(.5) + 12, class: 'disp', 'font-size': 44, 'font-weight': 800, 'text-anchor': 'middle', fill: 'var(--scr-neg)', text: '✕' }, xg);
-  const xcap = el('text', { x: 612, y: 466, 'font-size': 14, 'font-weight': 600, fill: 'var(--scr-ink)', text: 'XOR: ninguna recta separa sí de no' }, xg);
-  const MP = { g, M, note, xg, xl, xx, xcap };
-  MP.xor = (o, ang) => {
-    op(xg, o);
-    const cx = M.PX(.5), cy = M.PY(.5), r = 170, a = ang * Math.PI / 180;
-    const dx = Math.cos(a) * r, dy = Math.sin(a) * r;
-    at(xl, 'x1', (cx - dx).toFixed(1)); at(xl, 'y1', (cy - dy).toFixed(1)); at(xl, 'x2', (cx + dx).toFixed(1)); at(xl, 'y2', (cy + dy).toFixed(1));
-  };
-  // recorte del XOR a la gráfica
-  const cpid = 'mapclip';
-  const cp = el('clipPath', { id: cpid }, $('#stage defs'));
-  el('rect', { x: M.x, y: M.y, width: M.S, height: M.S }, cp);
-  xl.setAttribute('clip-path', `url(#${cpid})`);
-  return MP;
-}
-
-/* red de neuronas */
-function mulberry(a) { return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
-function buildNet(parent) {
-  const g = el('g', {}, parent);
-  const field = el('g', {}, g);
-  for (let i = 0; i < 44; i++) for (let j = 0; j < 22; j++) {
-    const x = -470 + i * 44, y = -230 + j * 46;
-    if (x > 90 && x < 870 && y > 60 && y < 480) continue;
-    el('circle', { cx: x, cy: y, r: 6, fill: 'none', stroke: 'var(--scr-ink)', 'stroke-width': 1.6, opacity: .5 }, field);
-  }
-  const rnd = mulberry(11);
-  const sizes = [3, 5, 4, 1], xs = [150, 370, 590, 810];
-  const nodes = sizes.map((n, L) => Array.from({ length: n }, (_, k) => ({ x: xs[L], y: 270 + (k - (n - 1) / 2) * 82, L })));
-  // pesos fijos y pase hacia adelante
-  let act = X0.slice();
-  nodes[0].forEach((n, k) => (n.a = act[k]));
-  const edges = [];
-  for (let L = 0; L < 3; L++) {
-    const next = [];
-    nodes[L + 1].forEach(m => {
-      let z = (rnd() - .5) * .8;
-      nodes[L].forEach((n, k) => {
-        const w = (rnd() - .5) * 3.4;
-        z += w * act[k];
-        edges.push({ n, m, w, L });
-      });
-      m.a = sig(z); next.push(m.a);
-    });
-    act = next;
-  }
-  const eg = el('g', {}, g), dg = el('g', {}, g), ng = el('g', {}, g);
-  edges.forEach(e => {
-    e.line = el('line', { x1: e.n.x, y1: e.n.y, x2: e.m.x, y2: e.m.y, stroke: e.w < 0 ? 'var(--scr-neg)' : 'var(--scr-pos)', 'stroke-width': (0.8 + Math.abs(e.w) * 1.3).toFixed(2), 'stroke-dasharray': e.w < 0 ? '7 5' : 'none', opacity: .75 }, eg);
-    e.dot = el('circle', { r: 3.6, fill: 'var(--scr-sig)', stroke: 'var(--scr-sig-ring)', 'stroke-width': 1.1, opacity: 0 }, dg);
-  });
-  nodes.flat().forEach(n => {
-    const R = n.L === 3 ? 26 : 19;
-    n.c = el('circle', { cx: n.x, cy: n.y, r: R, fill: 'var(--scr-solid)', stroke: 'var(--scr-ink)', 'stroke-width': 2 }, ng);
-    n.f = el('circle', { cx: n.x, cy: n.y, r: R - 5, fill: 'var(--scr-ink)', opacity: 0 }, ng);
-  });
-  const labels = el('g', {}, g);
-  ['entradas', 'capa oculta', 'capa oculta', 'salida'].forEach((t, L) => el('text', { x: xs[L], y: 72, class: 'mono', 'font-size': 14, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: t }, labels));
-  const callout = el('g', {}, g);
-  el('rect', { x: 400, y: 236, width: 150, height: 68, rx: 12, fill: 'var(--scr-solid)', stroke: 'var(--scr-ink)', 'stroke-width': 1.6 }, callout);
-  el('text', { x: 475, y: 262, class: 'mono', 'font-size': 14, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: 'Σ  →  f(z)' }, callout);
-  el('text', { x: 475, y: 288, 'font-size': 13, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'la misma pieza' }, callout);
-  el('path', { d: 'M 389 270 L 400 270', stroke: 'var(--scr-ink)', 'stroke-width': 1.6 }, callout);
-  return { g, field, edges, nodes, labels, callout, hub: nodes[1][2] };
-}
-
-/* ================= guion y escenas ================= */
-const ST = buildStage($('#stage'));
-const D = ST.D;
-const NL = buildNumline(ST.content);
-const SP = buildSigPanel(ST.content);
-const LP = buildLearnPanel(ST.content);
-const MP = buildMapPanel(ST.content);
-const NET = buildNet(ST.content);
-const endG = el('g', {}, ST.content);
-el('text', { x: 480, y: 492, class: 'disp', 'font-size': 34, 'font-weight': 800, 'text-anchor': 'middle', fill: 'var(--scr-ink)', text: 'Ahora te toca a ti ↓' }, endG);
-el('text', { x: 480, y: 520, class: 'mono', 'font-size': 14, 'text-anchor': 'middle', fill: 'var(--scr-muted)', text: 'el laboratorio está debajo del video' }, endG);
-ST.svg.appendChild(ST.chip.g);
-
-const CAM = { full: [0, 0, 1], sum: [-203, 12, .9], act: [-391, 12, .9], learn: [-8, 70, .72], map: [-4, 103, .6] };
-const camTo = (a, b, u) => D.cam(lerp(a[0], b[0], u), lerp(a[1], b[1], u), lerp(a[2], b[2], u));
-const PRODS = W0.map((w, i) => w * X0[i]);
-const lrnSeq = LEARN.slice(0, 4).map(L => L.y.toFixed(2)).join(' → ');
-
-function base() {
-  return {
-    skel: 1, x: X0.slice(), xv: [1, 1, 1], w: W0.slice(), wStyle: 1, wv: [1, 1, 1], pv: [1, 1, 1],
-    b: B0, bv: 1, z: Z0, zMode: 1, act: 'sigmoid', actDot: 1, yv: 1, verdict: 0, dim: {}, flow: 0, phase: 0
-  };
-}
-function weightsAt(n) {
-  const k = Math.min(5, Math.floor(n)), u = ease(clamp(n - k));
-  const A = LEARN[k], B = LEARN[Math.min(6, k + 1)];
-  return { w: A.w.map((v, i) => lerp(v, B.w[i], u)), b: lerp(A.b, B.b, u), u, k };
-}
-function finish(st) {
-  if (REDUCED) { st.flow = 0; st.flowThru = 0; }
-  st.z = dotp(st.w, st.x) + st.b;
-  st.y = sig(st.z);
-  D.apply(st);
-}
-
-const SCENES = [
-  {
-    title: 'La inspiración', dur: 23,
-    cues: [
-      { t: 0.5, text: 'Tu cerebro tiene alrededor de 86 mil millones de neuronas.' },
-      { t: 5.0, text: 'Cada una recibe señales por sus dendritas y las junta en el cuerpo celular.' },
-      { t: 10.8, text: 'Si el total es suficiente, dispara una señal por el axón hacia otras neuronas.' },
-      { t: 16.4, text: 'Una neurona artificial toma esa idea, muy simplificada, y la convierte en matemáticas.' }
-    ],
-    render(lt) {
-      const morph = seg(lt, 16.4, 18.6);
-      at(ST.eye, 'r', lerp(250, 700, morph).toFixed(1));
-      at(ST.rim, 'r', lerp(250, 700, morph).toFixed(1));
-      op(ST.rim, 1 - morph); op(ST.slide, 1 - seg(lt, 16.4, 17.2));
-      const bo = 1 - seg(lt, 16.4, 17.8);
-      op(ST.bio, bo); op(ST.bioLabels, bo);
-      op(ST.soma, seg(lt, 0, 0.8));
-      ST.dend.forEach((p, k) => { const u = seg(lt, 0.3 + k * 0.1, 1.5 + k * 0.1); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); op(p, u > 0.005 ? 1 : 0); });
-      const ua = seg(lt, 1.0, 2.4); at(ST.axon, 'stroke-dasharray', `${ST.axon._L.toFixed(1)} ${ST.axon._L.toFixed(1)}`); at(ST.axon, 'stroke-dashoffset', (ST.axon._L * (1 - ua)).toFixed(1)); op(ST.axon, ua > 0.005 ? 1 : 0);
-      ST.myelin.forEach((m, k) => op(m, seg(lt, 1.6 + k * 0.2, 2.0 + k * 0.2)));
-      ST.term.forEach(p => { const u = seg(lt, 2.2, 2.9); at(p, 'stroke-dasharray', `${p._L.toFixed(1)} ${p._L.toFixed(1)}`); at(p, 'stroke-dashoffset', (p._L * (1 - u)).toFixed(1)); op(p, u > 0.005 ? 1 : 0); });
-      const fl = pulse(lt, 13.3, 14.9);
-      ST.bulbs.forEach(b => { op(b, seg(lt, 2.7, 3.1)); at(b, 'r', (6 + 5 * fl).toFixed(2)); });
-      op(ST.bLab.dend, seg(lt, 5.2, 6.0)); op(ST.bLab.soma, seg(lt, 7.4, 8.2)); op(ST.bLab.axon, seg(lt, 10.8, 11.6));
-      op(ST.scaleBar, seg(lt, 2.4, 3.2));
-      const mains = [0, 2, 4, 6, 8];
-      ST.bioDots.forEach((c, k) => {
-        const p = ST.dend[mains[k]], u = lin(lt, 5.4 + k * 0.35, 7.6 + k * 0.35);
-        if (u <= 0 || u >= 1) { op(c, 0); return; }
-        const pt = p.getPointAtLength(p._L * (1 - u));
-        at(c, 'cx', pt.x.toFixed(1)); at(c, 'cy', pt.y.toFixed(1)); op(c, Math.min(1, Math.sin(u * Math.PI) * 2));
-      });
-      op(ST.somaHalo, 0.6 * pulse(lt, 8.6, 11.2));
-      const ux = lin(lt, 11.2, 13.6);
-      if (ux > 0 && ux < 1) { const pt = ST.axon.getPointAtLength(ST.axon._L * ux); at(ST.axDot, 'cx', pt.x.toFixed(1)); at(ST.axDot, 'cy', pt.y.toFixed(1)); op(ST.axDot, 1); } else op(ST.axDot, 0);
-      op(D.g, seg(lt, 17.2, 19.0));
-      const st = base();
-      st.xv = [0, 0, 0]; st.wStyle = 0; st.wv = [0, 0, 0]; st.pv = [0, 0, 0]; st.bv = 0; st.zMode = 0; st.yv = 0; st.actDot = 0;
-      finish(st);
-      op(ST.annG, seg(lt, 19.2, 20.2));
-    }
-  },
-  {
-    title: 'Las entradas', dur: 21.5,
-    cues: [
-      { t: 0.4, text: 'Pongámosla a trabajar con una decisión cotidiana: ¿vamos por tacos esta noche?' },
-      { t: 6.6, text: 'La neurona recibe tres entradas, cada una entre 0 y 1.' },
-      { t: 10.6, text: 'Qué tanta hambre tienes: 0.8. Qué tanto se animan tus amigos: 0.6. Qué tanto llueve: 0.2.' },
-      { t: 17.1, text: 'Las entradas son solo números que describen la situación.' }
-    ],
-    render(lt) {
-      op(ST.annG, 1 - seg(lt, 0, 0.8)); op(ST.head, seg(lt, 0.4, 1.4));
-      const st = base();
-      st.xv = [seg(lt, 10.6, 12.4), seg(lt, 12.6, 14.4), seg(lt, 14.6, 16.4)];
-      const h = seg(lt, 6.6, 7.2) * (1 - seg(lt, 9.8, 10.4));
-      st.hiIn = [0, 1, 2].map(i => Math.max(h, pulse(lt, 10.6 + 2 * i, 12.6 + 2 * i)));
-      st.wStyle = 0; st.wv = [0, 0, 0]; st.pv = [0, 0, 0]; st.bv = 0; st.zMode = 0; st.yv = 0; st.actDot = 0;
-      finish(st);
-    }
-  },
-  {
-    title: 'Los pesos', dur: 29.5,
-    cues: [
-      { t: 0.4, text: 'Cada entrada viaja por una conexión que tiene un peso.' },
-      { t: 5.0, text: 'El peso dice qué tanto importa esa entrada y hacia dónde empuja la decisión.' },
-      { t: 11.2, text: `Hambre pesa +2.0 y amigos +1.5: empujan hacia el sí. Lluvia pesa ${MINUS}2.5: frena.`, say: 'El hambre pesa más 2, y los amigos más 1.5: empujan hacia el sí. La lluvia pesa menos 2.5: frena.' },
-      { t: 17.4, text: `La neurona multiplica cada entrada por su peso: 0.8 × 2.0 = 1.6 · 0.6 × 1.5 = 0.9 · 0.2 × ${MINUS}2.5 = ${MINUS}0.5`, say: 'La neurona multiplica cada entrada por su peso: 0.8 por 2 da 1.6; 0.6 por 1.5 da 0.9; y 0.2 por menos 2.5 da menos 0.5.' },
-      { t: 25.0, text: 'Pesos grandes amplifican; los negativos invierten la señal.' }
-    ],
-    render(lt) {
-      op(ST.head, 1); op(ST.legend, seg(lt, 6.0, 7.0));
-      const st = base();
-      st.wStyle = seg(lt, 5.0, 7.0);
-      st.wv = [seg(lt, 11.4, 12.0), seg(lt, 13.0, 13.6), seg(lt, 14.8, 15.4)];
-      st.pillFlash = [pulse(lt, 11.4, 12.4), pulse(lt, 13.0, 14.0), pulse(lt, 14.8, 15.8)];
-      st.flow = seg(lt, 0.4, 1.6) * (1 - seg(lt, 16.6, 17.4)) + seg(lt, 25.6, 27.0); st.phase = lt;
-      st.tok = []; st.pv = [];
-      for (let i = 0; i < 3; i++) {
-        const s = 17.6 + i * 2.2;
-        const f = lt < s + 1.3 ? lerp(0, 0.42, seg(lt, s, s + 0.9)) : lerp(0.42, 0.83, seg(lt, s + 1.3, s + 2.0));
-        const after = lt >= s + 1.1;
-        st.tok.push({ f, after, neg: PRODS[i] < 0, label: after ? fmt(PRODS[i], 1, true) : fmt(X0[i], 1), o: seg(lt, s, s + 0.25) * (1 - seg(lt, s + 2.0, s + 2.35)), s: 1 + 0.25 * pulse(lt, s + 0.9, s + 1.3) });
-        st.pillFlash[i] = Math.max(st.pillFlash[i], pulse(lt, s + 0.85, s + 1.45));
-        st.pv.push(seg(lt, s + 1.95, s + 2.35));
-      }
-      st.bv = 0; st.zMode = 0; st.yv = 0; st.actDot = 0;
-      finish(st);
-    }
-  },
-  {
-    title: 'Suma y sesgo', dur: 26.5,
-    cues: [
-      { t: 0.4, text: `Ahora la neurona suma las tres contribuciones: 1.6 + 0.9 ${MINUS} 0.5 = 2.0.`, say: 'Ahora la neurona suma las tres contribuciones: 1.6 más 0.9 menos 0.5 da 2.' },
-      { t: 6.2, text: 'Falta un ingrediente: el sesgo, b. Es como tu flojera de base: inclina la balanza aunque todo lo demás valga cero.' },
-      { t: 15.0, text: `Aquí el sesgo vale ${MINUS}1.0, así que z = 2.0 ${MINUS} 1.0 = 1.0.`, say: 'Aquí el sesgo vale menos 1, así que z es igual a 2 menos 1: o sea, 1.' },
-      { t: 19.6, text: 'A z se le llama suma ponderada: cada entrada por su peso, todo sumado, más el sesgo.' }
-    ],
-    render(lt) {
-      camTo(CAM.full, CAM.sum, seg(lt, 0, 1.4));
-      op(ST.head, 1 - seg(lt, 0, 0.8)); op(ST.legend, 1 - seg(lt, 0, 0.8));
-      op(NL.g, seg(lt, 0.6, 1.6));
-      const p = [seg(lt, 1.6, 2.6), seg(lt, 2.8, 3.8), seg(lt, 4.0, 5.0), seg(lt, 15.0, 16.4)];
-      const vals = [...PRODS, B0];
-      const tot = vals.reduce((s, v, i) => s + v * p[i], 0);
-      NL.set(p, tot, `${lt < 15 ? 'Σ' : 'z'} = ${fmt(tot)}`, seg(lt, 19.6, 20.4), seg(lt, 20.2, 21.0));
-      const st = base();
-      st.dim = { inputs: 1 - seg(lt, 0, 1.0), out: 1 - seg(lt, 0, 1.0), act: lerp(1, .3, seg(lt, 0, 1.0)) };
-      st.zMode = seg(lt, 5.0, 5.6); st.zShow = tot;
-      st.bv = seg(lt, 7.0, 8.0);
-      st.hiSum = Math.max(pulse(lt, 4.8, 6.0), pulse(lt, 16.0, 17.2));
-      st.yv = 0; st.actDot = 0;
-      finish(st);
-    }
-  },
-  {
-    title: 'La activación', dur: 35,
-    cues: [
-      { t: 0.4, text: `z puede ser cualquier número: ${MINUS}7, 0.3 o 120. Para convertirlo en una decisión, la neurona usa una función de activación.`, say: 'z puede ser cualquier número: menos 7, 0.3 o 120. Para convertirlo en una decisión, la neurona usa una función de activación.' },
-      { t: 9.4, text: 'Aquí usamos la sigmoide: aplasta cualquier número a un valor entre 0 y 1.' },
-      { t: 15.2, text: `Con z = 1.0, la sigmoide da ${Y0.toFixed(2)}: un ${Math.round(Y0 * 100)} % de ganas de ir por tacos.`, say: `Con z igual a 1, la sigmoide da ${Y0.toFixed(2)}: un ${Math.round(Y0 * 100)} por ciento de ganas de ir por tacos.` },
-      { t: 20.6, text: 'Hay otras: el escalón del perceptrón clásico o ReLU, muy usada en redes profundas.' },
-      { t: 27.0, text: 'Lo clave es que no sean una línea recta: sin esa no linealidad, apilar neuronas equivaldría a una sola capa.' }
-    ],
-    render(lt) {
-      camTo(CAM.sum, CAM.act, seg(lt, 0, 1.4));
-      op(NL.g, 1 - seg(lt, 0, 0.8)); op(SP.g, seg(lt, 0.6, 1.6));
-      SP.set({
-        draw: lin(lt, 9.6, 12.0),
-        chips: [0, 1, 2].map(i => ({ o: seg(lt, 1.2 + i * 0.5, 1.7 + i * 0.5) * (1 - seg(lt, 15.2, 15.8)), sq: seg(lt, 12.2 + i * 0.3, 13.6 + i * 0.3) })),
-        z: Z0, guide: lin(lt, 15.6, 17.4),
-        cards: [seg(lt, 20.6, 21.2), seg(lt, 21.4, 22.0), seg(lt, 22.2, 22.8)]
-      });
-      const st = base();
-      const fo = 1 - seg(lt, 0, 0.8);
-      st.dim = { inputs: 0, pills: fo, prods: fo, bias: fo, wires: lerp(1, .5, seg(lt, 0, 1)), act: lerp(.3, 1, seg(lt, 0, 1)), out: seg(lt, 0.6, 1.4) };
-      st.actDot = seg(lt, 15.6, 16.2); st.zDot = lerp(-6, Z0, seg(lt, 15.6, 17.0));
-      st.yv = seg(lt, 17.0, 18.0);
-      st.hiAct = Math.max(0.8 * pulse(lt, 6.0, 9.0), 0.6 * pulse(lt, 15.4, 17.0));
-      st.hiOut = pulse(lt, 17.0, 18.6);
-      finish(st);
-    }
-  },
-  {
-    title: 'La salida', dur: 15,
-    cues: [
-      { t: 0.4, text: `La salida es ${Y0.toFixed(2)}. Si tomamos 0.5 como umbral, la decisión es: ¡sí, vamos por tacos!` },
-      { t: 7.4, text: 'Y esa salida puede ser la entrada de otras neuronas. Así se construyen las redes.' }
-    ],
-    render(lt) {
-      camTo(CAM.act, CAM.full, seg(lt, 0, 1.4));
-      op(SP.g, 1 - seg(lt, 0, 0.8)); op(ST.head, seg(lt, 1.0, 2.0));
-      const st = base();
-      const fi = seg(lt, 0.4, 1.4);
-      st.dim = { inputs: fi, pills: fi, prods: fi, bias: fi, wires: lerp(.5, 1, fi) };
-      st.verdict = seg(lt, 3.6, 4.4); st.hiOut = pulse(lt, 3.4, 5.0);
-      st.flow = seg(lt, 1.4, 2.4); st.flowThru = st.flow; st.phase = lt;
-      finish(st);
-    }
-  },
-  {
-    title: 'Cómo aprende', dur: 36.5,
-    cues: [
-      { t: 0.4, text: '¿De dónde salen los pesos? Nadie los escribe a mano: la neurona los aprende con ejemplos.' },
-      { t: 7.4, text: `Supón que esa noche sí fueron por tacos: la respuesta correcta era 1. La neurona dijo ${Y0.toFixed(2)}; el error es ${(1 - Y0).toFixed(2)}.` },
-      { t: 15.8, text: 'Para corregirse, cada peso se mueve un poquito en la dirección que reduce el error: Δw = η · error · x.', say: 'Para corregirse, cada peso se mueve un poquito en la dirección que reduce el error: tasa por error por entrada.' },
-      { t: 24.0, text: `Repite el ajuste y la predicción sube: ${lrnSeq}…`, say: `Repite el ajuste y la predicción sube: ${LEARN.slice(0, 4).map(L => L.y.toFixed(2)).join(', ')}…` },
-      { t: 29.4, text: 'Hacerlo con miles de ejemplos se llama entrenar; el método se llama descenso por gradiente.' }
-    ],
-    render(lt) {
-      camTo(CAM.full, CAM.learn, seg(lt, 0, 1.4));
-      op(ST.head, 1 - seg(lt, 0, 0.8));
-      op(LP.g, 1);
-      const n = lin(lt, 24.0, 29.0) * 6;
-      const W = weightsAt(n);
-      const st = base();
-      st.w = W.w; st.b = W.b;
-      const dec = lt >= 23.0 ? 2 : 1; st.wDec = dec; st.zDec = dec;
-      st.verdict = 1 - seg(lt, 0, 0.6);
-      st.flow = 0; st.flowThru = 0;
-      const stepFlash = n > 0 && n < 6 ? Math.sin(clamp((n - Math.floor(n)) / 0.6) * Math.PI) * 0.8 : 0;
-      const pf = Math.max(pulse(lt, 18.0, 19.4), stepFlash);
-      st.pillFlash = [pf, pf, pf];
-      st.hiOut = pulse(lt, 16.8, 18.2);
-      finish(st);
-      LP.set({ b1: seg(lt, 7.4, 8.4), b2: seg(lt, 15.8, 16.8), b3: seg(lt, 23.4, 24.2), pred: st.y, steps: n });
-    }
-  },
-  {
-    title: 'El límite de una neurona', dur: 28.5,
-    cues: [
-      { t: 0.4, text: 'Dibujemos todas las combinaciones de hambre y amigos, con la lluvia fija en 0.2.' },
-      { t: 6.6, text: 'La neurona divide el plano en dos zonas: vamos y no vamos. La frontera es donde z vale cero.' },
-      { t: 13.6, text: 'Esa frontera siempre es una línea recta: los pesos la giran y el sesgo la desplaza.' },
-      { t: 20.0, text: 'Pero hay patrones que ninguna recta puede separar, como el famoso XOR. Para eso hacen falta varias neuronas.' }
-    ],
-    render(lt) {
-      camTo(CAM.learn, CAM.map, seg(lt, 0, 1.4));
-      op(LP.g, 1 - seg(lt, 0, 0.8)); op(MP.g, seg(lt, 0.6, 1.6));
-      const u = seg(lt, 0, 1.2), L6 = LEARN[6];
-      const st = base();
-      st.w = L6.w.map((v, i) => lerp(v, W0[i], u)); st.b = lerp(L6.b, B0, u);
-      st.wDec = u < 1 ? 2 : 1; st.zDec = st.wDec;
-      const r1 = lin(lt, 13.8, 16.6), r2 = lin(lt, 16.8, 19.6);
-      if (r1 > 0 && r1 < 1) st.w[0] = W0[0] + 1.4 * Math.sin(2 * Math.PI * r1);
-      if (r2 > 0 && r2 < 1) st.b = B0 + 0.9 * Math.sin(2 * Math.PI * r2);
-      st.pillFlash = [r1 > 0 && r1 < 1 ? 0.5 : 0, 0, 0];
-      const fadeX = 1 - seg(lt, 20.0, 20.8);
-      MP.M.update({ w1: st.w[0], w2: st.w[1], c: st.w[2] * X0[2] + st.b, px: X0[0], py: X0[1], heat: seg(lt, 1.2, 3.0) * fadeX, line: seg(lt, 6.6, 7.6) * fadeX, labels: seg(lt, 7.6, 8.6) * fadeX, point: seg(lt, 2.0, 2.8) * fadeX });
-      op(MP.note, fadeX);
-      MP.xor(seg(lt, 20.4, 21.4), lerp(-35, 325, lin(lt, 20.6, 27.6)));
-      op(MP.xx, lt > 21.4 ? 0.55 + 0.45 * Math.abs(Math.sin(lt * 2.2)) : 0);
-      op(MP.xcap, seg(lt, 22.0, 22.8));
-      finish(st);
-    }
-  },
-  {
-    title: 'De una neurona a una red', dur: 30.5,
-    cues: [
-      { t: 0.4, text: 'Ahora conecta muchas neuronas en capas: las salidas de una capa son las entradas de la siguiente.' },
-      { t: 8.0, text: 'Cada neurona hace lo que acabas de ver: multiplicar, sumar y activar. Juntas aprenden patrones complejos.' },
-      { t: 16.0, text: 'Los modelos de lenguaje modernos repiten esta pieza a enorme escala, con miles de millones de pesos ajustados al entrenar.' },
-      { t: 25.2, text: 'Ahora te toca a ti: abajo está el laboratorio para mover cada valor.' }
-    ],
-    render(lt) {
-      op(MP.g, 1 - seg(lt, 0, 0.6));
-      const hub = NET.hub, ts = 0.07;
-      camTo(CAM.map, [hub.x - 548 * ts, hub.y - 270 * ts, ts], seg(lt, 0.4, 2.2));
-      op(D.g, 1 - seg(lt, 1.6, 2.4));
-      const st = base(); st.verdict = 0; finish(st);
-      op(NET.g, seg(lt, 1.2, 2.6));
-      const zs = lerp(1, 0.38, seg(lt, 16.0, 19.0));
-      at(NET.g, 'transform', `translate(${(480 * (1 - zs)).toFixed(2)} ${(270 * (1 - zs)).toFixed(2)}) scale(${zs.toFixed(4)})`);
-      op(NET.field, seg(lt, 16.4, 18.6)); op(NET.labels, 1 - seg(lt, 16.0, 16.8));
-      op(NET.callout, seg(lt, 8.2, 9.0) * (1 - seg(lt, 15.0, 15.8)));
-      const on = lt > 2.6, ph = on ? (lt - 2.6) % 3.0 : 0;
-      NET.edges.forEach(e => {
-        const p = lin(ph, e.L * 0.9, e.L * 0.9 + 0.9);
-        if (!on || p <= 0 || p >= 1) { op(e.dot, 0); return; }
-        at(e.dot, 'cx', lerp(e.n.x, e.m.x, p).toFixed(1)); at(e.dot, 'cy', lerp(e.n.y, e.m.y, p).toFixed(1));
-        op(e.dot, Math.sin(p * Math.PI));
-      });
-      NET.nodes.flat().forEach(n => {
-        const arrive = pulse(ph, n.L * 0.9 - 0.1, n.L * 0.9 + 0.5);
-        op(n.f, (0.12 + 0.7 * n.a) * seg(lt, 2.0, 3.0) + (on ? 0.18 * arrive : 0));
-      });
-      op(endG, seg(lt, 25.2, 26.2));
-    }
-  }
-];
-let acc0 = 0;
-SCENES.forEach((s, i) => { s.start = acc0; acc0 += s.dur; s.n = i + 1; });
-const TOTAL = acc0;
-
-function reset() {
-  at(ST.eye, 'r', '700'); op(ST.rim, 0); op(ST.slide, 0);
-  op(ST.bio, 0); op(ST.bioLabels, 0);
-  op(ST.head, 0); op(ST.legend, 0); op(ST.annG, 0);
-  op(NL.g, 0); op(SP.g, 0); op(LP.g, 0); op(MP.g, 0); op(NET.g, 0); op(endG, 0);
-  op(D.g, 1); D.cam(0, 0, 1);
-}
-function locate(t) {
-  t = clamp(t, 0, TOTAL - 1e-3);
-  let i = 0;
-  while (i < SCENES.length - 1 && t >= SCENES[i + 1].start) i++;
-  return { i, lt: t - SCENES[i].start };
-}
-let chipW = {};
-const chipLabel = sc => `${String(sc.n).padStart(2, '0')} · ${sc.title.toUpperCase()}`;
-function measureChips() {
-  chipW = {};
-  const g = ST.chip.g, prevO = g._o;
-  g.style.display = '';
-  SCENES.forEach(sc => {
-    const l = chipLabel(sc);
-    ST.chip.t.textContent = l;
-    let w = 0;
-    try { w = ST.chip.t.getComputedTextLength(); } catch (e) { w = 0; }
-    chipW[l] = (w > 10 ? w : l.length * 8.4) + 28;
-  });
-  ST.chip.t._t = undefined; ST.chip.r._a_width = undefined;
-  if (prevO !== undefined && prevO < 0.002) g.style.display = 'none';
-}
-function renderAt(t) {
-  const { i, lt } = locate(t);
-  reset();
-  SCENES[i].render(lt);
-  const label = chipLabel(SCENES[i]);
-  txt(ST.chip.t, label);
-  at(ST.chip.r, 'width', (chipW[label] || label.length * 8.4 + 28).toFixed(1));
-  op(ST.chip.g, seg(lt, 0.1, 0.6) * (1 - seg(lt, 4.2, 4.8)));
-  return { i, lt };
-}
-
-/* ================= reproductor ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mmss = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
-const CUES = [];
-SCENES.forEach((s, si) => s.cues.forEach((c, ci) => CUES.push({ abs: s.start + c.t, text: c.text, say: c.say || c.text, si, ci })));
-CUES.forEach((c, k) => { c.end = k + 1 < CUES.length ? CUES[k + 1].abs : TOTAL; });
-const cueAt = t => { let k = -1; for (let j = 0; j < CUES.length; j++) { if (CUES[j].abs <= t + 1e-6) k = j; else break; } return k; };
-const nextBoundary = t => { for (const c of CUES) if (c.abs > t + 1e-6) return c.abs; return TOTAL; };
 
-const ui = {
-  player: $('#player'), play: $('#btn-play'), playIcon: $('#play-icon'), prev: $('#btn-prev'), next: $('#btn-next'),
-  time: $('#time'), tl: $('#timeline'), segs: $('#tl-segs'), thumb: $('#tl-thumb'), tip: $('#tl-tip'),
-  speed: $('#speed'), cc: $('#btn-cc'), voice: $('#btn-voice'), full: $('#btn-full'),
-  caption: $('#caption'), cue: $('#cue'), poster: $('#poster'), posterPlay: $('#poster-play'), posterVoice: $('#poster-voice'),
-  endcard: $('#endcard'), endReplay: $('#end-replay'), chapters: $('#chapters'), trList: $('#tr-list')
-};
-let T = 0, playing = false, last = null, speed = 1, started = false;
-let ccOn = true, voiceOn = false, curCue = -2, curScene = -1, seeking = false;
+const CAPAS = [
+  { id: 'sociedad', nombre: 'Sociedad', corto: 'Sociedad', desc: 'Seguridad, ética, regulación y energía.' },
+  { id: 'producto', nombre: 'Producto y personas', corto: 'Producto', desc: 'Problemas reales y cómo se usa la IA.', nota: 'Aparece en los ejemplos de cada lección.' },
+  { id: 'sistemas', nombre: 'Sistemas y agentes', corto: 'Sistemas', desc: 'Herramientas, ciclos, memoria y RAG.' },
+  { id: 'inferencia', nombre: 'Inferencia y despliegue', corto: 'Despliegue', desc: 'Costo, velocidad, GPUs y monitoreo.' },
+  { id: 'evaluacion', nombre: 'Evaluación', corto: 'Evaluación', desc: 'Métricas, evals y pruebas de ataque.' },
+  { id: 'entrenamiento', nombre: 'Entrenamiento', corto: 'Entrenamiento', desc: 'Pérdida, gradiente y ajuste fino.' },
+  { id: 'modelos', nombre: 'Modelos', corto: 'Modelos', desc: 'Neuronas, redes y Transformers.' },
+  { id: 'datos', nombre: 'Datos', corto: 'Datos', desc: 'Recolectar, limpiar y etiquetar.' },
+  { id: 'fundamentos', nombre: 'Fundamentos', corto: 'Fundamentos', desc: 'Matemáticas y programación.', nota: 'Van dentro de cada lección, justo cuando se necesitan.' }
+];
+const capa = id => CAPAS.find(c => c.id === id);
 
-// --- línea de tiempo con segmentos por capítulo ---
-const segEls = SCENES.map(s => {
-  const d = document.createElement('div'); d.className = 'tl-seg'; d.style.flex = `${s.dur} 1 0`;
-  const f = document.createElement('i'); d.appendChild(f); ui.segs.appendChild(d); return { d, f };
-});
-// --- capítulos ---
-const chapEls = SCENES.map((s, i) => {
-  const b = document.createElement('button'); b.className = 'chap'; b.type = 'button';
-  b.innerHTML = `<span class="n"><span>${String(i + 1).padStart(2, '0')}</span><span>${mmss(s.start)}</span></span><span class="t"></span><span class="bar"><i></i></span>`;
-  b.querySelector('.t').textContent = s.title;
-  b.addEventListener('click', () => { seek(s.start + 0.01); play(); ui.player.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'center' }); ui.player.focus({ preventScroll: true }); });
-  ui.chapters.appendChild(b); return b;
-});
-// --- transcripción ---
-const trBtns = [];
-SCENES.forEach((s, si) => {
-  const h = document.createElement('h4'); h.textContent = `${String(si + 1).padStart(2, '0')} · ${s.title}`; ui.trList.appendChild(h);
-  CUES.filter(c => c.si === si).forEach(c => {
-    const li = document.createElement('li'), b = document.createElement('button'); b.type = 'button';
-    b.innerHTML = `<span class="ts">${mmss(c.abs)}</span><span></span>`;
-    b.lastChild.textContent = c.text;
-    b.addEventListener('click', () => { seek(Math.max(0, c.abs - 0.3)); play(); });
-    li.appendChild(b); ui.trList.appendChild(li); trBtns.push(b);
-  });
-});
-$('#eyebrow').textContent = `Video interactivo · ${SCENES.length} capítulos · ${mmss(TOTAL)}`;
-$('#poster-meta').textContent = `${SCENES.length} capítulos · ${mmss(TOTAL)}`;
+const LECCIONES = [
+  { id: 'neurona', n: 1, titulo: 'La neurona', largo: 'Cómo piensa una neurona artificial', capas: ['modelos', 'entrenamiento'], estado: 'abierta', url: 'neurona/', dur: '4:06', caps: 9, img: 'neurona/preview.png',
+    alt: 'Diagrama de una neurona que decide si ir por tacos, con salida 0.73',
+    resumen: 'Entradas, pesos, sesgo y activación: cómo una sola neurona decide, cómo aprende y cuál es su límite.',
+    aprendes: ['Qué hace una neurona con los números', 'Cómo los pesos y el sesgo inclinan una decisión', 'Cómo aprende corrigiendo su error, y hasta dónde llega'] },
+  { id: 'agentes', n: 2, titulo: 'El agente', largo: 'Cómo actúa un agente de IA', capas: ['sistemas'], estado: 'abierta', url: 'agentes/', dur: '6:21', caps: 9, img: 'agentes/preview.png',
+    alt: 'Diagrama del ciclo de un agente: contexto, modelo, arnés y herramientas',
+    resumen: 'De predecir a actuar: el modelo, las herramientas, el ciclo, el contexto y los límites, con un depurador paso a paso.',
+    aprendes: ['Por qué un agente no solo predice: decide y actúa', 'El ciclo pensar, actuar y observar, con su código', 'Contexto, memoria, permisos e inyección de instrucciones'] },
+  { id: 'transformer', n: 3, titulo: 'El Transformer', capas: ['modelos'], estado: 'obra',
+    resumen: 'El puente entre tus dos lecciones: cómo se pasa de una sola neurona a un modelo de lenguaje.',
+    aprendes: ['Cómo se apilan neuronas en redes profundas', 'Qué es un embedding: palabras convertidas en vectores', 'Cómo funciona la atención, el corazón de los modelos de lenguaje'] },
+  { id: 'gigante', n: 4, titulo: 'Cómo aprende un gigante', capas: ['entrenamiento'], estado: 'plan',
+    resumen: 'Del texto de internet a un asistente útil: preentrenamiento, ajuste fino y aprendizaje por refuerzo.',
+    aprendes: ['Qué pasa durante el preentrenamiento', 'Ajuste fino y refuerzo con retroalimentación humana', 'Por qué más datos y más cómputo mejoran un modelo, y hasta dónde'] },
+  { id: 'datos', n: 5, titulo: 'Los datos', capas: ['datos'], estado: 'plan',
+    resumen: 'De dónde sale lo que sabe un modelo y por qué la calidad de los datos importa tanto.',
+    aprendes: ['Cómo el texto se convierte en tokens', 'Cómo se limpian y filtran los datos', 'De dónde salen los sesgos y cómo se detectan'] },
+  { id: 'evaluacion', n: 6, titulo: '¿Funciona?', capas: ['evaluacion'], estado: 'plan',
+    resumen: 'Cómo se mide de verdad un modelo o un agente antes de confiar en él.',
+    aprendes: ['Métricas como exactitud, precisión y exhaustividad', 'Cómo se construyen evals para modelos y agentes', 'Pruebas de ataque para encontrar fallas'] },
+  { id: 'rag', n: 7, titulo: 'RAG y memoria', capas: ['sistemas'], estado: 'plan',
+    resumen: 'Buscar antes de responder: cómo un sistema consulta tus documentos.',
+    aprendes: ['Cómo se compara el significado con embeddings', 'Buscar documentos antes de responder', 'Cuándo conviene RAG y cuándo ajuste fino'] },
+  { id: 'produccion', n: 8, titulo: 'Del laboratorio al mundo', capas: ['inferencia'], estado: 'plan',
+    resumen: 'Qué hace falta para que un modelo responda rápido, barato y sin caerse.',
+    aprendes: ['Qué hace una GPU y por qué importa', 'El equilibrio entre costo, velocidad y calidad', 'Cómo se despliega y se monitorea un modelo'] },
+  { id: 'responsable', n: 9, titulo: 'IA responsable', capas: ['sociedad'], estado: 'plan',
+    resumen: 'Seguridad, alineación, leyes y energía: la IA dentro de la sociedad.',
+    aprendes: ['Seguridad y alineación: que haga lo que debe', 'Qué piden las leyes de IA, como la de la Unión Europea', 'Energía, trabajo y otros impactos'] }
+];
+const ABIERTAS = LECCIONES.filter(l => l.estado === 'abierta');
 
-// --- voz ---
-const synth = 'speechSynthesis' in window ? window.speechSynthesis : null;
-let vObj = null, speaking = false, uttId = 0, uttStart = 0, uttEst = 0, uttRef = null;
-function pickVoice() {
-  if (!synth) return;
-  let vs = [];
-  try { vs = synth.getVoices() || []; } catch (e) { vs = []; }
-  const es = vs.filter(v => /^es([-_]|$)/i.test(v.lang));
-  const rank = v => { const l = v.lang.replace('_', '-').toLowerCase(); return l === 'es-mx' ? 0 : l === 'es-us' ? 1 : l === 'es-419' ? 2 : l.startsWith('es-') && l !== 'es-es' ? 3 : 4; };
-  es.sort((a, b) => rank(a) - rank(b) || (b.localService === true) - (a.localService === true));
-  vObj = es[0] || null;
-  const ok = !!vObj;
-  ui.voice.disabled = !ok; ui.posterVoice.hidden = !ok;
-  ui.voice.title = ok ? 'Narración por voz (V)' : 'Tu navegador no tiene una voz en español';
+/* ---------- progreso (mismo origen que las lecciones) ---------- */
+const KEY = 'neurona-artificial:progreso:v1';
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } };
+const save = p => { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) {} };
+let prog = load();
+const done = l => prog[l.id] === 'terminada';
+const started = l => prog[l.id] === 'empezada';
+function viewState(l) {
+  if (l.estado === 'abierta') return done(l) ? 'done' : 'open';
+  return l.estado === 'obra' ? 'obra' : 'plan';
 }
-if (synth) { pickVoice(); try { synth.addEventListener('voiceschanged', pickVoice); } catch (e) { synth.onvoiceschanged = pickVoice; } }
-else { ui.voice.disabled = true; }
-function stopSpeech() { uttId++; speaking = false; try { synth && synth.cancel(); } catch (e) {} }
-function speakCue(k) {
-  if (!synth || !vObj || k < 0) return;
-  stopSpeech();
-  const c = CUES[k];
-  const u = new SpeechSynthesisUtterance(c.say);
-  u.voice = vObj; u.lang = vObj.lang; u.rate = clamp(speed, 0.8, 1.45);
-  const id = ++uttId;
-  u.onend = u.onerror = () => { if (id === uttId) speaking = false; };
-  uttRef = u; speaking = true; uttStart = performance.now();
-  uttEst = (c.say.length / 12.5) / u.rate * 1000 + 2500;
-  try { synth.speak(u); } catch (e) { speaking = false; }
+const STATE_TXT = { done: 'Terminada', open: 'Abierta', obra: 'En obra', plan: 'Planeada' };
+function hereIndex() {
+  const i = LECCIONES.findIndex(l => l.estado === 'abierta' && !done(l));
+  if (i >= 0) return i;
+  return LECCIONES.findIndex(l => l.estado !== 'abierta');
+}
+function toggleDone(id) {
+  prog = load();
+  if (prog[id] === 'terminada') delete prog[id]; else prog[id] = 'terminada';
+  save(prog); renderAll('static');
 }
 
-// --- render y estado ---
-function updateUI() {
-  const { i, lt } = renderAt(T);
-  // tiempo y barra
-  ui.time.textContent = `${mmss(T)} / ${mmss(TOTAL)}`;
-  segEls.forEach((s, k) => { const sc = SCENES[k]; const f = clamp((T - sc.start) / sc.dur); s.f.style.width = (f * 100).toFixed(2) + '%'; });
-  const sd = segEls[i].d, frac = clamp(lt / SCENES[i].dur);
-  ui.thumb.style.left = (sd.offsetLeft + frac * sd.offsetWidth) + 'px';
-  ui.tl.setAttribute('aria-valuenow', Math.round(T / TOTAL * 100));
-  ui.tl.setAttribute('aria-valuetext', `${mmss(T)} de ${mmss(TOTAL)}, ${SCENES[i].title}`);
-  chapEls.forEach((b, k) => { const sc = SCENES[k]; b.querySelector('.bar i').style.width = (clamp((T - sc.start) / sc.dur) * 100).toFixed(1) + '%'; });
-  if (i !== curScene) { curScene = i; chapEls.forEach((b, k) => b.setAttribute('aria-current', k === i ? 'true' : 'false')); }
-  // subtítulos
-  const k = cueAt(T);
-  if (k !== curCue) {
-    const prev = curCue; curCue = k;
-    ui.cue.textContent = k >= 0 ? CUES[k].text : '';
-    trBtns.forEach((b, j) => b.classList.toggle('now', j === k));
-    if (playing && voiceOn && !seeking && k >= 0 && k !== prev) speakCue(k);
+/* ---------- la ruta ---------- */
+const routeEl = $('#route'), trackEl = $('#track'), solidEl = $('#solid'), trainEl = $('#train'), boxEl = $('#route-box');
+let selected = null;
+function renderRoute() {
+  const here = hereIndex();
+  routeEl.innerHTML = LECCIONES.map((l, i) => {
+    const vs = viewState(l);
+    return `<li class="st ${vs}${i === here ? ' is-here' : ''}${selected === l.id ? ' sel' : ''}" data-id="${l.id}">
+      <button type="button" aria-label="Estación ${l.n}: ${esc(l.titulo)}, ${STATE_TXT[vs]}" aria-pressed="${selected === l.id}">
+        <span class="here">${LECCIONES[here] && LECCIONES[here].estado === 'abierta' ? 'Estás aquí' : 'Próxima parada'}</span>
+        <span class="dot"></span>
+        <span class="lbl"><span class="num">${String(l.n).padStart(2, '0')}</span><span class="ttl">${esc(l.titulo)}</span><span class="tag">${esc(capa(l.capas[0]).corto)}</span></span>
+      </button></li>`;
+  }).join('');
+  routeEl.querySelectorAll('.st button').forEach(b => b.addEventListener('click', () => select(b.parentElement.dataset.id, true)));
+}
+function centerOf(i) {
+  const dot = routeEl.children[i] && routeEl.children[i].querySelector('.dot');
+  if (!dot) return { x: 0, y: 0 };
+  const r = dot.getBoundingClientRect(), b = boxEl.getBoundingClientRect();
+  return { x: r.left - b.left + r.width / 2, y: r.top - b.top + r.height / 2 };
+}
+function layoutRoute(mode) {
+  const n = LECCIONES.length, c0 = centerOf(0), cN = centerOf(n - 1);
+  const vertical = Math.abs(cN.y - c0.y) > Math.abs(cN.x - c0.x);
+  let lastOpen = -1; LECCIONES.forEach((l, i) => { if (l.estado === 'abierta') lastOpen = i; });
+  const cS = centerOf(Math.max(0, lastOpen));
+  trackEl.classList.toggle('v', vertical);
+  if (vertical) {
+    Object.assign(trackEl.style, { left: (c0.x - 4) + 'px', top: c0.y + 'px', width: '8px', height: (cN.y - c0.y) + 'px' });
+    Object.assign(solidEl.style, { width: '8px', height: Math.max(0, cS.y - c0.y) + 'px' });
+  } else {
+    Object.assign(trackEl.style, { left: c0.x + 'px', top: (c0.y - 4) + 'px', width: (cN.x - c0.x) + 'px', height: '8px' });
+    Object.assign(solidEl.style, { height: '8px', width: Math.max(0, cS.x - c0.x) + 'px' });
+  }
+  const h = hereIndex(), ch = centerOf(Math.max(0, h));
+  if (mode === 'start' && !REDUCED) {
+    trainEl.classList.remove('go');
+    Object.assign(trainEl.style, { left: c0.x + 'px', top: c0.y + 'px' });
+  } else if (mode === 'animate' && !REDUCED) {
+    trainEl.classList.add('go');
+    Object.assign(trainEl.style, { left: ch.x + 'px', top: ch.y + 'px' });
+  } else {
+    trainEl.classList.remove('go');
+    Object.assign(trainEl.style, { left: ch.x + 'px', top: ch.y + 'px' });
   }
 }
-function setTime(t) { T = clamp(t, 0, TOTAL); updateUI(); }
-function seek(t) {
-  stopSpeech();
-  hideOverlays();
-  seeking = true; setTime(t); seeking = false;
-  if (playing && voiceOn) { const k = cueAt(T); if (k >= 0 && T - CUES[k].abs < 1.5) speakCue(k); }
-}
-function hideOverlays() { ui.poster.hidden = true; ui.endcard.hidden = true; started = true; }
-function setPlayIcon() {
-  ui.playIcon.setAttribute('href', playing ? '#i-pause' : '#i-play');
-  ui.play.setAttribute('aria-label', playing ? 'Pausar' : 'Reproducir');
-  ui.play.title = playing ? 'Pausar (espacio)' : 'Reproducir (espacio)';
-}
-function play() {
-  if (!started) { hideOverlays(); setTime(0); }
-  hideOverlays();
-  if (T >= TOTAL - 0.05) setTime(0);
-  if (voiceOn) {
-    const k = cueAt(T);
-    if (k >= 0 && T < CUES[k].end) { setTime(CUES[k].abs); }
+
+/* ---------- ficha de estación ---------- */
+const cardEl = $('#station-card');
+function renderCard() {
+  const l = LECCIONES.find(x => x.id === selected) || LECCIONES[Math.max(0, hereIndex())];
+  const vs = viewState(l);
+  const capasTxt = l.capas.map(c => capa(c).nombre).join(' · ');
+  let actions = '';
+  if (l.estado === 'abierta') {
+    actions = `<div class="sc-actions"><a class="btn primary" href="${l.url}">${done(l) ? 'Volver a verla' : started(l) ? 'Continuar' : 'Abrir lección'} →</a>
+      <button type="button" class="btn" data-toggle="${l.id}" aria-pressed="${done(l)}">${done(l) ? 'Terminada ✓' : 'Marcar como terminada'}</button></div>`;
+  } else if (l.estado === 'obra') {
+    actions = '<p class="soon">En construcción: es la próxima parada de la ruta.</p>';
+  } else {
+    actions = '<p class="soon" style="color:var(--muted)">Planeada. Se abre cuando terminemos las estaciones anteriores.</p>';
   }
-  playing = true; last = null; setPlayIcon();
-  if (voiceOn) { const k = cueAt(T); if (k >= 0) speakCue(k); }
-  requestAnimationFrame(loop);
+  cardEl.innerHTML = `<div class="sc-main">
+      <div class="sc-meta"><span class="eyebrow">Estación ${String(l.n).padStart(2, '0')} · ${esc(capasTxt)}</span><span class="state ${vs}">${STATE_TXT[vs]}</span>${l.dur ? `<span class="eyebrow">${l.dur} · ${l.caps} capítulos</span>` : ''}</div>
+      <h3>${esc(l.largo || l.titulo)}</h3>
+      <p>${esc(l.resumen)}</p>
+      ${actions}
+    </div>
+    <div class="sc-side"><h4>Vas a aprender</h4><ul>${l.aprendes.map(a => `<li>${esc(a)}</li>`).join('')}</ul></div>`;
+  cardEl.querySelectorAll('[data-toggle]').forEach(b => b.addEventListener('click', () => toggleDone(b.dataset.toggle)));
 }
-function pause() { playing = false; setPlayIcon(); stopSpeech(); }
-function toggle() { playing ? pause() : play(); }
-function loop(now) {
-  if (!playing) return;
-  const dt = last == null ? 0 : Math.min(0.1, (now - last) / 1000); last = now;
-  let nt = T + dt * speed;
-  if (voiceOn && speaking) {
-    if (performance.now() - uttStart > uttEst) speaking = false;
-    else { const b = nextBoundary(T); if (nt >= b - 0.03) nt = Math.max(T, b - 0.03); }
+function select(id, fromUser) {
+  selected = id;
+  renderRoute(); renderCard(); layoutRoute('static');
+  if (fromUser) {
+    const b = routeEl.querySelector(`[data-id="${id}"] button`);
+    if (b) b.focus({ preventScroll: true });
   }
-  if (nt >= TOTAL) { setTime(TOTAL); pause(); ui.endcard.hidden = false; return; }
-  setTime(nt);
-  requestAnimationFrame(loop);
 }
 
-// --- controles ---
-ui.play.addEventListener('click', toggle);
-ui.posterPlay.addEventListener('click', () => { setVoice(false); play(); });
-ui.posterVoice.addEventListener('click', () => { setVoice(true); play(); });
-ui.endReplay.addEventListener('click', () => { setTime(0); play(); });
-ui.prev.addEventListener('click', () => { const { i, lt } = locate(T); seek(lt > 2 || i === 0 ? SCENES[i].start : SCENES[i - 1].start); });
-ui.next.addEventListener('click', () => { const { i } = locate(T); if (i < SCENES.length - 1) seek(SCENES[i + 1].start); });
-ui.speed.addEventListener('change', () => { speed = parseFloat(ui.speed.value) || 1; if (playing && voiceOn) { const k = cueAt(T); if (k >= 0) { setTime(CUES[k].abs); speakCue(k); } } });
-function setCC(on) { ccOn = on; ui.cc.setAttribute('aria-pressed', String(on)); ui.caption.classList.toggle('off', !on); }
-function setVoice(on) {
-  voiceOn = on && !!vObj; ui.voice.setAttribute('aria-pressed', String(voiceOn));
-  if (!voiceOn) stopSpeech();
-  else if (playing) { const k = cueAt(T); if (k >= 0) { setTime(CUES[k].abs); speakCue(k); } }
+/* ---------- mapa del sistema ---------- */
+function renderLayers() {
+  $('#layers').innerHTML = CAPAS.map(c => {
+    const ls = LECCIONES.filter(l => l.capas.includes(c.id));
+    const chips = ls.map(l => `<button type="button" class="chip ${viewState(l)}" data-go="${l.id}"><span class="n">${String(l.n).padStart(2, '0')}</span>${esc(l.titulo)}${done(l) ? ' ✓' : ''}</button>`).join('');
+    const open = ls.some(l => l.estado === 'abierta');
+    return `<li class="layer${open ? ' has-open' : ''}"><div class="ly-name"><b>${esc(c.nombre)}</b><span>${esc(c.desc)}</span></div>
+      <div class="chips">${chips}${c.nota ? `<span class="ly-note">${esc(c.nota)}</span>` : ''}</div></li>`;
+  }).join('');
+  document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => {
+    select(b.dataset.go, false);
+    $('#ruta').scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'start' });
+  }));
 }
-ui.cc.addEventListener('click', () => setCC(!ccOn));
-ui.voice.addEventListener('click', () => setVoice(!voiceOn));
-if (document.fullscreenEnabled) {
-  ui.full.hidden = false;
-  ui.full.addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
-    else ui.player.requestFullscreen().catch(() => {});
-  });
+
+/* ---------- lecciones abiertas ---------- */
+function renderLessons() {
+  $('#lessons').innerHTML = ABIERTAS.map(l => `<article class="lesson">
+      <a class="thumb" href="${l.url}" tabindex="-1" aria-hidden="true"><img src="${l.img}" alt="" width="1200" height="630" loading="lazy">
+        ${done(l) ? '<span class="badge done">Terminada ✓</span>' : started(l) ? '<span class="badge">En curso</span>' : ''}</a>
+      <div class="l-body">
+        <div class="l-meta"><span>Lección ${l.n} · ${esc(l.capas.map(c => capa(c).corto).join(' · '))}</span><span>${l.dur} · ${l.caps} capítulos</span></div>
+        <h3><a href="${l.url}">${esc(l.largo)}</a></h3>
+        <p>${esc(l.resumen)}</p>
+        <div class="l-actions"><a class="btn primary" href="${l.url}">${done(l) ? 'Volver a verla' : started(l) ? 'Continuar' : 'Ver lección'} →</a>
+          <button type="button" class="btn" data-toggle="${l.id}" aria-pressed="${done(l)}">${done(l) ? 'Terminada ✓' : 'Marcar como terminada'}</button></div>
+      </div></article>`).join('');
+  document.querySelectorAll('#lessons [data-toggle]').forEach(b => b.addEventListener('click', () => toggleDone(b.dataset.toggle)));
 }
-// arrastre en la línea de tiempo
-function timeFromX(clientX) {
-  const r = ui.segs.getBoundingClientRect(), x = clientX - r.left;
-  for (let k = 0; k < segEls.length; k++) {
-    const d = segEls[k].d, a = d.offsetLeft, w = d.offsetWidth;
-    if (x <= a + w + 1.5 || k === segEls.length - 1) return SCENES[k].start + clamp((x - a) / w) * SCENES[k].dur;
-  }
-  return 0;
+
+/* ---------- héroe ---------- */
+function renderHero() {
+  const nDone = ABIERTAS.filter(done).length, nOpen = ABIERTAS.length, nNext = LECCIONES.length - nOpen;
+  const cta = $('#cta');
+  const enCurso = ABIERTAS.find(l => started(l) && !done(l));
+  const sig = ABIERTAS.find(l => !done(l));
+  if (enCurso) { cta.textContent = `Continuar: ${enCurso.titulo} →`; cta.href = enCurso.url; }
+  else if (sig) { cta.textContent = `${nDone ? 'Sigue con' : 'Empezar'}: ${sig.titulo} →`; cta.href = sig.url; }
+  else { const nx = LECCIONES.find(l => l.estado !== 'abierta'); cta.textContent = `Próxima parada: ${nx.titulo} →`; cta.href = '#ruta'; cta.onclick = () => select(nx.id, false); }
+  $('#progress-line').innerHTML = `${nOpen} lecciones abiertas · ${nNext} en camino · llevas <b>${nDone} de ${nOpen}</b>`;
 }
-let dragging = false, wasPlaying = false;
-ui.tl.addEventListener('pointerdown', e => { dragging = true; wasPlaying = playing; if (playing) pause(); ui.tl.setPointerCapture(e.pointerId); seek(timeFromX(e.clientX)); });
-ui.tl.addEventListener('pointermove', e => {
-  const t = timeFromX(e.clientX), r = ui.segs.getBoundingClientRect();
-  ui.tip.textContent = `${mmss(t)} · ${SCENES[locate(t).i].title}`;
-  ui.tip.style.left = clamp(e.clientX - r.left, 40, r.width - 40) + 'px';
-  if (dragging) seek(t);
+
+function renderAll(mode) {
+  prog = load();
+  renderHero(); renderRoute(); renderCard(); renderLayers(); renderLessons();
+  layoutRoute(mode);
+}
+/* el tren sale de la estación 1 y se detiene en «Estás aquí» */
+function rideTrain() {
+  layoutRoute('start');
+  requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(() => layoutRoute('animate'), 250)));
+}
+
+/* borrar progreso en dos toques */
+const resetBtn = $('#reset'); let armed = 0;
+resetBtn.addEventListener('click', () => {
+  if (!armed) { resetBtn.textContent = '¿Seguro? Toca otra vez para borrar'; armed = setTimeout(() => { armed = 0; resetBtn.textContent = 'Borrar mi progreso'; }, 4000); return; }
+  clearTimeout(armed); armed = 0;
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  resetBtn.textContent = 'Progreso borrado';
+  setTimeout(() => { resetBtn.textContent = 'Borrar mi progreso'; }, 2500);
+  renderAll('start'); rideTrain();
 });
-const endDrag = () => { if (dragging) { dragging = false; if (wasPlaying) play(); } };
-ui.tl.addEventListener('pointerup', endDrag); ui.tl.addEventListener('pointercancel', endDrag);
-ui.tl.addEventListener('keydown', e => {
-  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); seek(T + (e.key === 'ArrowLeft' ? -5 : 5)); }
-  else if (e.key === 'Home') { e.preventDefault(); seek(0); }
-  else if (e.key === 'End') { e.preventDefault(); seek(TOTAL - 0.1); }
-});
-document.addEventListener('keydown', e => {
-  const tag = (e.target.tagName || '').toLowerCase();
-  if (['input', 'select', 'textarea'].includes(tag) || e.metaKey || e.ctrlKey || e.altKey) return;
-  const inPlayer = ui.player.contains(e.target) || e.target === document.body;
-  if (!inPlayer) return;
-  if (e.key === ' ' || e.key === 'k' || e.key === 'K') { if (tag === 'button' && e.key === ' ') return; e.preventDefault(); toggle(); }
-  else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && e.target !== ui.tl) { e.preventDefault(); seek(T + (e.key === 'ArrowLeft' ? -5 : 5)); }
-  else if (e.key === 'c' || e.key === 'C') setCC(!ccOn);
-  else if (e.key === 'v' || e.key === 'V') setVoice(!voiceOn);
-  else if ((e.key === 'f' || e.key === 'F') && !ui.full.hidden) ui.full.click();
-  else if (e.key === 'n' || e.key === 'N') ui.next.click();
-});
-window.addEventListener('resize', () => { if (started) updateUI(); else renderAt(POSTER_T); });
-document.addEventListener('visibilitychange', () => { if (document.hidden && playing) pause(); });
 
-// --- tema: campo claro (Golgi) o fluorescencia ---
-function applyTheme() {
-  const glow = isGlow();
-  txt(ST.slide, glow ? 'FLUORESCENCIA · CAMPO OSCURO' : 'CAMPO CLARO · TINCIÓN DE GOLGI');
-  [D.parts.groups.partG, D.parts.groups.tokG, ST.bioSig].forEach(g => { if (glow) g.setAttribute('filter', 'url(#glow)'); else g.removeAttribute('filter'); });
-  MP.M.refresh();
-  if (started) updateUI(); else renderAt(POSTER_T);
-}
-const POSTER_T = 12.4;
-try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme); } catch (e) {}
-new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-
-// --- inicio ---
-measureChips();
-setPlayIcon();
-applyTheme();
-ui.time.textContent = `0:00 / ${mmss(TOTAL)}`;
-if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measureChips(); if (started) updateUI(); else renderAt(POSTER_T); });
-window.neuronaPlayer = { seek: t => { seek(t); }, play, pause, total: TOTAL, scenes: SCENES.map(s => ({ title: s.title, start: s.start, dur: s.dur })), cues: CUES };
-
-/* ================= laboratorio ================= */
-const labSvg = $('#lab-svg');
-el('rect', { x: 0, y: 0, width: 960, height: 520, fill: 'url(#scrbg)' }, labSvg);
-el('rect', { x: 0, y: 0, width: 960, height: 520, fill: 'url(#dots)' }, labSvg);
-const LD = makeDiagram(labSvg);
-LD.cam(0, -6, 1);
-const lab = { x: X0.slice(), w: W0.slice(), b: B0, act: 'sigmoid', target: 1, steps: 0 };
-const PRESETS = { video: [0.8, 0.6, 0.2], perfecta: [1, 1, 0], tormenta: [0.9, 0.7, 1], sinhambre: [0.1, 0.8, 0] };
-
-function mkSlider(host, id, label, sym, min, max, step) {
-  const wrap = document.createElement('div'); wrap.className = 'slider';
-  wrap.innerHTML = `<label for="${id}"><span></span><span class="sym"></span></label><output for="${id}" id="${id}-out"></output><input type="range" id="${id}" min="${min}" max="${max}" step="${step}">`;
-  wrap.querySelector('label span').textContent = label;
-  wrap.querySelector('.sym').textContent = sym;
-  host.appendChild(wrap);
-  return { input: wrap.querySelector('input'), out: wrap.querySelector('output') };
-}
-const sx = INPUTS.map((inp, i) => mkSlider($('#in-sliders'), `in-x${i + 1}`, inp.name, inp.sym, 0, 1, 0.1));
-const sw = INPUTS.map((inp, i) => mkSlider($('#w-sliders'), `in-w${i + 1}`, `Peso de ${inp.name.toLowerCase()}`, WSYM[i], -4, 4, 0.01));
-const sb = mkSlider($('#w-sliders'), 'in-b', 'Sesgo', 'b', -4, 4, 0.01);
-
-const mapSvg = $('#map-svg');
-const LM = makeMap(mapSvg, { x: 56, y: 16, size: 260, ink: 'var(--fg)', muted: 'var(--muted)', fs: 12, ptFill: 'var(--accent)', ptLabel: 'tú' });
-
-function setPressed(groupSel, attr, val) {
-  document.querySelectorAll(`${groupSel} .seg-btn`).forEach(b => b.setAttribute('aria-pressed', String(b.dataset[attr] === String(val))));
-}
-function labRender() {
-  const z = dotp(lab.w, lab.x) + lab.b, A = ACTS[lab.act], y = A.f(z);
-  sx.forEach((s, i) => { s.input.value = lab.x[i]; s.out.textContent = lab.x[i].toFixed(1); });
-  sw.forEach((s, i) => { s.input.value = clamp(lab.w[i], -4, 4); s.out.textContent = fmt(lab.w[i], 2, true); s.out.className = lab.w[i] < 0 ? 'neg' : 'pos'; });
-  sb.input.value = clamp(lab.b, -4, 4); sb.out.textContent = fmt(lab.b, 2, true); sb.out.className = lab.b < 0 ? 'neg' : 'pos';
-  LD.apply({ skel: 1, x: lab.x, xv: [1, 1, 1], w: lab.w, wStyle: 1, wv: [1, 1, 1], pv: [1, 1, 1], b: lab.b, bv: 1, z, zMode: 1, zDec: 2, wDec: 2, act: lab.act, actDot: 1, yv: 1, verdict: 1, dim: {}, flow: 0 });
-  const rows = lab.x.map((x, i) => [`${INPUTS[i].name}  ${INPUTS[i].sym}·${WSYM[i]}`, `${x.toFixed(1)} × ${fmt(lab.w[i], 2)} = ${fmt(x * lab.w[i], 2, true)}`]);
-  rows.push(['Sesgo  b', fmt(lab.b, 2, true)]);
-  rows.push(['Suma  z', fmt(z, 2)]);
-  rows.push([`Salida  ${A.name}(z)`, fmt(y, 2)]);
-  const ro = $('#readout'); ro.textContent = '';
-  rows.forEach(([k, v]) => { const r = document.createElement('div'); r.className = 'row'; const a = document.createElement('span'), b = document.createElement('span'); a.textContent = k; b.textContent = v; r.append(a, b); ro.appendChild(r); });
-  const vd = $('#verdict'); vd.textContent = '';
-  const vt = document.createElement('span'); vt.textContent = z >= 0 ? '¡Vamos por tacos!' : 'Mejor otro día';
-  const vp = document.createElement('span'); vp.className = 'pill'; vp.textContent = z >= 0 ? 'z ≥ 0' : 'z < 0';
-  vd.append(vt, vp);
-  LM.update({ w1: lab.w[0], w2: lab.w[1], c: lab.w[2] * lab.x[2] + lab.b, px: lab.x[0], py: lab.x[1], step: lab.act === 'step' });
-  $('#map-hint').textContent = `Lluvia fija en ${lab.x[2].toFixed(1)}. La línea es donde z = 0.`;
-  const canLearn = lab.act === 'sigmoid' || lab.act === 'step';
-  ['#learn-1', '#learn-10'].forEach(s => { $(s).disabled = !canLearn; });
-  if (!canLearn) $('#learn-log').textContent = 'Para entrenar, elige Sigmoide o Escalón.';
-  else if ($('#learn-log').textContent.startsWith('Para entrenar')) $('#learn-log').textContent = '';
-}
-sx.forEach((s, i) => s.input.addEventListener('input', () => { lab.x[i] = Math.round(parseFloat(s.input.value) * 10) / 10; setPressed('#presets', 'preset', ''); labRender(); }));
-sw.forEach((s, i) => s.input.addEventListener('input', () => { lab.w[i] = parseFloat(s.input.value); labRender(); }));
-sb.input.addEventListener('input', () => { lab.b = parseFloat(sb.input.value); labRender(); });
-document.querySelectorAll('#presets .seg-btn').forEach(b => b.addEventListener('click', () => {
-  const p = b.dataset.preset; lab.x = PRESETS[p].slice();
-  if (p === 'video') { lab.w = W0.slice(); lab.b = B0; lab.act = 'sigmoid'; setPressed('#acts', 'act', 'sigmoid'); lab.steps = 0; $('#learn-log').textContent = ''; }
-  setPressed('#presets', 'preset', p); labRender();
-}));
-document.querySelectorAll('#acts .seg-btn').forEach(b => b.addEventListener('click', () => { lab.act = b.dataset.act; setPressed('#acts', 'act', lab.act); labRender(); }));
-document.querySelectorAll('#targets .seg-btn').forEach(b => b.addEventListener('click', () => { lab.target = +b.dataset.target; setPressed('#targets', 'target', lab.target); }));
-function learnStep() {
-  const z = dotp(lab.w, lab.x) + lab.b, y = ACTS[lab.act].f(z), e = lab.target - y;
-  lab.w = lab.w.map((w, i) => w + ETA * e * lab.x[i]); lab.b += ETA * e; lab.steps++;
-  const z2 = dotp(lab.w, lab.x) + lab.b, y2 = ACTS[lab.act].f(z2);
-  $('#learn-log').textContent = `Paso ${lab.steps} · error ${fmt(e, 2, true)} → nueva salida ${fmt(y2, 2)}`;
-  labRender();
-}
-$('#learn-1').addEventListener('click', learnStep);
-let learning = 0;
-$('#learn-10').addEventListener('click', () => {
-  if (learning) return;
-  let n = 0;
-  learning = setInterval(() => { learnStep(); if (++n >= 10) { clearInterval(learning); learning = 0; } }, REDUCED ? 0 : 90);
-});
-$('#learn-reset').addEventListener('click', () => { lab.w = W0.slice(); lab.b = B0; lab.steps = 0; $('#learn-log').textContent = 'Pesos de vuelta a los del video.'; labRender(); });
-// clic y arrastre en el mapa
-let mapDrag = false;
-function mapPick(e) {
-  const ctm = mapSvg.getScreenCTM(); if (!ctm) return;
-  const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(ctm.inverse());
-  const a = clamp((p.x - LM.x) / LM.S), b = clamp(1 - (p.y - LM.y) / LM.S);
-  lab.x[0] = Math.round(a * 10) / 10; lab.x[1] = Math.round(b * 10) / 10;
-  setPressed('#presets', 'preset', ''); labRender();
-}
-mapSvg.addEventListener('pointerdown', e => { mapDrag = true; try { mapSvg.setPointerCapture(e.pointerId); } catch (err) {} mapPick(e); });
-mapSvg.addEventListener('pointermove', e => { if (mapDrag) mapPick(e); });
-mapSvg.addEventListener('pointerup', () => { mapDrag = false; });
-mapSvg.addEventListener('pointercancel', () => { mapDrag = false; });
-labRender();
-const labTheme = () => { LM.refresh(); labRender(); };
-try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', labTheme); } catch (e) {}
-new MutationObserver(labTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+let rt = 0;
+window.addEventListener('resize', () => { cancelAnimationFrame(rt); rt = requestAnimationFrame(() => layoutRoute('static')); });
+window.addEventListener('storage', e => { if (e.key === KEY) renderAll('static'); });
+window.addEventListener('pageshow', e => { if (e.persisted) renderAll('static'); });
+renderAll('start');
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(rideTrain); else rideTrain();
+window.naHub = { select, renderAll };
 })();
 </script>
 </body>

@@ -285,7 +285,8 @@ footer.note{font-size:.84rem;color:var(--muted);max-width:72ch}
   <nav class="course" aria-label="Lecciones del curso">
     <span class="lbl">Lecciones</span>
     <ol>
-      <li><a href="../"><span class="n">1</span>La neurona</a></li>
+      <li><a href="../"><span class="n">⌂</span>Inicio</a></li>
+      <li><a href="../neurona/"><span class="n">1</span>La neurona</a></li>
       <li><a href="./" aria-current="page"><span class="n">2</span>El agente</a></li>
     </ol>
   </nav>
@@ -1652,6 +1653,17 @@ function renderAt(t) {
   return { i, lt };
 }
 
+/* ================= progreso del curso (solo en este navegador) ================= */
+const PROG_KEY = 'neurona-artificial:progreso:v1';
+function saveProg(id, estado) {
+  try {
+    const p = JSON.parse(localStorage.getItem(PROG_KEY) || '{}');
+    if (p[id] === 'terminada' && estado !== 'terminada') return;
+    p[id] = estado;
+    localStorage.setItem(PROG_KEY, JSON.stringify(p));
+  } catch (e) {}
+}
+
 /* ================= reproductor ================= */
 const mmss = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
 const CUES = [];
@@ -1758,6 +1770,7 @@ function setPlayIcon() {
   ui.play.title = playing ? 'Pausar (espacio)' : 'Reproducir (espacio)';
 }
 function play() {
+  saveProg('agentes', 'empezada');
   if (!started) { hideOverlays(); setTime(0); }
   hideOverlays();
   if (T >= TOTAL - 0.05) setTime(0);
@@ -1776,7 +1789,7 @@ function loop(now) {
     if (performance.now() - uttStart > uttEst) speaking = false;
     else { const b = nextBoundary(T); if (nt >= b - 0.03) nt = Math.max(T, b - 0.03); }
   }
-  if (nt >= TOTAL) { setTime(TOTAL); pause(); ui.endcard.hidden = false; return; }
+  if (nt >= TOTAL) { setTime(TOTAL); pause(); ui.endcard.hidden = false; saveProg('agentes', 'terminada'); return; }
   setTime(nt);
   requestAnimationFrame(loop);
 }
