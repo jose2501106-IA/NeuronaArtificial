@@ -370,6 +370,20 @@ pre.code .cm{color:var(--tinta-2)} pre.code .kw{color:var(--cod-literal)} pre.co
     </dl>
   </section>
 
+  <section class="na-correo" data-na-correo hidden aria-label="Avisos por correo">
+    <div class="na-correo__texto">
+      <h2 class="na-correo__titulo">Te aviso cuando abra una estación nueva</h2>
+      <p class="na-correo__entrada">Un correo cuando salga una lección nueva o haya taller en vivo. Nada más, y te das de baja cuando quieras.</p>
+    </div>
+    <form class="na-correo__form" method="post">
+      <label class="na-campo"><span class="na-sr">Tu correo</span><input type="email" name="fields[email]" autocomplete="email" placeholder="tu@correo.com" required></label>
+      <input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true">
+      <button type="submit" class="na-boton na-boton--secundario">Avísame</button>
+    </form>
+    <p class="na-correo__legal">Responsable: <span data-responsable>Neurona Artificial</span>. Usamos tu correo solo para estos avisos. <a href="../privacidad/">Aviso de privacidad</a></p>
+    <div class="na-correo__estado" data-estado role="status" aria-live="polite"></div>
+  </section>
+
   <footer class="note">El ejemplo es inventado para explicar la mecánica: los lugares, reseñas, horarios, tokens y probabilidades no son reales. Un modelo real elige token por token; aquí agrupamos esas probabilidades por acción para que se vean. Los JSON siguen la forma de los bloques <code>tool_use</code> y <code>tool_result</code> de la API de Claude, simplificados: sin identificadores y con el resultado como campos directos.</footer>
 </main>
 <script src="../recursos/sitio.js"></script>

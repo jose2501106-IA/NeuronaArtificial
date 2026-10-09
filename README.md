@@ -97,6 +97,16 @@ El sitio usa el sistema de diseño **Neurona Artificial**, en su versión minima
 
 No hay nada que compilar: cada página es HTML con su propio script y comparte los estilos y las tipografías de `recursos/`. El sitio no carga nada de otros servidores.
 
+## Avisos por correo y analítica
+
+La portada y las dos lecciones traen un bloque «Te aviso cuando abra una estación nueva» que está oculto hasta que se configura. Todo se activa en `recursos/sitio.js`, en el objeto `CONFIG`:
+
+- `correo`: la dirección *action* del formulario de MailerLite (tu formulario → Embed → HTML code). Con eso aparece el bloque y el correo se envía directo a MailerLite, sin cargar su código.
+- `responsable`: el nombre que aparece junto al formulario, el mismo del aviso de privacidad.
+- `cloudflare`: el token de Cloudflare Web Analytics. Si lo llenas, el sitio ya carga un script de Cloudflare y la frase de arriba deja de ser cierta: corrígela.
+
+Antes de activar el correo, publica el aviso de privacidad en `privacidad/`, que es adonde enlaza el bloque.
+
 ## Cómo se publica
 
 GitHub Pages sirve el sitio desde la rama `main`, carpeta raíz (Settings → Pages → Deploy from a branch → `main` / `/ (root)`). Cada commit en `main` se publica solo en uno o dos minutos.

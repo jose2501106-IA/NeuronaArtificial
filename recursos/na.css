@@ -448,3 +448,16 @@ img, svg { max-width: 100%; }
   .na-barra__enlaces .na-placa, .na-barra__enlaces .solo-ancho, .nav-largo { display: none; }
   .nav-corto { display: inline; }
 }
+
+/* Avísame por correo: aparece solo cuando recursos/sitio.js tiene la dirección del formulario. */
+.na-correo { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--esp-4) var(--esp-12); padding: var(--esp-6); background: var(--panel); color: var(--tinta); }
+.na-correo__texto { flex: 3 1 320px; min-width: 0; }
+.na-correo__titulo { margin: 0; font: 600 24px/28px var(--font-ancha); letter-spacing: -0.01em; text-wrap: balance; }
+.na-correo__entrada { max-width: 520px; margin: var(--esp-2) 0 0; font: 400 15px/23px var(--font-texto); color: var(--tinta-2); }
+.na-correo__form { flex: 2 1 300px; min-width: 0; display: flex; flex-wrap: wrap; gap: var(--esp-2); margin: 0; }
+.na-correo__form > .na-campo { flex: 1 1 200px; }
+.na-correo__legal { flex: 1 1 100%; margin: 0; font: 400 12px/18px var(--font-mono); color: var(--tinta-2); }
+.na-correo__legal a { color: var(--tinta); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.na-correo__estado { flex: 1 1 100%; }
+.na-correo__estado:empty { display: none; }
+@media (max-width: 600px) { .na-correo { padding: var(--esp-4); } .na-correo__titulo { font-size: 20px; line-height: 24px; } }

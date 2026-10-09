@@ -102,6 +102,8 @@ button.na-ruta__enlace[aria-pressed="true"] .na-ruta__nombre { color: var(--tint
 .caps__lista a:hover > span:last-child { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
 .caps__num { font: 400 12px/22px var(--font-mono); color: var(--tinta-2); }
 
+#lecciones .na-correo { margin-top: var(--esp-8); }
+
 /* método y recursos */
 .estudio { display: flex; flex-wrap: wrap; gap: var(--esp-12) var(--esp-16); }
 .estudio > .na-pasos { flex: 3 1 420px; min-width: 0; }
@@ -189,6 +191,19 @@ button.na-ruta__enlace[aria-pressed="true"] .na-ruta__nombre { color: var(--tint
       <p class="na-seccion__entrada">Cada lección es un video con capítulos y subtítulos, más un laboratorio para mover cada pieza con tus manos.</p>
     </header>
     <div class="lecciones" id="lista-lecciones"></div>
+    <div class="na-correo" data-na-correo hidden aria-label="Avisos por correo">
+      <div class="na-correo__texto">
+        <h3 class="na-correo__titulo">Te aviso cuando abra una estación nueva</h3>
+        <p class="na-correo__entrada">Un correo cuando salga una lección nueva o haya taller en vivo. Nada más, y te das de baja cuando quieras.</p>
+      </div>
+      <form class="na-correo__form" method="post">
+        <label class="na-campo"><span class="na-sr">Tu correo</span><input type="email" name="fields[email]" autocomplete="email" placeholder="tu@correo.com" required></label>
+        <input type="hidden" name="ml-submit" value="1"><input type="hidden" name="anticsrf" value="true">
+        <button type="submit" class="na-boton na-boton--secundario">Avísame</button>
+      </form>
+      <p class="na-correo__legal">Responsable: <span data-responsable>Neurona Artificial</span>. Usamos tu correo solo para estos avisos. <a href="privacidad/">Aviso de privacidad</a></p>
+      <div class="na-correo__estado" data-estado role="status" aria-live="polite"></div>
+    </div>
   </section>
 
   <section class="bloque na-pagina" id="estudiar" aria-labelledby="estudiar-t">
