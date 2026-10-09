@@ -26,7 +26,7 @@ El sitio usa el sistema de diseño **Neurona Artificial**, en su versión minima
 
 - **La ruta:** nueve estaciones, de la neurona a la IA responsable, dibujadas como una línea de metro. Cada estación muestra si está terminada, abierta, en obra o planeada, y marca dónde vas.
 - **El mapa del sistema:** las nueve capas de un sistema de IA real y en cuál vive cada lección.
-- **Lecciones abiertas, método de estudio y recursos** para ir más lejos.
+- **Lecciones abiertas, método de estudio y recursos** para ir más lejos. Cada lección abierta despliega sus capítulos con enlace directo, para quien llega desde un video.
 - **Tu progreso** se guarda solo en tu navegador: una lección se marca como terminada al llegar al final del video, o con el botón «Marcar como terminada».
 
 ## Lecciones
@@ -76,6 +76,7 @@ El sitio usa el sistema de diseño **Neurona Artificial**, en su versión minima
 
 - Reproductor: pausa, línea de tiempo, velocidad, capítulos, pantalla completa y narración por voz opcional si tu navegador tiene una voz en español.
 - Atajos de teclado: `Espacio` reproducir o pausar · `←` `→` 5 segundos · `C` subtítulos · `V` voz · `F` pantalla completa · `N` siguiente capítulo.
+- Enlaces directos a un capítulo: agrega `#capitulo-3` a la dirección de la lección (por ejemplo, `neurona/#capitulo-3`). El video se abre en ese capítulo, con la opción de verlo desde el inicio. También sirven `#cap-3`, `#c3` y `#3`, y al elegir un capítulo de la lista la dirección cambia sola para que la copies.
 - Tema claro y oscuro: sigue a tu dispositivo y se cambia con el botón de la barra.
 
 ## Archivos

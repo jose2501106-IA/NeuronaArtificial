@@ -116,10 +116,11 @@
       <div class="poster" id="poster">
         <div class="poster-inner">
           <p id="poster-meta">9 capítulos</p>
-          <h2>¿Qué pasa dentro de una neurona artificial?</h2>
+          <h2 id="poster-title">¿Qué pasa dentro de una neurona artificial?</h2>
           <div class="poster-actions">
             <button type="button" class="btn btn-primary big-play" id="poster-play"><svg aria-hidden="true"><use href="#i-play"/></svg>Reproducir</button>
             <button type="button" class="btn btn-ghost" id="poster-voice" hidden><svg aria-hidden="true"><use href="#i-voice"/></svg>Con voz</button>
+            <button type="button" class="btn btn-text" id="poster-inicio" hidden>Ver desde el inicio</button>
           </div>
         </div>
       </div>
@@ -1340,7 +1341,7 @@ const ui = {
   endcard: $('#endcard'), endReplay: $('#end-replay'), chapters: $('#chapters'), trList: $('#tr-list')
 };
 let T = 0, playing = false, last = null, speed = 1, started = false;
-let ccOn = true, voiceOn = false, curCue = -2, curScene = -1, seeking = false;
+let ccOn = true, voiceOn = false, curCue = -2, curScene = -1, seeking = false, inicio = 0;
 
 // --- línea de tiempo con segmentos por capítulo ---
 const segEls = SCENES.map(s => {
@@ -1352,7 +1353,7 @@ const chapEls = SCENES.map((s, i) => {
   const b = document.createElement('button'); b.className = 'chap'; b.type = 'button';
   b.innerHTML = `<span class="n"><span>${String(i + 1).padStart(2, '0')}</span><span>${mmss(s.start)}</span></span><span class="t"></span><span class="bar"><i></i></span>`;
   b.querySelector('.t').textContent = s.title;
-  b.addEventListener('click', () => { seek(s.start + 0.01); play(); ui.player.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'center' }); ui.player.focus({ preventScroll: true }); });
+  b.addEventListener('click', () => { marcarEnlace(i); seek(s.start + 0.01); play(); ui.player.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'center' }); ui.player.focus({ preventScroll: true }); });
   ui.chapters.appendChild(b); return b;
 });
 // --- transcripción ---
@@ -1437,7 +1438,7 @@ function setPlayIcon() {
 }
 function play() {
   saveProg('neurona', 'empezada');
-  if (!started) { hideOverlays(); setTime(0); }
+  if (!started) { hideOverlays(); setTime(inicio); }
   hideOverlays();
   if (T >= TOTAL - 0.05) setTime(0);
   if (voiceOn) {
@@ -1533,16 +1534,49 @@ function applyTheme() {
   MP.M.refresh();
   if (started) updateUI(); else renderAt(POSTER_T);
 }
-const POSTER_T = 12.4;
+let POSTER_T = 12.4;
+
+// --- enlaces directos a cada capítulo: #capitulo-3 (también sirven #cap-3, #c3 y #3) ---
+const CUE_INICIAL = ui.cue.textContent;
+function capDeHash(h) {
+  let t = h || '';
+  try { t = decodeURIComponent(t); } catch (e) {}
+  t = t.normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const m = /^#(?:capitulo-?|cap-?|c)?(\d{1,2})$/i.exec(t);
+  const n = m ? parseInt(m[1], 10) - 1 : -1;
+  return n >= 0 && n < SCENES.length ? n : -1;
+}
+function marcarEnlace(i) { try { history.replaceState(null, '', `#capitulo-${i + 1}`); } catch (e) {} }
+function prepararCapitulo(i) {
+  const s = SCENES[i];
+  inicio = s.start + 0.01;
+  POSTER_T = s.start + Math.min(4, s.dur / 2);
+  $('#poster-meta').textContent = `Capítulo ${String(i + 1).padStart(2, '0')} de ${SCENES.length} · desde ${mmss(s.start)}`;
+  $('#poster-title').textContent = s.title;
+  ui.posterPlay.lastChild.textContent = 'Ver este capítulo';
+  $('#poster-inicio').hidden = false;
+  setTime(inicio);
+  curCue = -2; ui.cue.textContent = CUE_INICIAL;
+}
+$('#poster-inicio').addEventListener('click', () => { inicio = 0; setVoice(false); play(); });
+window.addEventListener('hashchange', () => {
+  const i = capDeHash(location.hash);
+  if (i < 0) return;
+  if (started) seek(SCENES[i].start + 0.01); else { prepararCapitulo(i); renderAt(POSTER_T); }
+  ui.player.scrollIntoView({ behavior: REDUCED ? 'auto' : 'smooth', block: 'center' });
+});
 try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme); } catch (e) {}
 new MutationObserver(applyTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 // --- inicio ---
 measureChips();
 setPlayIcon();
+const capInicial = capDeHash(location.hash);
+if (capInicial >= 0) prepararCapitulo(capInicial);
 applyTheme();
-ui.time.textContent = `0:00 / ${mmss(TOTAL)}`;
+if (capInicial < 0) ui.time.textContent = `0:00 / ${mmss(TOTAL)}`;
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { measureChips(); if (started) updateUI(); else renderAt(POSTER_T); });
+if (capInicial >= 0) requestAnimationFrame(() => ui.player.scrollIntoView({ block: 'center' }));
 window.neuronaPlayer = { seek: t => { seek(t); }, play, pause, total: TOTAL, scenes: SCENES.map(s => ({ title: s.title, start: s.start, dur: s.dur })), cues: CUES };
 
 /* ================= laboratorio ================= */
